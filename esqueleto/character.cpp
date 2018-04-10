@@ -7,6 +7,7 @@
 #include "arriveSteering.h"
 #include "alignSteering.h"
 #include "alignToMovementSteering.h"
+#include "pathFollowingSteering.h"
 
 Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f)
 {
@@ -23,8 +24,10 @@ Character::~Character()
 void Character::OnStart()
 {
     ReadParams("params.xml", mParams);
-	mSteerings.push_back(new ArriveSteering(mParams));
-	mSteerings.push_back(new AlignToMovementSteering(mParams));
+	ReadPath("path.xml", mPath);
+	//mSteerings.push_back(new ArriveSteering(mParams));
+	//mSteerings.push_back(new AlignToMovementSteering(mParams));
+	mSteerings.push_back(new PathFollowingSteering(mParams, mPath));
 }
 
 void Character::OnStop()

@@ -30,6 +30,7 @@ private:
 	float mAngularVelocity;
 	
 	Params mParams;
+	std::vector<USVec2D> mPath;
 	std::vector<BaseSteering*> mSteerings;
 	
 	// Lua configuration

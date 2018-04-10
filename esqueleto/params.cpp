@@ -78,5 +78,50 @@ bool ReadParams(const char* filename, Params& params)
 	if (paramElem)
 		paramElem->Attribute("value", &params.targetRotation);
 
+	paramElem = hParams.FirstChildElement("look_ahead").Element();
+	if (paramElem)
+		paramElem->Attribute("value", &params.look_ahead);
+
+	paramElem = hParams.FirstChildElement("time_ahead").Element();
+	if (paramElem)
+		paramElem->Attribute("value", &params.time_ahead);
+
     return true;
+}
+
+bool ReadPath(const char* filename, std::vector<USVec2D>& path)
+{
+	TiXmlDocument doc(filename);
+	if (!doc.LoadFile())
+	{
+		fprintf(stderr, "Couldn't read params from %s", filename);
+		return false;
+	}
+
+	TiXmlHandle hDoc(&doc);
+
+	TiXmlElement* pElem;
+	pElem = hDoc.FirstChildElement().Element();
+	if (!pElem)
+	{
+		fprintf(stderr, "Invalid format for %s", filename);
+		return false;
+	}
+
+	TiXmlHandle hRoot(pElem);
+	TiXmlHandle hParams = hRoot.FirstChildElement("points");
+
+	TiXmlElement* paramElem = hParams.FirstChild().Element();
+	for (paramElem; paramElem; paramElem = paramElem->NextSiblingElement())
+	{
+	    const char* paramName = paramElem->Value();
+	    if (!strcmp(paramName, "point"))
+	    {
+			USVec2D point;
+			paramElem->Attribute("x", &point.mX);
+			paramElem->Attribute("y", &point.mY);
+			path.push_back(point);
+	    }
+	}
+	return true;
 }

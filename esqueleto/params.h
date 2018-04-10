@@ -1,6 +1,8 @@
 #ifndef __PARAMS_H__
 #define __PARAMS_H__
 
+#include <vector>
+
 struct Params
 {
     USVec2D targetPosition;
@@ -14,8 +16,12 @@ struct Params
 	float max_angular_acceleration;
 	float angular_dest_radius;
 	float angular_arrive_radius;
+
+	float look_ahead;
+	float time_ahead;
 };
 
 bool ReadParams(const char* filename, Params& params);
+bool ReadPath(const char* filename, std::vector<USVec2D>& path);
 
 #endif
