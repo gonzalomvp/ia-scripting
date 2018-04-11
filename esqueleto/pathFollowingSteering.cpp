@@ -9,9 +9,9 @@ void PathFollowingSteering::GetSteering(Character& character, USVec2D& linearAcc
 	closestPointInPath(character.GetLoc(), mClosestPoint, mClosestSegment);
 
 	//calcular punto avanzado
-	mLookAheadPoint = lookAheadFromPoint(character.GetLoc(), mLook_ahead);
+	mLookAheadPoint = lookAheadFromPoint(mClosestPoint, mLook_ahead);
 
-	mArriveSteering.setTargetPosition(mPath[0]);
+	mArriveSteering.setTargetPosition(mLookAheadPoint);
 	mArriveSteering.GetSteering(character, linearAcceleration, angularAcceleration);
 }
 
@@ -82,12 +82,15 @@ USVec2D PathFollowingSteering::lookAheadFromPoint(const USVec2D& point, float lo
 
 	USVec2D segmentStart = point;
 	USVec2D segmentEnd = mPath[mClosestSegment + 1];
-	float segmentLength = (segmentEnd - segmentStart).Length();
+	float segmentLength = (segmentEnd - point).Length();
 
 	while (segmentIndex < mPath.size() - 1) {
 		if (totalAhead + segmentLength < lookAhead) {
 			totalAhead += segmentLength;
 			++segmentIndex;
+			segmentStart = mPath[segmentIndex];
+			segmentEnd = mPath[segmentIndex + 1];
+			segmentLength = (segmentEnd - segmentStart).Length();
 		}
 		else {
 			USVec2D segmentDir = segmentEnd - segmentStart;
