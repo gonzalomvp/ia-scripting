@@ -134,6 +134,7 @@
     <ClCompile Include="host\GlutHostMain.cpp" />
     <ClCompile Include="host\ParticlePresets.cpp" />
     <ClCompile Include="params.cpp" />
+    <ClCompile Include="pathfinding\pathfinder.cpp" />
     <ClCompile Include="pathFollowingSteering.cpp" />
     <ClCompile Include="seekSteering.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -151,6 +152,7 @@
     <ClInclude Include="host\GlutHost.h" />
     <ClInclude Include="host\ParticlePresets.h" />
     <ClInclude Include="params.h" />
+    <ClInclude Include="pathfinding\pathfinder.h" />
     <ClInclude Include="pathFollowingSteering.h" />
     <ClInclude Include="seekSteering.h" />
     <ClInclude Include="stdafx.h" />

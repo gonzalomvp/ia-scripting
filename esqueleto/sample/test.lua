@@ -34,12 +34,23 @@ layer:setDrawDebug(debug)
 -- Add this character to draw debug
 MOAIDrawDebug.insertEntity(entity)
 
+
+pathfinder = Pathfinder.new()
+pathfinder:setStartPosition(5, 10)
+pathfinder:setEndPosition(20, 40)
+MOAIDrawDebug.insertEntity(pathfinder)
+
 mouseX = 0
 mouseY = 0
 
 function onClick(down)
   entity:setLoc(mouseX, mouseY)
   entity:setRot(-135)
+  pathfinder:setStartPosition(mouseX, mouseY)
+end
+
+function onRightClick(down)
+  pathfinder:setEndPosition(mouseX, mouseY)
 end
 
 function pointerCallback(x, y)
@@ -47,4 +58,19 @@ function pointerCallback(x, y)
 end
 
 MOAIInputMgr.device.mouseLeft:setCallback(onClick)
+MOAIInputMgr.device.mouseRight:setCallback(onRightClick)
 MOAIInputMgr.device.pointer:setCallback(pointerCallback)
+
+function onKeyPressed(key, down)
+	if key == 32 then
+		if down then
+			print(tostring(key))
+		else
+			pathfinder:pathfindStep()
+		end
+	end
+end
+
+if (MOAIInputMgr.device.keyboard) then
+    MOAIInputMgr.device.keyboard:setCallback(onKeyPressed)
+end

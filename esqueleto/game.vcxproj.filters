@@ -22,6 +22,9 @@
     <ClCompile Include="alignSteering.cpp" />
     <ClCompile Include="alignToMovementSteering.cpp" />
     <ClCompile Include="pathFollowingSteering.cpp" />
+    <ClCompile Include="pathfinding\pathfinder.cpp">
+      <Filter>pathfinder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -43,6 +46,9 @@
     <ClInclude Include="alignSteering.h" />
     <ClInclude Include="alignToMovementSteering.h" />
     <ClInclude Include="pathFollowingSteering.h" />
+    <ClInclude Include="pathfinding\pathfinder.h">
+      <Filter>pathfinder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="host">
@@ -50,6 +56,9 @@
     </Filter>
     <Filter Include="sample">
       <UniqueIdentifier>{dafee91e-18b1-4dd7-a488-726565484f1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pathfinder">
+      <UniqueIdentifier>{04b95faf-fad6-42a2-ac1a-4aca1d2373b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
