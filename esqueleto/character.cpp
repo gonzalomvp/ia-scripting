@@ -27,7 +27,7 @@ void Character::OnStart()
 	ReadPath("path.xml", mPath);
 	//mSteerings.push_back(new ArriveSteering(mParams));
 	//mSteerings.push_back(new AlignToMovementSteering(mParams));
-	mSteerings.push_back(new PathFollowingSteering(mParams, mPath));
+	//mSteerings.push_back(new PathFollowingSteering(mParams, mPath));
 }
 
 void Character::OnStop()

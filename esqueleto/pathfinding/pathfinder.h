@@ -3,6 +3,10 @@
 
 #include <moaicore/MOAIEntity2D.h>
 
+#define MAP_ROWS    24
+#define MAP_COLUMNS 32
+#define GRID_SIZE   32
+
 class Pathfinder: public virtual MOAIEntity2D
 {
 public:
@@ -32,6 +36,8 @@ private:
 	static int _setStartPosition(lua_State* L);
 	static int _setEndPosition(lua_State* L);
     static int _pathfindStep(lua_State* L);
+
+	char m_map[MAP_ROWS][MAP_COLUMNS];
 };
 
 
