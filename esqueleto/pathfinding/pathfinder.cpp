@@ -3,6 +3,16 @@
 #include "pathfinder.h"
 #include <fstream>
 
+struct PathNode
+{
+	int id;
+	USVec2D pos;
+	float cost;
+	PathNode* parent;
+};
+
+PathNode popNodeWithMinCost(map<int, PathNode> openlist);
+
 Pathfinder::Pathfinder() : MOAIEntity2D()
 {
 	RTTI_BEGIN
@@ -22,6 +32,8 @@ Pathfinder::Pathfinder() : MOAIEntity2D()
 		}
 	}
 	file.close();
+	m_StartPosition = USVec2D(0.0f, 0.0f);
+	m_EndPosition   = USVec2D(0.0f, 0.0f);
 }
 
 Pathfinder::~Pathfinder()
@@ -31,6 +43,30 @@ Pathfinder::~Pathfinder()
 
 void Pathfinder::UpdatePath()
 {
+	USVec2D origin(-512, -384);
+	PathNode startNode;
+	startNode.pos.mX = floorf((m_StartPosition.mY - origin.mY) / GRID_SIZE);
+	startNode.pos.mY = floorf((m_StartPosition.mX - origin.mX) / GRID_SIZE);
+	startNode.id = startNode.pos.mX * MAP_COLUMNS + startNode.pos.mY;
+	startNode.cost = 0;
+	startNode.parent = nullptr;
+
+	PathNode endNode;
+	endNode.pos.mX = floorf((m_EndPosition.mY - origin.mY) / GRID_SIZE);
+	endNode.pos.mY = floorf((m_EndPosition.mX - origin.mX) / GRID_SIZE);
+	endNode.id = endNode.pos.mX * MAP_COLUMNS + endNode.pos.mY;
+
+	PathNode closedList[MAP_ROWS * MAP_COLUMNS] = { 0 };
+
+	map<int, PathNode> openList;
+
+	openList[startNode.id] = startNode;
+
+	while (!openList.empty())
+	{
+		PathNode currentNode = popNodeWithMinCost(openList);
+	}
+
 	USVec2D offset(512, 384);
 	vector<USVec2D> open;
 	vector<USVec2D> closed;
@@ -76,7 +112,7 @@ void Pathfinder::UpdatePath()
 				closed.push_back(closest);
 				for (auto node = open.begin(); node != open.end(); ++node)
 				{
-					if ((*node).mX == closest.mX && (*node).mY == closest.mY)
+					if ((*node).Equals(closest))
 					{
 						open.erase(node);
 						break;
@@ -174,4 +210,17 @@ int Pathfinder::_pathfindStep(lua_State* L)
 
     self->PathfindStep();
     return 0;
+}
+
+
+PathNode popNodeWithMinCost(map<int, PathNode> openlist)
+{
+	std::map<int, PathNode>::iterator it = openlist.begin();
+	while (it != openlist.end())
+	{
+		int id = it->first;
+		PathNode node = it->second;
+		it++;
+	}
+	return PathNode();
 }
