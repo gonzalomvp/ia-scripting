@@ -6,9 +6,16 @@
 struct PathNode
 {
 	int id;
-	USVec2D pos;
-	float cost;
-	PathNode* parent;
+	USVec2D mPos;
+	float g_score;
+	float f_score;
+	int parentId;
+	
+	PathNode() {}
+	PathNode(const USVec2D& pos) : f_score(0), g_score(0), parentId(-1) { mPos = pos; id = mPos.mX * MAP_COLUMNS + mPos.mY; }
+	
+
+	bool operator==(const PathNode& other) const{ return id == other.id; }
 };
 
 PathNode popNodeWithMinCost(map<int, PathNode> openlist);
@@ -43,21 +50,12 @@ Pathfinder::~Pathfinder()
 
 void Pathfinder::UpdatePath()
 {
+	m_path.clear();
 	USVec2D origin(-512, -384);
-	PathNode startNode;
-	startNode.pos.mX = floorf((m_StartPosition.mY - origin.mY) / GRID_SIZE);
-	startNode.pos.mY = floorf((m_StartPosition.mX - origin.mX) / GRID_SIZE);
-	startNode.id = startNode.pos.mX * MAP_COLUMNS + startNode.pos.mY;
-	startNode.cost = 0;
-	startNode.parent = nullptr;
+	PathNode startNode(USVec2D(floorf((m_StartPosition.mY - origin.mY) / GRID_SIZE), floorf((m_StartPosition.mX - origin.mX) / GRID_SIZE)));
+	PathNode endNode(USVec2D(floorf((m_EndPosition.mY - origin.mY) / GRID_SIZE), floorf((m_EndPosition.mX - origin.mX) / GRID_SIZE)));
 
-	PathNode endNode;
-	endNode.pos.mX = floorf((m_EndPosition.mY - origin.mY) / GRID_SIZE);
-	endNode.pos.mY = floorf((m_EndPosition.mX - origin.mX) / GRID_SIZE);
-	endNode.id = endNode.pos.mX * MAP_COLUMNS + endNode.pos.mY;
-
-	PathNode closedList[MAP_ROWS * MAP_COLUMNS] = { 0 };
-
+	map<int, PathNode> closedList;
 	map<int, PathNode> openList;
 
 	openList[startNode.id] = startNode;
@@ -65,60 +63,42 @@ void Pathfinder::UpdatePath()
 	while (!openList.empty())
 	{
 		PathNode currentNode = popNodeWithMinCost(openList);
-	}
-
-	USVec2D offset(512, 384);
-	vector<USVec2D> open;
-	vector<USVec2D> closed;
-	int costs[MAP_ROWS][MAP_COLUMNS];
-	for (size_t row = 0; row < MAP_ROWS; row++)
-	{
-		for (size_t column = 0; column < MAP_COLUMNS; column++)
-		{
-			costs[row][column] = 1;
+		if (currentNode == endNode) {
+			m_path.push_back(currentNode.mPos);
+			int parentId = currentNode.parentId;
+			while (parentId != -1) {
+				m_path.push_back(closedList[parentId].mPos);
+				parentId = closedList[parentId].parentId;
+			}
+			break;
 		}
-	}
-	USVec2D startPoint = m_StartPosition + offset;
-	USVec2D endPoint = m_EndPosition+ offset;
-	int startRow = startPoint.mY / GRID_SIZE;
-	int startColumm = startPoint.mX / GRID_SIZE;
-	int endRow = endPoint.mY / GRID_SIZE;
-	int endColumm = endPoint.mX / GRID_SIZE;
-	USVec2D goal(endRow, endColumm);
-
-	if (endRow >= 0 && endRow < MAP_ROWS && endColumm >= 0 && endColumm < MAP_COLUMNS)
-	{
-		open.push_back(USVec2D(startRow, startColumm));
-		costs[startRow][startColumm] = 1;
-		while (!open.empty())
-		{
-			int minCost = 99999999;
-			int popIndex = -1;
-			for (size_t i = 0; i < open.size(); i++)
-			{
-				if (costs[(int)open[i].mX][(int)open[i].mY] < minCost)
-				{
-					minCost = costs[(int)open[i].mX][(int)open[i].mY];
-					popIndex = i;
-				}
-			}
-			USVec2D closest = open[popIndex];
-			if (closest.mX == endRow && closest.mY == endColumm)
-			{
-
-			}
-			else
-			{
-				closed.push_back(closest);
-				for (auto node = open.begin(); node != open.end(); ++node)
-				{
-					if ((*node).Equals(closest))
-					{
-						open.erase(node);
-						break;
+		else {
+			openList.erase(currentNode.id);
+			closedList[currentNode.id] = currentNode;
+			for (int row = -1; row <= 1; ++row) {
+				for (int column = -1; column <= 1; ++column) {
+					if ((row != 0 || column != 0) 
+						&& (currentNode.mPos.mX + row >= 0)
+						&& (currentNode.mPos.mX + row < MAP_ROWS)
+						&& (currentNode.mPos.mY + column >= 0)
+						&& (currentNode.mPos.mY + column < MAP_COLUMNS)) {
+						PathNode neighbor(USVec2D(currentNode.mPos.mX + row, currentNode.mPos.mY + column));
+						neighbor.parentId = currentNode.id;
+						neighbor.g_score = currentNode.g_score + 1; //casillas colindantes tiene coste 1
+						neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
+						if (closedList.count(neighbor.id)) {
+							continue;
+						}
+						if (openList.count(neighbor.id)) {
+							if (neighbor.g_score < openList[neighbor.id].g_score) {
+								openList[neighbor.id] = neighbor;
+							}
+						}
+						else {
+							openList[neighbor.id] = neighbor;
+						}
 					}
 				}
-
 			}
 		}
 	}
@@ -144,6 +124,12 @@ void Pathfinder::DrawDebug()
 		}
 	}
 	gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
+	for (int i = 0; i < m_path.size(); i ++) {
+		int cellX = m_path[i].mX * GRID_SIZE - 384;
+		int cellY = m_path[i].mY * GRID_SIZE - 512;
+		MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
+	}
+
 	gfxDevice.SetPointSize(5.0f);
 	MOAIDraw::DrawPoint(m_StartPosition);
 	MOAIDraw::DrawPoint(m_EndPosition);
@@ -215,12 +201,15 @@ int Pathfinder::_pathfindStep(lua_State* L)
 
 PathNode popNodeWithMinCost(map<int, PathNode> openlist)
 {
-	std::map<int, PathNode>::iterator it = openlist.begin();
-	while (it != openlist.end())
+	int minCost = 99999999;
+	int popIndex = -1;
+	for (auto it = openlist.begin(); it != openlist.end(); ++it)
 	{
-		int id = it->first;
-		PathNode node = it->second;
-		it++;
+		if (it->second.f_score < minCost)
+		{
+			minCost = it->second.f_score;
+			popIndex = it->first;
+		}
 	}
-	return PathNode();
+	return openlist[popIndex];
 }

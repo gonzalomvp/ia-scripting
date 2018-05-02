@@ -38,6 +38,7 @@ private:
     static int _pathfindStep(lua_State* L);
 
 	char m_map[MAP_ROWS][MAP_COLUMNS];
+	std::vector<USVec2D> m_path;
 };
 
 
