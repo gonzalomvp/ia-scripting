@@ -87,6 +87,9 @@ void Pathfinder::UpdatePath()
 						if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == '#') {
 							neighbor.g_score = 9999999;
 						}
+						else if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == 'o') {
+							neighbor.g_score = currentNode.g_score + 3; // agua
+						}
 						else {
 							neighbor.g_score = currentNode.g_score + 1; //casillas colindantes tiene coste 1
 						}
@@ -114,8 +117,8 @@ void Pathfinder::DrawDebug()
 	USVec2D offset(1024, 768);
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
 	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-	USRect kk = {-512,512, -384,384};
-	MOAIDraw::DrawGrid(kk, 32, 24);
+	//USRect kk = {-512,512, -384,384};
+	//MOAIDraw::DrawGrid(kk, 32, 24);
 
 	for (int row = 0; row < MAP_ROWS; row++)
 	{
@@ -123,6 +126,13 @@ void Pathfinder::DrawDebug()
 		{
 			if (m_map[row][column] == '#')
 			{
+				gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
+				USVec2D origin(column * 32 - 512, row * 32 - 384);
+				MOAIDraw::DrawRectFill(origin.mX, origin.mY, origin.mX + 32, origin.mY + 32);
+			}
+			if (m_map[row][column] == 'o')
+			{
+				gfxDevice.SetPenColor(0.0f, 0.0f, 0.5f, 0.5f);
 				USVec2D origin(column * 32 - 512, row * 32 - 384);
 				MOAIDraw::DrawRectFill(origin.mX, origin.mY, origin.mX + 32, origin.mY + 32);
 			}
@@ -134,6 +144,10 @@ void Pathfinder::DrawDebug()
 		int cellY = m_path[i].mY * GRID_SIZE - 512;
 		MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
 	}
+
+	USRect kk = { -512,512, -384,384 };
+	gfxDevice.SetPenColor(0.0f, 0.4f, 0.0f, 0.5f);
+	MOAIDraw::DrawGrid(kk, 32, 24);
 
 	gfxDevice.SetPointSize(5.0f);
 	MOAIDraw::DrawPoint(m_StartPosition);
