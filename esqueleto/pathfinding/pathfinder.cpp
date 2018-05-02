@@ -84,7 +84,12 @@ void Pathfinder::UpdatePath()
 						&& (currentNode.mPos.mY + column < MAP_COLUMNS)) {
 						PathNode neighbor(USVec2D(currentNode.mPos.mX + row, currentNode.mPos.mY + column));
 						neighbor.parentId = currentNode.id;
-						neighbor.g_score = currentNode.g_score + 1; //casillas colindantes tiene coste 1
+						if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == '#') {
+							neighbor.g_score = 9999999;
+						}
+						else {
+							neighbor.g_score = currentNode.g_score + 1; //casillas colindantes tiene coste 1
+						}
 						neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
 						if (closedList.count(neighbor.id)) {
 							continue;
@@ -201,7 +206,7 @@ int Pathfinder::_pathfindStep(lua_State* L)
 
 PathNode popNodeWithMinCost(map<int, PathNode> openlist)
 {
-	int minCost = 99999999;
+	float minCost = 99999999.0f;
 	int popIndex = -1;
 	for (auto it = openlist.begin(); it != openlist.end(); ++it)
 	{
