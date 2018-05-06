@@ -7,6 +7,23 @@
 #define MAP_COLUMNS 32
 #define GRID_SIZE   32
 
+struct PathNode
+{
+	int id;
+	USVec2D mPos;
+	float g_score;
+	float f_score;
+	int parentId;
+
+	PathNode() {}
+	PathNode(const USVec2D& pos) : f_score(0), g_score(0), parentId(-1) { mPos = pos; id = mPos.mX * MAP_COLUMNS + mPos.mY; }
+
+
+	bool operator==(const PathNode& other) const { return id == other.id; }
+};
+
+PathNode popNodeWithMinCost(map<int, PathNode> openlist);
+
 class Pathfinder: public virtual MOAIEntity2D
 {
 public:
@@ -39,6 +56,10 @@ private:
 
 	char m_map[MAP_ROWS][MAP_COLUMNS];
 	std::vector<USVec2D> m_path;
+	map<int, PathNode> closedList;
+	map<int, PathNode> openList;
+	PathNode startNode;
+	PathNode endNode;
 };
 
 

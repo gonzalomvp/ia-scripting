@@ -3,22 +3,7 @@
 #include "pathfinder.h"
 #include <fstream>
 
-struct PathNode
-{
-	int id;
-	USVec2D mPos;
-	float g_score;
-	float f_score;
-	int parentId;
-	
-	PathNode() {}
-	PathNode(const USVec2D& pos) : f_score(0), g_score(0), parentId(-1) { mPos = pos; id = mPos.mX * MAP_COLUMNS + mPos.mY; }
-	
 
-	bool operator==(const PathNode& other) const{ return id == other.id; }
-};
-
-PathNode popNodeWithMinCost(map<int, PathNode> openlist);
 
 Pathfinder::Pathfinder() : MOAIEntity2D()
 {
@@ -51,65 +36,64 @@ Pathfinder::~Pathfinder()
 void Pathfinder::UpdatePath()
 {
 	m_path.clear();
+	openList.clear();
+	closedList.clear();
 	USVec2D origin(-512, -384);
-	PathNode startNode(USVec2D(floorf((m_StartPosition.mY - origin.mY) / GRID_SIZE), floorf((m_StartPosition.mX - origin.mX) / GRID_SIZE)));
-	PathNode endNode(USVec2D(floorf((m_EndPosition.mY - origin.mY) / GRID_SIZE), floorf((m_EndPosition.mX - origin.mX) / GRID_SIZE)));
-
-	map<int, PathNode> closedList;
-	map<int, PathNode> openList;
+    startNode = PathNode(USVec2D(floorf((m_StartPosition.mY - origin.mY) / GRID_SIZE), floorf((m_StartPosition.mX - origin.mX) / GRID_SIZE)));
+	endNode = PathNode(USVec2D(floorf((m_EndPosition.mY - origin.mY) / GRID_SIZE), floorf((m_EndPosition.mX - origin.mX) / GRID_SIZE)));
 
 	openList[startNode.id] = startNode;
 
-	while (!openList.empty())
-	{
-		PathNode currentNode = popNodeWithMinCost(openList);
-		if (currentNode == endNode) {
-			m_path.push_back(currentNode.mPos);
-			int parentId = currentNode.parentId;
-			while (parentId != -1) {
-				m_path.push_back(closedList[parentId].mPos);
-				parentId = closedList[parentId].parentId;
-			}
-			break;
-		}
-		else {
-			openList.erase(currentNode.id);
-			closedList[currentNode.id] = currentNode;
-			for (int row = -1; row <= 1; ++row) {
-				for (int column = -1; column <= 1; ++column) {
-					if ((row != 0 || column != 0) 
-						&& (currentNode.mPos.mX + row >= 0)
-						&& (currentNode.mPos.mX + row < MAP_ROWS)
-						&& (currentNode.mPos.mY + column >= 0)
-						&& (currentNode.mPos.mY + column < MAP_COLUMNS)) {
-						PathNode neighbor(USVec2D(currentNode.mPos.mX + row, currentNode.mPos.mY + column));
-						neighbor.parentId = currentNode.id;
-						if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == '#') {
-							neighbor.g_score = 9999999;
-						}
-						else if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == 'o') {
-							neighbor.g_score = currentNode.g_score + 3; // agua
-						}
-						else {
-							neighbor.g_score = currentNode.g_score + 1; //casillas colindantes tiene coste 1
-						}
-						neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
-						if (closedList.count(neighbor.id)) {
-							continue;
-						}
-						if (openList.count(neighbor.id)) {
-							if (neighbor.g_score < openList[neighbor.id].g_score) {
-								openList[neighbor.id] = neighbor;
-							}
-						}
-						else {
-							openList[neighbor.id] = neighbor;
-						}
-					}
-				}
-			}
-		}
-	}
+	//while (!openList.empty())
+	//{
+	//	PathNode currentNode = popNodeWithMinCost(openList);
+	//	if (currentNode == endNode) {
+	//		m_path.push_back(currentNode.mPos);
+	//		int parentId = currentNode.parentId;
+	//		while (parentId != -1) {
+	//			m_path.push_back(closedList[parentId].mPos);
+	//			parentId = closedList[parentId].parentId;
+	//		}
+	//		break;
+	//	}
+	//	else {
+	//		openList.erase(currentNode.id);
+	//		closedList[currentNode.id] = currentNode;
+	//		for (int row = -1; row <= 1; ++row) {
+	//			for (int column = -1; column <= 1; ++column) {
+	//				if ((row != 0 || column != 0) 
+	//					&& (currentNode.mPos.mX + row >= 0)
+	//					&& (currentNode.mPos.mX + row < MAP_ROWS)
+	//					&& (currentNode.mPos.mY + column >= 0)
+	//					&& (currentNode.mPos.mY + column < MAP_COLUMNS)) {
+	//					PathNode neighbor(USVec2D(currentNode.mPos.mX + row, currentNode.mPos.mY + column));
+	//					neighbor.parentId = currentNode.id;
+	//					if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == '#') {
+	//						neighbor.g_score = 9999999;
+	//					}
+	//					else if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == 'o') {
+	//						neighbor.g_score = currentNode.g_score + 3; // agua
+	//					}
+	//					else {
+	//						neighbor.g_score = currentNode.g_score + 1; //casillas colindantes tiene coste 1
+	//					}
+	//					neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
+	//					if (closedList.count(neighbor.id)) {
+	//						continue;
+	//					}
+	//					if (openList.count(neighbor.id)) {
+	//						if (neighbor.g_score < openList[neighbor.id].g_score) {
+	//							openList[neighbor.id] = neighbor;
+	//						}
+	//					}
+	//					else {
+	//						openList[neighbor.id] = neighbor;
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 void Pathfinder::DrawDebug()
@@ -157,7 +141,66 @@ void Pathfinder::DrawDebug()
 bool Pathfinder::PathfindStep()
 {
     // returns true if pathfinding process finished
-    return true;
+	if (!openList.empty())
+	{
+		PathNode currentNode = popNodeWithMinCost(openList);
+		m_path.clear();
+		int parentId = currentNode.parentId;
+		m_path.push_back(currentNode.mPos);
+		while (parentId != -1) {
+			m_path.push_back(closedList[parentId].mPos);
+			parentId = closedList[parentId].parentId;
+		}
+
+		if (currentNode == endNode) {
+
+			return true;
+		}
+		else {
+			openList.erase(currentNode.id);
+			closedList[currentNode.id] = currentNode;
+			for (int row = -1; row <= 1; ++row) {
+				for (int column = -1; column <= 1; ++column) {
+					if ((row != 0 || column != 0)
+						&& (currentNode.mPos.mX + row >= 0)
+						&& (currentNode.mPos.mX + row < MAP_ROWS)
+						&& (currentNode.mPos.mY + column >= 0)
+						&& (currentNode.mPos.mY + column < MAP_COLUMNS)) {
+						float factor = 1.0f;
+						if (row != 0 && column != 0 ) {
+							factor = 1.1f;
+						}
+						PathNode neighbor(USVec2D(currentNode.mPos.mX + row, currentNode.mPos.mY + column));
+						neighbor.parentId = currentNode.id;
+						if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == '#') {
+							neighbor.g_score = 9999999;
+						}
+						else if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == 'o') {
+							neighbor.g_score = (currentNode.g_score + 3) * factor; // agua
+						}
+						else {
+							neighbor.g_score = (currentNode.g_score + 1) * factor; //casillas colindantes tiene coste 1
+						}
+						neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
+						if (closedList.count(neighbor.id)) {
+							continue;
+						}
+						if (openList.count(neighbor.id)) {
+							if (neighbor.g_score < openList[neighbor.id].g_score) {
+								openList[neighbor.id] = neighbor;
+							}
+						}
+						else {
+							openList[neighbor.id] = neighbor;
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+    return false;
 }
 
 
