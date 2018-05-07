@@ -86,6 +86,24 @@ bool ReadParams(const char* filename, Params& params)
 	if (paramElem)
 		paramElem->Attribute("value", &params.time_ahead);
 
+	paramElem = hParams.FirstChildElement("enemy_speed").Element();
+	if (paramElem)
+		paramElem->Attribute("value", &params.enemy_speed);
+
+	paramElem = hParams.FirstChildElement("enemy_minPosition").Element();
+	if (paramElem)
+	{
+		paramElem->Attribute("x", &params.enemy_minPosition.mX);
+		paramElem->Attribute("y", &params.enemy_minPosition.mY);
+	}
+
+	paramElem = hParams.FirstChildElement("enemy_maxPosition").Element();
+	if (paramElem)
+	{
+		paramElem->Attribute("x", &params.enemy_maxPosition.mX);
+		paramElem->Attribute("y", &params.enemy_maxPosition.mY);
+	}
+
     return true;
 }
 

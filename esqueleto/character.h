@@ -25,13 +25,20 @@ public:
 	
 	USVec2D GetLinearVelocity() const { return mLinearVelocity;}
 	float GetAngularVelocity() const { return mAngularVelocity;}
-private:
+	USVec2D GetEnemyPosition() const { return mEnemyPosition; }
+	float GetEnemySpeed() const { return mEnemySpeed; }
+
+protected:
 	USVec2D mLinearVelocity;
 	float mAngularVelocity;
 	
 	Params mParams;
 	std::vector<USVec2D> mPath;
 	std::vector<BaseSteering*> mSteerings;
+
+private:
+	USVec2D mEnemyPosition;
+	float mEnemySpeed;
 	
 	// Lua configuration
 public:

@@ -19,6 +19,10 @@ struct Params
 
 	float look_ahead;
 	float time_ahead;
+
+	float enemy_speed;
+	USVec2D enemy_minPosition;
+	USVec2D enemy_maxPosition;
 };
 
 bool ReadParams(const char* filename, Params& params);

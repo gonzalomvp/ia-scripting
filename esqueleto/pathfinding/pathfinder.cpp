@@ -44,6 +44,8 @@ void Pathfinder::UpdatePath()
 
 	openList[startNode.id] = startNode;
 
+	while (!PathfindStep());
+
 	//while (!openList.empty())
 	//{
 	//	PathNode currentNode = popNodeWithMinCost(openList);
@@ -122,8 +124,26 @@ void Pathfinder::DrawDebug()
 			}
 		}
 	}
+	
+	gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.5f);
+	for (auto it = openList.begin(); it != openList.end(); ++it)
+	{
+		int cellX = it->second.mPos.mX * GRID_SIZE - 384;
+		int cellY = it->second.mPos.mY * GRID_SIZE - 512;
+		MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
+	}
+
+	gfxDevice.SetPenColor(0.5f, 0.0f, 0.0f, 0.5f);
+	for (auto it = closedList.begin(); it != closedList.end(); ++it)
+	{
+		int cellX = it->second.mPos.mX * GRID_SIZE - 384;
+		int cellY = it->second.mPos.mY * GRID_SIZE - 512;
+		MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
+	}
+
 	gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
-	for (int i = 0; i < m_path.size(); i ++) {
+	for (int i = 0; i < m_path.size(); i++)
+	{
 		int cellX = m_path[i].mX * GRID_SIZE - 384;
 		int cellY = m_path[i].mY * GRID_SIZE - 512;
 		MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
@@ -153,7 +173,8 @@ bool Pathfinder::PathfindStep()
 		}
 
 		if (currentNode == endNode) {
-
+			openList.clear();
+			closedList.clear();
 			return true;
 		}
 		else {
@@ -198,7 +219,11 @@ bool Pathfinder::PathfindStep()
 			}
 		}
 	}
-
+	else
+	{
+		openList[startNode.id] = startNode;
+		PathfindStep();
+	}
 
     return false;
 }

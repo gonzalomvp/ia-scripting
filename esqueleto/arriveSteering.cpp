@@ -33,4 +33,8 @@ void ArriveSteering::DrawDebug()
 
 	gfxDevice.SetPenColor(0.0f, 0.0f, 1.0f, 0.5f);
 	MOAIDraw::DrawLine(mPosition, mPosition + mLinearAcceleration);
+
+	gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
+	gfxDevice.SetPointSize(5.0f);
+	MOAIDraw::DrawPoint(mtargetPosition);
 }

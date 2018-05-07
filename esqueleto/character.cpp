@@ -7,6 +7,7 @@
 #include "arriveSteering.h"
 #include "alignSteering.h"
 #include "alignToMovementSteering.h"
+#include "pursueSteering.h"
 #include "pathFollowingSteering.h"
 
 Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f)
@@ -26,8 +27,11 @@ void Character::OnStart()
     ReadParams("params.xml", mParams);
 	ReadPath("path.xml", mPath);
 	//mSteerings.push_back(new ArriveSteering(mParams));
-	//mSteerings.push_back(new AlignToMovementSteering(mParams));
+	mSteerings.push_back(new AlignToMovementSteering(mParams));
+	mSteerings.push_back(new PursueSteering(mParams));
 	//mSteerings.push_back(new PathFollowingSteering(mParams, mPath));
+	mEnemyPosition = USVec2D(0,0);
+	mEnemySpeed = mParams.enemy_speed;
 }
 
 void Character::OnStop()
@@ -40,6 +44,18 @@ void Character::OnStop()
 
 void Character::OnUpdate(float step)
 {
+	//Move enemy
+	mEnemyPosition.mX += mEnemySpeed * step;
+	if (mEnemyPosition.mX > mParams.enemy_maxPosition.mX)
+	{
+		mEnemyPosition.mX = mParams.enemy_maxPosition.mX;
+		mEnemySpeed *= -1;
+	}
+	else if (mEnemyPosition.mX < mParams.enemy_minPosition.mX)
+	{
+		mEnemyPosition.mX = mParams.enemy_minPosition.mX;
+		mEnemySpeed *= -1;
+	}
 	
 	USVec2D linearAcceleration(0.0f, 0.0f);
 	float angularAcceleration = 0.0f;
@@ -57,7 +73,11 @@ void Character::OnUpdate(float step)
 	//Orientate sprite with velocity
 	//SetRot(atan2(mLinearVelocity.mY , mLinearVelocity.mX) * 57.2958f);
 	SetRot(GetRot() + mAngularVelocity * step);
-	
+
+	if (mEnemyPosition.DistSqrd(GetLoc()) < 400.0f)
+	{
+		SetLoc(USVec2D(0,0));
+	}
 }
 
 void Character::DrawDebug()
@@ -76,6 +96,11 @@ void Character::DrawDebug()
 
 	//Draw current lineal acceleration
 	//MOAIDraw::DrawLine(GetLoc(), GetLoc() + mLinearVelocity);
+
+	// Draw enemy
+	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 1.0f);
+	gfxDevice.SetPointSize(20.0f);
+	MOAIDraw::DrawPoint(mEnemyPosition);
 }
 
 

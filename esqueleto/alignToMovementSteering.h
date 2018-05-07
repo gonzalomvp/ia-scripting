@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma once
-
 #include "baseSteering.h"
 #include "alignSteering.h"
 
