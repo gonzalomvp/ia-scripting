@@ -26,6 +26,18 @@
       <Filter>pathfinder</Filter>
     </ClCompile>
     <ClCompile Include="pursueSteering.cpp" />
+    <ClCompile Include="stateMachine.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="idle_state.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="change_sprite_action.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_seen_condition.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -51,6 +63,33 @@
       <Filter>pathfinder</Filter>
     </ClInclude>
     <ClInclude Include="pursueSteering.h" />
+    <ClInclude Include="state.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="transition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="condition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="action.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="stateMachine.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="idle_state.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="change_sprite_action.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_seen_condition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_close_condition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="host">
@@ -61,6 +100,9 @@
     </Filter>
     <Filter Include="pathfinder">
       <UniqueIdentifier>{04b95faf-fad6-42a2-ac1a-4aca1d2373b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="state_machine">
+      <UniqueIdentifier>{5f2c2b6e-d64f-40c7-946f-074e73cff5ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
