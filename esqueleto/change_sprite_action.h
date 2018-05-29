@@ -3,9 +3,9 @@
 
 class ChangeSpriteAction : public Action {
 public:
-	ChangeSpriteAction(const char* imageFile);
+	ChangeSpriteAction(StateMachine* owner, int imageIndex) : Action(owner), m_imageIndex(imageIndex) {}
 	virtual void start();
 
 private:
-	char m_imageFile[256];
+	int m_imageIndex;
 };

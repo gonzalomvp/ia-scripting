@@ -141,6 +141,7 @@
     <ClCompile Include="pathFollowingSteering.cpp" />
     <ClCompile Include="pursueSteering.cpp" />
     <ClCompile Include="seekSteering.cpp" />
+    <ClCompile Include="state.cpp" />
     <ClCompile Include="stateMachine.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -174,6 +175,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="sample\test.lua" />
+    <None Include="sample\test_multiple_images.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="sample\params.xml" />
+    <Xml Include="sample\path.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

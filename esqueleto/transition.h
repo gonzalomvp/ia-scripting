@@ -6,8 +6,8 @@ class State;
 
 class Transition {
 public:
-	bool canTrigger() const;
-	State* trigger();
+	bool canTrigger() const { return false; }
+	State* trigger() { return nullptr; }
 
 private:
 	Condition* m_condition;

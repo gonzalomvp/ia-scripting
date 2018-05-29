@@ -38,6 +38,9 @@
     <ClCompile Include="enemy_seen_condition.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
+    <ClCompile Include="state.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -109,5 +112,16 @@
     <None Include="sample\test.lua">
       <Filter>sample</Filter>
     </None>
+    <None Include="sample\test_multiple_images.lua">
+      <Filter>sample</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="sample\params.xml">
+      <Filter>sample</Filter>
+    </Xml>
+    <Xml Include="sample\path.xml">
+      <Filter>sample</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

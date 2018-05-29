@@ -5,6 +5,7 @@
 #include <params.h>
 
 class BaseSteering;
+class StateMachine;
 
 class Character: public MOAIEntity2D
 {
@@ -35,6 +36,8 @@ protected:
 	Params mParams;
 	std::vector<USVec2D> mPath;
 	std::vector<BaseSteering*> mSteerings;
+
+	StateMachine* m_stateMachine;
 
 private:
 	USVec2D mEnemyPosition;

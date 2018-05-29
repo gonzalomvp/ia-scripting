@@ -1,6 +1,22 @@
+#include <stdafx.h>
 #include "stateMachine.h"
+
+#include"change_sprite_action.h"
 #include "state.h"
 #include "transition.h"
+
+void StateMachine::load() {
+	State* idle = new State();
+	Action* idleAction = new ChangeSpriteAction(this, 2);
+	idle->setEnterAction(idleAction);
+	m_States.push_back(idle);
+}
+
+void StateMachine::start()
+{
+	m_currentState = m_States[0];
+	m_currentState->onEnter();
+}
 
 void StateMachine::update() {
 	m_currentState->update();
@@ -15,4 +31,6 @@ void StateMachine::update() {
 			return;
 		}
 	}
-}
+}
+
+

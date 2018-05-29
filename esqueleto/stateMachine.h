@@ -6,6 +6,7 @@ class State;
 
 class StateMachine {
 public:
+	StateMachine(Character* owner) : m_owner(owner) {}
 	void load();
 	void start();
 	void update();

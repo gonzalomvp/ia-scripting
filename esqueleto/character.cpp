@@ -9,6 +9,7 @@
 #include "alignToMovementSteering.h"
 #include "pursueSteering.h"
 #include "pathFollowingSteering.h"
+#include "stateMachine.h"
 
 Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f)
 {
@@ -19,19 +20,24 @@ Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f)
 
 Character::~Character()
 {
-
+	//TO-DO deletes
 }
 
 void Character::OnStart()
 {
     ReadParams("params.xml", mParams);
 	ReadPath("path.xml", mPath);
+	//mSteerings.push_back(new SeekSteering(mParams));
 	//mSteerings.push_back(new ArriveSteering(mParams));
 	mSteerings.push_back(new AlignToMovementSteering(mParams));
 	mSteerings.push_back(new PursueSteering(mParams));
 	//mSteerings.push_back(new PathFollowingSteering(mParams, mPath));
 	mEnemyPosition = USVec2D(0,0);
 	mEnemySpeed = mParams.enemy_speed;
+
+	m_stateMachine = new StateMachine(this);
+	m_stateMachine->load();
+	m_stateMachine->start();
 }
 
 void Character::OnStop()
@@ -78,6 +84,10 @@ void Character::OnUpdate(float step)
 	{
 		SetLoc(USVec2D(0,0));
 	}
+
+
+	//StateMachine
+	m_stateMachine->update();
 }
 
 void Character::DrawDebug()
