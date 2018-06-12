@@ -189,7 +189,7 @@ bool Pathfinder::PathfindStep()
 						&& (currentNode.mPos.mY + column < MAP_COLUMNS)) {
 						float factor = 1.0f;
 						if (row != 0 && column != 0 ) {
-							factor = 1.1f;
+							factor = 1.4f;
 						}
 						PathNode neighbor(USVec2D(currentNode.mPos.mX + row, currentNode.mPos.mY + column));
 						neighbor.parentId = currentNode.id;
@@ -197,10 +197,10 @@ bool Pathfinder::PathfindStep()
 							neighbor.g_score = 9999999;
 						}
 						else if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == 'o') {
-							neighbor.g_score = (currentNode.g_score + 3) * factor; // agua
+							neighbor.g_score = currentNode.g_score + 3 * factor; // agua
 						}
 						else {
-							neighbor.g_score = (currentNode.g_score + 1) * factor; //casillas colindantes tiene coste 1
+							neighbor.g_score = currentNode.g_score + 1 * factor; //casillas colindantes tiene coste 1
 						}
 						neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
 						if (closedList.count(neighbor.id)) {
