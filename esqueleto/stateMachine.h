@@ -10,7 +10,7 @@ public:
 	void load();
 	void start();
 	void update();
-	Character* getOwner() const { return m_owner; }
+	Character* getCharacter() const { return m_owner; }
 
 private:
 	Character*          m_owner;

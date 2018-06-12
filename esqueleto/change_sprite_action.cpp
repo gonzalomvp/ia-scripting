@@ -5,5 +5,5 @@
 #include "stateMachine.h"
 
 void ChangeSpriteAction::start() {
-	m_owner->getOwner()->SetImage(m_imageIndex);
+	m_owner->getCharacter()->SetImage(m_imageIndex);
 }

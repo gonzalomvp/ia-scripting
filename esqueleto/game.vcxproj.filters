@@ -41,6 +41,12 @@
     <ClCompile Include="state.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
+    <ClCompile Include="DistanceCondition.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="transition.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -91,6 +97,9 @@
       <Filter>state_machine</Filter>
     </ClInclude>
     <ClInclude Include="enemy_close_condition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="distanceCondition.h">
       <Filter>state_machine</Filter>
     </ClInclude>
   </ItemGroup>

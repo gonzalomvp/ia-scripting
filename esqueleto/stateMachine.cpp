@@ -10,6 +10,11 @@ void StateMachine::load() {
 	Action* idleAction = new ChangeSpriteAction(this, 2);
 	idle->setEnterAction(idleAction);
 	m_States.push_back(idle);
+
+	State* attack = new State();
+	Action* attackAction = new ChangeSpriteAction(this, 1);
+	attack->setEnterAction(idleAction);
+	m_States.push_back(attack);
 }
 
 void StateMachine::start()
