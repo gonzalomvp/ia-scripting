@@ -47,6 +47,15 @@
     <ClCompile Include="transition.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
+    <ClCompile Include="behavior.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="sequence.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="selector.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -102,6 +111,18 @@
     <ClInclude Include="distanceCondition.h">
       <Filter>state_machine</Filter>
     </ClInclude>
+    <ClInclude Include="behavior.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="group.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="sequence.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="selector.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="host">
@@ -115,6 +136,9 @@
     </Filter>
     <Filter Include="state_machine">
       <UniqueIdentifier>{5f2c2b6e-d64f-40c7-946f-074e73cff5ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="behavior_tree">
+      <UniqueIdentifier>{4bb31518-590e-4a08-be94-d85e012a6a89}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
