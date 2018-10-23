@@ -9,7 +9,7 @@ bool DistanceCondition::check() const{
 	Character* character = m_owner->getCharacter();
 	USVec2D enemyPos = character->GetEnemyPosition();
 
-	if (enemyPos.DistSqrd(character->GetLoc()) < 400.0f)
+	if (enemyPos.DistSqrd(character->GetLoc()) < 40000.0f)
 	{
 		return true;
 	}

@@ -6,6 +6,7 @@
 
 class BaseSteering;
 class StateMachine;
+class BehaviorTree;
 
 class Character: public MOAIEntity2D
 {
@@ -29,6 +30,11 @@ public:
 	USVec2D GetEnemyPosition() const { return mEnemyPosition; }
 	float GetEnemySpeed() const { return mEnemySpeed; }
 
+	void AddSteering(BaseSteering* steering) { mSteerings.push_back(steering); }
+	void RemoveSteering(BaseSteering* steering) { auto it = std::find(mSteerings.begin(), mSteerings.end(), steering); if (it != mSteerings.end()) mSteerings.erase(it); }
+	void ClearAllSteering() { mSteerings.clear(); }
+	const Params& GetParams() const { return mParams; }
+
 protected:
 	USVec2D mLinearVelocity;
 	float mAngularVelocity;
@@ -38,6 +44,7 @@ protected:
 	std::vector<BaseSteering*> mSteerings;
 
 	StateMachine* m_stateMachine;
+	BehaviorTree* m_behaviorTree;
 
 private:
 	USVec2D mEnemyPosition;

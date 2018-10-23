@@ -10,6 +10,7 @@
 #include "pursueSteering.h"
 #include "pathFollowingSteering.h"
 #include "stateMachine.h"
+#include "behavior_tree.h"
 
 Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f)
 {
@@ -30,14 +31,17 @@ void Character::OnStart()
 	//mSteerings.push_back(new SeekSteering(mParams));
 	//mSteerings.push_back(new ArriveSteering(mParams));
 	mSteerings.push_back(new AlignToMovementSteering(mParams));
-	mSteerings.push_back(new PursueSteering(mParams));
+	//mSteerings.push_back(new PursueSteering(mParams));
 	//mSteerings.push_back(new PathFollowingSteering(mParams, mPath));
-	mEnemyPosition = USVec2D(0,0);
+	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	mEnemySpeed = mParams.enemy_speed;
 
 	m_stateMachine = new StateMachine(this);
 	m_stateMachine->load();
 	m_stateMachine->start();
+
+	m_behaviorTree = new BehaviorTree(this);
+	m_behaviorTree->load();
 }
 
 void Character::OnStop()
@@ -52,6 +56,7 @@ void Character::OnUpdate(float step)
 {
 	//Move enemy
 	mEnemyPosition.mX += mEnemySpeed * step;
+
 	if (mEnemyPosition.mX > mParams.enemy_maxPosition.mX)
 	{
 		mEnemyPosition.mX = mParams.enemy_maxPosition.mX;
@@ -87,7 +92,10 @@ void Character::OnUpdate(float step)
 
 
 	//StateMachine
-	m_stateMachine->update();
+	//m_stateMachine->update();
+
+	//BehaviorTree
+	m_behaviorTree->update(step);
 }
 
 void Character::DrawDebug()

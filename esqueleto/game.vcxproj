@@ -15,7 +15,7 @@
     <RootNamespace>moai</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>game</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -127,6 +127,8 @@
     <ClCompile Include="alignSteering.cpp" />
     <ClCompile Include="alignToMovementSteering.cpp" />
     <ClCompile Include="arriveSteering.cpp" />
+    <ClCompile Include="behavior.cpp" />
+    <ClCompile Include="behavior_tree.cpp" />
     <ClCompile Include="change_sprite_action.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="DistanceCondition.cpp" />
@@ -136,12 +138,18 @@
     <ClCompile Include="host\GlutHost.cpp" />
     <ClCompile Include="host\GlutHostMain.cpp" />
     <ClCompile Include="host\ParticlePresets.cpp" />
+    <ClCompile Include="idle.cpp" />
     <ClCompile Include="idle_state.cpp" />
+    <ClCompile Include="is_close.cpp" />
     <ClCompile Include="params.cpp" />
     <ClCompile Include="pathfinding\pathfinder.cpp" />
     <ClCompile Include="pathFollowingSteering.cpp" />
+    <ClCompile Include="pursue.cpp" />
     <ClCompile Include="pursueSteering.cpp" />
+    <ClCompile Include="pursue_action.cpp" />
     <ClCompile Include="seekSteering.cpp" />
+    <ClCompile Include="selector.cpp" />
+    <ClCompile Include="sequence.cpp" />
     <ClCompile Include="state.cpp" />
     <ClCompile Include="stateMachine.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -155,6 +163,8 @@
     <ClInclude Include="alignToMovementSteering.h" />
     <ClInclude Include="arriveSteering.h" />
     <ClInclude Include="baseSteering.h" />
+    <ClInclude Include="behavior.h" />
+    <ClInclude Include="behavior_tree.h" />
     <ClInclude Include="change_sprite_action.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="condition.h" />
@@ -162,15 +172,23 @@
     <ClInclude Include="enemy_close_condition.h" />
     <ClInclude Include="enemy_seen_condition.h" />
     <ClInclude Include="gameConfig.h" />
+    <ClInclude Include="group.h" />
     <ClInclude Include="host\FolderWatcher-win.h" />
     <ClInclude Include="host\GlutHost.h" />
     <ClInclude Include="host\ParticlePresets.h" />
+    <ClInclude Include="idle.h" />
     <ClInclude Include="idle_state.h" />
+    <ClInclude Include="is_close.h" />
+    <ClInclude Include="notCondition.h" />
     <ClInclude Include="params.h" />
     <ClInclude Include="pathfinding\pathfinder.h" />
     <ClInclude Include="pathFollowingSteering.h" />
+    <ClInclude Include="pursue.h" />
     <ClInclude Include="pursueSteering.h" />
+    <ClInclude Include="pursue_action.h" />
     <ClInclude Include="seekSteering.h" />
+    <ClInclude Include="selector.h" />
+    <ClInclude Include="sequence.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="stateMachine.h" />
     <ClInclude Include="stdafx.h" />

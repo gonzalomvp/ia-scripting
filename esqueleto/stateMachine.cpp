@@ -2,19 +2,30 @@
 #include "stateMachine.h"
 
 #include"change_sprite_action.h"
+#include"pursue_action.h"
 #include "state.h"
 #include "transition.h"
+#include "distanceCondition.h"
+#include "notCondition.h"
 
 void StateMachine::load() {
 	State* idle = new State();
-	Action* idleAction = new ChangeSpriteAction(this, 2);
+	Action* idleAction = new ChangeSpriteAction(this, 0);
 	idle->setEnterAction(idleAction);
 	m_States.push_back(idle);
 
-	State* attack = new State();
-	Action* attackAction = new ChangeSpriteAction(this, 1);
-	attack->setEnterAction(idleAction);
-	m_States.push_back(attack);
+	State* alarm = new State();
+	Action* alarmAction = new ChangeSpriteAction(this, 3);
+	alarm->setEnterAction(alarmAction);
+	Action* pursueAction = new PursueAction(this);
+	alarm->setStateAction(pursueAction);
+	m_States.push_back(alarm);
+
+	Transition* closeTransition = new Transition(new DistanceCondition(this), alarm);
+	idle->addTransition(closeTransition);
+
+	Transition* farTransition = new Transition(new NotCondition(this, new DistanceCondition(this)), idle);
+	alarm->addTransition(farTransition);
 }
 
 void StateMachine::start()
