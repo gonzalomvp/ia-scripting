@@ -71,6 +71,21 @@
     <ClCompile Include="idle.cpp">
       <Filter>behavior_tree</Filter>
     </ClCompile>
+    <ClCompile Include="attack.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="check_hit.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="hit.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="is_dead.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="death.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -154,6 +169,21 @@
       <Filter>behavior_tree</Filter>
     </ClInclude>
     <ClInclude Include="idle.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="attack.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="check_hit.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="hit.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="is_dead.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="death.h">
       <Filter>behavior_tree</Filter>
     </ClInclude>
   </ItemGroup>

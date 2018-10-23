@@ -3,7 +3,7 @@
 
 Status Behavior::tick(float step)
 {
-	if (m_Status == eInvalid)
+	if (m_Status != eRunning)
 	{
 		onEnter();
 	}

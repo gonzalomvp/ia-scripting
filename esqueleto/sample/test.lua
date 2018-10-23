@@ -21,6 +21,7 @@ gfxQuad  = createImage("dragon.png", char_size)
 gfxQuad1 = createImage("dragon_dead.png", char_size)
 gfxQuad2 = createImage("dragon_attack.png", char_size)
 gfxQuad3 = createImage("dragon_alarm.png", char_size)
+gfxQuad4 = createImage("dragon_hit.png", char_size)
 
 prop = MOAIProp2D.new()
 prop:setDeck(gfxQuad)
@@ -32,6 +33,7 @@ entity:addImage(gfxQuad)    -- SetImage(0)  dragon.png
 entity:addImage(gfxQuad1)   -- SetImage(1)  dragon_dead.png
 entity:addImage(gfxQuad2)   -- SetImage(2)  dragon_attack.png
 entity:addImage(gfxQuad3)   -- SetImage(3)  dragon_alarm.png
+entity:addImage(gfxQuad4)   -- SetImage(4)  dragon_hit.png
 
 -- Add prop to be the renderable for this character
 entity:setProp(prop, layer)
@@ -58,9 +60,12 @@ mouseX = 0
 mouseY = 0
 
 function onClick(down)
-  entity:setLoc(mouseX, mouseY)
-  entity:setRot(-135)
-  pathfinder:setStartPosition(mouseX, mouseY)
+	if down then
+	  entity:checkHit(mouseX, mouseY)
+	  entity:setLoc(mouseX, mouseY)
+	  entity:setRot(-135)
+	  pathfinder:setStartPosition(mouseX, mouseY)
+	 end
 end
 
 function onRightClick(down)

@@ -18,11 +18,10 @@ public:
 protected:
 	virtual Status update(float step) = 0;
 	virtual void onEnter() {}
-	virtual void onExit() {}
+	virtual void onExit()  {}
 
 	BehaviorTree* m_owner;
-	Status m_Status;
 
 private:
-
+	Status m_Status;
 };

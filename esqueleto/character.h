@@ -29,6 +29,10 @@ public:
 	float GetAngularVelocity() const { return mAngularVelocity;}
 	USVec2D GetEnemyPosition() const { return mEnemyPosition; }
 	float GetEnemySpeed() const { return mEnemySpeed; }
+	bool GetIsHit() const { return m_isHit; }
+	void SetIsHit(bool value) { m_isHit = value; }
+	float GetLife() const { return m_life; }
+	void SetLife(float value) { m_life = value; }
 
 	void AddSteering(BaseSteering* steering) { mSteerings.push_back(steering); }
 	void RemoveSteering(BaseSteering* steering) { auto it = std::find(mSteerings.begin(), mSteerings.end(), steering); if (it != mSteerings.end()) mSteerings.erase(it); }
@@ -49,6 +53,8 @@ protected:
 private:
 	USVec2D mEnemyPosition;
 	float mEnemySpeed;
+	bool m_isHit;
+	float m_life;
 	
 	// Lua configuration
 public:
@@ -56,6 +62,7 @@ public:
 private:
 	static int _setLinearVel(lua_State* L);
 	static int _setAngularVel(lua_State* L);
+	static int _checkHit(lua_State* L);
 };
 
 #endif

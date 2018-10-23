@@ -3,7 +3,6 @@
 
 Status Selector::update(float step)
 {
-	m_CurrentChild = 0;
 	while (true)
 	{
 		Status s = m_Children[m_CurrentChild]->tick(step);

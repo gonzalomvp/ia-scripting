@@ -23,6 +23,7 @@ Status Pursue::update(float step)
 
 	USVec2D linearVelocity = m_owner->getCharacter()->GetLinearVelocity() + linearAcceleration * step;
 	m_owner->getCharacter()->SetLinearVelocity(linearVelocity.mX, linearVelocity.mY);
+	return eSuccess;
 
 	float sqrdDist = m_owner->getCharacter()->GetEnemyPosition().DistSqrd(m_owner->getCharacter()->GetLoc());
 	if (sqrdDist  < 500.0f)
@@ -33,8 +34,4 @@ Status Pursue::update(float step)
 	{
 		return eRunning;
 	}
-}
-
-void Pursue::onExit() {
-	m_Status = eInvalid;
 }

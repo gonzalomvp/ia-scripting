@@ -12,7 +12,6 @@ public:
 protected:
 	virtual void onEnter() override;
 	virtual Status update(float step) override;
-	virtual void onExit() override;
 
 private:
 	PursueSteering * mPursueSteering;

@@ -12,7 +12,7 @@
 #include "stateMachine.h"
 #include "behavior_tree.h"
 
-Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f)
+Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f), m_isHit(false), m_life(5.0f)
 {
 	RTTI_BEGIN
 		RTTI_EXTEND (MOAIEntity2D)
@@ -87,7 +87,7 @@ void Character::OnUpdate(float step)
 
 	if (mEnemyPosition.DistSqrd(GetLoc()) < 400.0f)
 	{
-		SetLoc(USVec2D(0,0));
+		//SetLoc(USVec2D(0,0));
 	}
 
 
@@ -134,6 +134,7 @@ void Character::RegisterLuaFuncs(MOAILuaState& state)
 	luaL_Reg regTable [] = {
 		{ "setLinearVel",			_setLinearVel},
 		{ "setAngularVel",			_setAngularVel},
+		{ "checkHit",			    _checkHit},
 		{ NULL, NULL }
 	};
 
@@ -156,6 +157,27 @@ int Character::_setAngularVel(lua_State* L)
 	
 	float angle = state.GetValue<float>(2, 0.0f);
 	self->SetAngularVelocity(angle);
+
+	return 0;
+}
+
+int Character::_checkHit(lua_State* L)
+{
+	MOAI_LUA_SETUP(Character, "U")
+
+	float pX = state.GetValue<float>(2, 0.0f);
+	float pY = state.GetValue<float>(3, 0.0f);
+	
+	float selfX = self->GetLoc().mX;
+	float selfY = self->GetLoc().mY;
+
+	if (pX > selfX - 32
+		&& pX < selfX + 32
+		&& pY > selfY - 32
+		&& pY < selfY + 32)
+	{
+		self->m_isHit = true;
+	}
 
 	return 0;
 }

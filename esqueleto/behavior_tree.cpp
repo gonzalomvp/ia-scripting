@@ -6,12 +6,37 @@
 #include "is_close.h"
 #include "pursue.h"
 #include "idle.h"
+#include "attack.h"
+#include "check_hit.h"
+#include "hit.h"
+#include "is_dead.h"
+#include "death.h"
 
 void BehaviorTree::load() {
 	m_rootBehavior = new Selector(this);
-	Sequence* closeBranch = new Sequence(this);
-	closeBranch->AddBehavior(new IsClose(this, 200.0f));
-	closeBranch->AddBehavior(new Pursue(this));
+
+	Sequence* isDeadBranch = new Sequence(this);
+	isDeadBranch->AddBehavior(new IsDead(this));
+	isDeadBranch->AddBehavior(new Death(this));
+	
+	Sequence* receiveHitBranch = new Sequence(this);
+	receiveHitBranch->AddBehavior(new CheckHit(this));
+	receiveHitBranch->AddBehavior(new Hit(this));
+
+	Selector* closeBranch = new Selector(this);
+	Sequence* attackBranch = new Sequence(this);
+	Sequence* chaseBranch = new Sequence(this);
+	closeBranch->AddBehavior(attackBranch);
+	closeBranch->AddBehavior(chaseBranch);
+
+	attackBranch->AddBehavior(new IsClose(this, 50.0f));
+	attackBranch->AddBehavior(new Attack(this));
+
+	chaseBranch->AddBehavior(new IsClose(this, 200.0f));
+	chaseBranch->AddBehavior(new Pursue(this));
+
+	m_rootBehavior->AddBehavior(isDeadBranch);
+	m_rootBehavior->AddBehavior(receiveHitBranch);
 	m_rootBehavior->AddBehavior(closeBranch);
 	m_rootBehavior->AddBehavior(new Idle(this));
 
