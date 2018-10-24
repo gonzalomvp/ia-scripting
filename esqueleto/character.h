@@ -28,7 +28,7 @@ public:
 	bool          GetIsHit()           const { return mIsHit;           }
 	float         GetLife()            const { return mLife;            }
 	USVec2D       GetEnemyPosition()   const { return mEnemyPosition;   }
-	float         GetEnemySpeed()      const { return mEnemySpeed;      }
+	USVec2D       GetEnemyVelocity()   const { return mEnemyVelocity;   }
 	Params&       GetParams()                { return mParams;          }
 
 	void SetLinearVelocity  (float x, float y) { mLinearVelocity  = USVec2D(x, y); }
@@ -48,7 +48,8 @@ private:
 	bool                       mIsHit;
 	float                      mLife;
 	USVec2D                    mEnemyPosition;
-	float                      mEnemySpeed;
+	USVec2D                    mEnemyTarget;
+	USVec2D                    mEnemyVelocity;
 	std::vector<USVec2D>       mPath;
 	std::vector<BaseSteering*> mSteerings;
 	StateMachine*              mStateMachine;

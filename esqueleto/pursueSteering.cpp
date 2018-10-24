@@ -9,7 +9,7 @@ void PursueSteering::GetSteering(Character& character, USVec2D& linearAccelerati
 	USVec2D enemyPos = character.GetEnemyPosition();
 	float distance = enemyPos.Dist(character.GetLoc());
 	float timeToReachEnemy = distance / maxVelocity;
-	enemyPos.mX += character.GetEnemySpeed() * timeToReachEnemy;
+	enemyPos += character.GetEnemyVelocity() * timeToReachEnemy;
 
 	character.GetParams().targetPosition = enemyPos;
 	mArriveSteering.GetSteering(character, linearAcceleration, angularAcceleration);

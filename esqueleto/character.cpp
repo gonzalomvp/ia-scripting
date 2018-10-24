@@ -29,13 +29,13 @@ void Character::OnStart()
     ReadParams("params.xml", mParams);
 	ReadPath("path.xml", mPath);
 	//mSteerings.push_back(new SeekSteering());
-	mSteerings.push_back(new ArriveSteering());
-	mSteerings.push_back(new AlignSteering());
-	//mSteerings.push_back(new AlignToMovementSteering());
-	//mSteerings.push_back(new PursueSteering());
+	//mSteerings.push_back(new ArriveSteering());
+	//mSteerings.push_back(new AlignSteering());
+	mSteerings.push_back(new AlignToMovementSteering());
+	mSteerings.push_back(new PursueSteering());
 	//mSteerings.push_back(new PathFollowingSteering(mParams, mPath));
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
-	mEnemySpeed = mParams.enemy_speed;
+	mEnemyTarget   = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 
 	mStateMachine = new StateMachine(this);
 	mStateMachine->load();
@@ -56,19 +56,23 @@ void Character::OnStop()
 void Character::OnUpdate(float step)
 {
 	//Move enemy
-	mEnemyPosition.mX += mEnemySpeed * step;
-
-	if (mEnemyPosition.mX > mParams.enemy_maxPosition.mX)
-	{
-		mEnemyPosition.mX = mParams.enemy_maxPosition.mX;
-		mEnemySpeed *= -1;
+	if (mEnemyPosition.DistSqrd(mEnemyTarget) <= 25.0f) {
+		mEnemyTarget = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	}
-	else if (mEnemyPosition.mX < mParams.enemy_minPosition.mX)
+	else {
+		USVec2D movementDir = mEnemyTarget - mEnemyPosition;
+		movementDir.NormSafe();
+		mEnemyVelocity = movementDir * mParams.enemy_speed;
+		mEnemyPosition += mEnemyVelocity * step;
+	}
+	if (mEnemyPosition.DistSqrd(GetLoc()) < 400.0f)
 	{
-		mEnemyPosition.mX = mParams.enemy_minPosition.mX;
-		mEnemySpeed *= -1;
+		SetLoc(USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384)));
+		mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
+		mEnemyTarget = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	}
 	
+	//Apply Steering Behaviors
 	USVec2D linearAcceleration(0.0f, 0.0f);
 	float angularAcceleration = 0.0f;
 
@@ -86,10 +90,7 @@ void Character::OnUpdate(float step)
 	//SetRot(atan2(mLinearVelocity.mY , mLinearVelocity.mX) * 57.2958f);
 	SetRot(GetRot() + mAngularVelocity * step);
 
-	if (mEnemyPosition.DistSqrd(GetLoc()) < 400.0f)
-	{
-		//SetLoc(USVec2D(0,0));
-	}
+	
 
 
 	//StateMachine

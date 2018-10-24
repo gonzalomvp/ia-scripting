@@ -15,7 +15,7 @@
 		<look_ahead value="40"></look_ahead>
 		<time_ahead value="4"></time_ahead>
 		
-		<enemy_speed value="40"></enemy_speed>
+		<enemy_speed value="20"></enemy_speed>
 		<enemy_minPosition x="-512" y="0"></enemy_minPosition>
 		<enemy_maxPosition x="512" y="0"></enemy_maxPosition>
 	</params>
