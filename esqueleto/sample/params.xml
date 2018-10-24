@@ -13,7 +13,7 @@
 		<targetRotation value="0"> </targetRotation>
 		
 		<look_ahead value="40"></look_ahead>
-		<time_ahead value="4"></time_ahead>
+		<time_ahead value="2"></time_ahead>
 		
 		<enemy_speed value="20"></enemy_speed>
 		<enemy_minPosition x="-512" y="0"></enemy_minPosition>

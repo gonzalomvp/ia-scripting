@@ -32,8 +32,8 @@ void Character::OnStart()
 	//mSteerings.push_back(new ArriveSteering());
 	//mSteerings.push_back(new AlignSteering());
 	mSteerings.push_back(new AlignToMovementSteering());
-	mSteerings.push_back(new PursueSteering());
-	//mSteerings.push_back(new PathFollowingSteering(mParams, mPath));
+	//mSteerings.push_back(new PursueSteering());
+	mSteerings.push_back(new PathFollowingSteering());
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	mEnemyTarget   = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 

@@ -23,13 +23,14 @@ public:
 	~Character();
 	
 	// Getters and Setters
-	USVec2D       GetLinearVelocity()  const { return mLinearVelocity;  }
-	float         GetAngularVelocity() const { return mAngularVelocity; }
-	bool          GetIsHit()           const { return mIsHit;           }
-	float         GetLife()            const { return mLife;            }
-	USVec2D       GetEnemyPosition()   const { return mEnemyPosition;   }
-	USVec2D       GetEnemyVelocity()   const { return mEnemyVelocity;   }
-	Params&       GetParams()                { return mParams;          }
+	USVec2D                     GetLinearVelocity()  const { return mLinearVelocity;  }
+	float                       GetAngularVelocity() const { return mAngularVelocity; }
+	bool                        GetIsHit()           const { return mIsHit;           }
+	float                       GetLife()            const { return mLife;            }
+	USVec2D                     GetEnemyPosition()   const { return mEnemyPosition;   }
+	USVec2D                     GetEnemyVelocity()   const { return mEnemyVelocity;   }
+	Params&                     GetParams()                { return mParams;          }
+	const std::vector<USVec2D>& GetPath()            const { return mPath;            }
 
 	void SetLinearVelocity  (float x, float y) { mLinearVelocity  = USVec2D(x, y); }
 	void SetAngularVelocity (float angle)      { mAngularVelocity = angle;         }
