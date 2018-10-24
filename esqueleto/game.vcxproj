@@ -146,6 +146,7 @@
     <ClCompile Include="idle_state.cpp" />
     <ClCompile Include="is_close.cpp" />
     <ClCompile Include="is_dead.cpp" />
+    <ClCompile Include="obstacleAvoidanceSteering.cpp" />
     <ClCompile Include="params.cpp" />
     <ClCompile Include="pathfinding\pathfinder.cpp" />
     <ClCompile Include="pathFollowingSteering.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="is_close.h" />
     <ClInclude Include="is_dead.h" />
     <ClInclude Include="notCondition.h" />
+    <ClInclude Include="obstacleAvoidanceSteering.h" />
     <ClInclude Include="params.h" />
     <ClInclude Include="pathfinding\pathfinder.h" />
     <ClInclude Include="pathFollowingSteering.h" />
@@ -209,6 +211,7 @@
     <None Include="sample\test_multiple_images.lua" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="sample\obstacles.xml" />
     <Xml Include="sample\params.xml" />
     <Xml Include="sample\path.xml" />
   </ItemGroup>

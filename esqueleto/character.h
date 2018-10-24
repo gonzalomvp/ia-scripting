@@ -31,6 +31,7 @@ public:
 	USVec2D                     GetEnemyVelocity()   const { return mEnemyVelocity;   }
 	Params&                     GetParams()                { return mParams;          }
 	const std::vector<USVec2D>& GetPath()            const { return mPath;            }
+	const std::vector<USVec3D>& GetObstacles()       const { return mObstacles;       }
 
 	void SetLinearVelocity  (float x, float y) { mLinearVelocity  = USVec2D(x, y); }
 	void SetAngularVelocity (float angle)      { mAngularVelocity = angle;         }
@@ -52,6 +53,7 @@ private:
 	USVec2D                    mEnemyTarget;
 	USVec2D                    mEnemyVelocity;
 	std::vector<USVec2D>       mPath;
+	std::vector<USVec3D>       mObstacles;
 	std::vector<BaseSteering*> mSteerings;
 	StateMachine*              mStateMachine;
 	BehaviorTree*              mBehaviorTree;

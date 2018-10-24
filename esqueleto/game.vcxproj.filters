@@ -98,6 +98,9 @@
     <ClCompile Include="arriveSteering.cpp">
       <Filter>steering_behaviors</Filter>
     </ClCompile>
+    <ClCompile Include="obstacleAvoidanceSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -212,6 +215,9 @@
     <ClInclude Include="arriveSteering.h">
       <Filter>steering_behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="obstacleAvoidanceSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="host">
@@ -246,6 +252,9 @@
       <Filter>sample</Filter>
     </Xml>
     <Xml Include="sample\path.xml">
+      <Filter>sample</Filter>
+    </Xml>
+    <Xml Include="sample\obstacles.xml">
       <Filter>sample</Filter>
     </Xml>
   </ItemGroup>

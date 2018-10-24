@@ -104,6 +104,10 @@ bool ReadParams(const char* filename, Params& params)
 		paramElem->Attribute("y", &params.enemy_maxPosition.mY);
 	}
 
+	paramElem = hParams.FirstChildElement("char_radius").Element();
+	if (paramElem)
+		paramElem->Attribute("value", &params.char_radius);
+
     return true;
 }
 
@@ -140,6 +144,44 @@ bool ReadPath(const char* filename, std::vector<USVec2D>& path)
 			paramElem->Attribute("y", &point.mY);
 			path.push_back(point);
 	    }
+	}
+	return true;
+}
+
+bool ReadObstacles(const char* filename, std::vector<USVec3D>& obstacles)
+{
+	TiXmlDocument doc(filename);
+	if (!doc.LoadFile())
+	{
+		fprintf(stderr, "Couldn't read params from %s", filename);
+		return false;
+	}
+
+	TiXmlHandle hDoc(&doc);
+
+	TiXmlElement* pElem;
+	pElem = hDoc.FirstChildElement().Element();
+	if (!pElem)
+	{
+		fprintf(stderr, "Invalid format for %s", filename);
+		return false;
+	}
+
+	TiXmlHandle hRoot(pElem);
+	TiXmlHandle hParams = hRoot.FirstChildElement("obstacles");
+
+	TiXmlElement* paramElem = hParams.FirstChild().Element();
+	for (paramElem; paramElem; paramElem = paramElem->NextSiblingElement())
+	{
+		const char* paramName = paramElem->Value();
+		if (!strcmp(paramName, "obstacle"))
+		{
+			USVec3D obstacle;
+			paramElem->Attribute("x", &obstacle.mX);
+			paramElem->Attribute("y", &obstacle.mY);
+			paramElem->Attribute("r", &obstacle.mZ);
+			obstacles.push_back(obstacle);
+		}
 	}
 	return true;
 }

@@ -23,9 +23,12 @@ struct Params
 	float enemy_speed;
 	USVec2D enemy_minPosition;
 	USVec2D enemy_maxPosition;
+
+	float char_radius;
 };
 
 bool ReadParams(const char* filename, Params& params);
 bool ReadPath(const char* filename, std::vector<USVec2D>& path);
+bool ReadObstacles(const char* filename, std::vector<USVec3D>& obstacles);
 
 #endif
