@@ -2,7 +2,6 @@
 #include "alignSteering.h"
 #include "character.h"
 
-
 void AlignSteering::GetSteering(Character& character, USVec2D& linearAcceleration, float& angularAcceleration) {
 	//Get params
 	float targetRotation         = character.GetParams().targetRotation;
@@ -10,39 +9,36 @@ void AlignSteering::GetSteering(Character& character, USVec2D& linearAcceleratio
 	float maxAngularAcceleration = character.GetParams().max_angular_acceleration;
 	float angularArriveRadius    = character.GetParams().angular_arrive_radius;
 	
-
 	//Calculate desired angular velocity
-	float mRotation = character.GetRot();
-	float mDesiredAngularVelociy = targetRotation - mRotation;
+	float rotation = character.GetRot();
+	float desiredAngularVelociy = targetRotation - rotation;
 
 	//Convert desired angular velocity to [-PI, PI] interval
-	if (mDesiredAngularVelociy > 180.0f) {
-		mDesiredAngularVelociy -= 360.0f;
+	if (desiredAngularVelociy > 180.0f) {
+		desiredAngularVelociy -= 360.0f;
 	}
-	else if (mDesiredAngularVelociy < -180.0f) {
-		mDesiredAngularVelociy += 360.0f;
+	else if (desiredAngularVelociy < -180.0f) {
+		desiredAngularVelociy += 360.0f;
 	}
 
 	//Apply arrive interpolation
-	if (abs(mDesiredAngularVelociy) < angularArriveRadius) {
-		mDesiredAngularVelociy = (mDesiredAngularVelociy / abs(mDesiredAngularVelociy)) * maxAngularVelocity * (abs(mDesiredAngularVelociy) / angularArriveRadius);
+	float velocityAbs = abs(desiredAngularVelociy);
+	float velocitySign = 0.0f;
+	if (velocityAbs != 0.0f) {
+		velocitySign = desiredAngularVelociy / velocityAbs;
+	}
+	if (velocityAbs < angularArriveRadius) {
+		desiredAngularVelociy = velocitySign * maxAngularVelocity * (velocityAbs / angularArriveRadius);
 	}
 	else {
-		mDesiredAngularVelociy = (mDesiredAngularVelociy / abs(mDesiredAngularVelociy)) * maxAngularVelocity;
+		desiredAngularVelociy = velocitySign * maxAngularVelocity;
 	}
 
-	float mAngularAcceleration;
-	if (mDesiredAngularVelociy > character.GetAngularVelocity())
-		mAngularAcceleration = maxAngularAcceleration;
-	else if (mDesiredAngularVelociy < character.GetAngularVelocity())
-		mAngularAcceleration = -maxAngularAcceleration;
-	else
-		mAngularAcceleration = 0.0f;
+	// Calculate desired angular acceleration
+	angularAcceleration = desiredAngularVelociy - character.GetAngularVelocity();
+	if (angularAcceleration != 0.0f) {
+		angularAcceleration = (angularAcceleration / abs(angularAcceleration)) * maxAngularAcceleration;
+	}
 
-	angularAcceleration = mAngularAcceleration;
-}
-
-void AlignSteering::DrawDebug()
-{
-
+	angularAcceleration = angularAcceleration;
 }

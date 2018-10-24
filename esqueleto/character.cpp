@@ -29,7 +29,7 @@ void Character::OnStart()
     ReadParams("params.xml", mParams);
 	ReadPath("path.xml", mPath);
 	//mSteerings.push_back(new SeekSteering());
-	//mSteerings.push_back(new ArriveSteering());
+	mSteerings.push_back(new ArriveSteering());
 	mSteerings.push_back(new AlignSteering());
 	//mSteerings.push_back(new AlignToMovementSteering());
 	//mSteerings.push_back(new PursueSteering());
