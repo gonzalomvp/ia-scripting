@@ -5,10 +5,12 @@
 void ObstacleAvoidanceSteering::GetSteering(Character& character, USVec2D& linearAcceleration, float& angularAcceleration) {
 	//Get params
 	mObstacles = character.GetObstacles();
+	mPosition  = character.GetLoc();
 	float   maxVelocity = character.GetParams().max_velocity;
 	float   maxAcceleration = character.GetParams().max_acceleration;
 
-	USVec2D mDesiredVelociy(0.0f, 0.0f);
+	mDesiredVelociy = USVec2D(0.0f, 0.0f);
+	mLinearAcceleration = USVec2D(0.0f, 0.0f);
 
 	for (size_t i = 0; i < mObstacles.size(); ++i) {
 		//calculate forces for obstacle
@@ -20,21 +22,21 @@ void ObstacleAvoidanceSteering::GetSteering(Character& character, USVec2D& linea
 		mDesiredVelociy = mDesiredVelociy * maxVelocity;
 
 		//Calculate desired acceleration
-		linearAcceleration = mDesiredVelociy - character.GetLinearVelocity();
-		if (linearAcceleration.LengthSquared() > 0.5f) {
-			linearAcceleration.NormSafe();
-			linearAcceleration = linearAcceleration * maxAcceleration;
-		}
-		//Don't accelerate if desired velocity and current velocity are very similar
-		else {
-			linearAcceleration = USVec2D(0.0f, 0.0f);
+		mLinearAcceleration = mDesiredVelociy - character.GetLinearVelocity();
+		if (mLinearAcceleration.LengthSquared() > 0.5f) {
+			mLinearAcceleration.NormSafe();
+			mLinearAcceleration = mLinearAcceleration * maxAcceleration;
 		}
 	}
+
+	linearAcceleration = mLinearAcceleration;
 }
 
 void ObstacleAvoidanceSteering::DrawDebug()
 {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
+
+	//Draw obstacles
 	for (size_t i = 0; i < mObstacles.size(); ++i) {
 		USVec2D obstacleLoc(mObstacles[i].mX, mObstacles[i].mY);
 		float obstacleRadius = mObstacles[i].mZ;
@@ -42,6 +44,14 @@ void ObstacleAvoidanceSteering::DrawDebug()
 		gfxDevice.SetPenColor(1.0f, 1.0f, 1.0f, 0.5f);
 		MOAIDraw::DrawEllipseFill(obstacleLoc.mX, obstacleLoc.mY, obstacleRadius, obstacleRadius, 20);
 	}
+
+	//Draw desired velocity in red
+	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
+	MOAIDraw::DrawLine(mPosition, mPosition + mDesiredVelociy);
+
+	//Draw linear acceleration in blue
+	gfxDevice.SetPenColor(0.0f, 0.0f, 1.0f, 0.5f);
+	MOAIDraw::DrawLine(mPosition, mPosition + mLinearAcceleration);
 }
 
 USVec2D ObstacleAvoidanceSteering::calculateObstacleAvoidance(Character& character, USVec3D obstacle) {
@@ -53,7 +63,7 @@ USVec2D ObstacleAvoidanceSteering::calculateObstacleAvoidance(Character& charact
 	USVec2D velocity = character.GetLinearVelocity();
 	velocity.NormSafe();
 
-	USVec2D lookAhead = velocity * 10.0f;
+	USVec2D lookAhead = velocity * 50.0f;
 
 	USVec2D obstacleDirection = obstacleLoc - character.GetLoc();
 	float projection = obstacleDirection.Dot(velocity);

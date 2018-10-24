@@ -30,14 +30,14 @@ void Character::OnStart()
     ReadParams("params.xml", mParams);
 	ReadPath("path.xml", mPath);
 	ReadObstacles("obstacles.xml", mObstacles);
-	//mSteerings.push_back(new SeekSteering());
-	//mSteerings.push_back(new ArriveSteering());
 	//mSteerings.push_back(new AlignSteering());
 	mSteerings.push_back(new AlignToMovementSteering());
-	//mSteerings.push_back(new PursueSteering());
-	mSteerings.push_back(new PathFollowingSteering());
 	mSteerings.push_back(new ObstacleAvoidanceSteering());
-
+	//mSteerings.push_back(new SeekSteering());
+	mSteerings.push_back(new ArriveSteering());
+	//mSteerings.push_back(new PursueSteering());
+	//mSteerings.push_back(new PathFollowingSteering());
+	
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	mEnemyTarget   = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 
@@ -82,6 +82,9 @@ void Character::OnUpdate(float step)
 
 	for (size_t i = 0; i < mSteerings.size(); i++) {
 		mSteerings[i]->GetSteering(*this, linearAcceleration, angularAcceleration);
+		if (linearAcceleration.LengthSquared() > 0.5f) {
+			break;
+		}
 	}
 
 	mAngularVelocity += angularAcceleration * step;

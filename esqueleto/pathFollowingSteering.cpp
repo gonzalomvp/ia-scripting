@@ -26,7 +26,7 @@ void PathFollowingSteering::DrawDebug()
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
 
 	//Draw path
-	for (size_t i = 0; i < mPath.size() - 1; ++i) {
+	for (size_t i = 0; i + 1 < mPath.size(); ++i) {
 		//Closest segment in green
 		if (i == mClosestSegment) {
 			gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.0f);
@@ -55,7 +55,7 @@ void PathFollowingSteering::DrawDebug()
 void PathFollowingSteering::closestPointInPath(const USVec2D& currentPosition, USVec2D& closestPoint, int& closestSegment) {
 	int closestSegmentIndex = -1;
 	float minDistance = 99999999999;
-	for (size_t i = 0; i < mPath.size() - 1; ++i) {
+	for (size_t i = 0; i + 1 < mPath.size(); ++i) {
 		USVec2D point = closestPointInSegment(currentPosition, mPath[i], mPath[i + 1]);
 		float distance = (point - currentPosition).Length();
 		if (distance < minDistance) {

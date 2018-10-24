@@ -8,6 +8,9 @@ public:
 	virtual void DrawDebug() override;
 
 private:
+	USVec2D mDesiredVelociy;
+	USVec2D mLinearAcceleration;
+	USVec2D mPosition;
 	std::vector<USVec3D> mObstacles;
 
 	//Helper functions
