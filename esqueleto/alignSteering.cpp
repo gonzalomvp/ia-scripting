@@ -4,30 +4,38 @@
 
 
 void AlignSteering::GetSteering(Character& character, USVec2D& linearAcceleration, float& angularAcceleration) {
-	mRotation = character.GetRot();
-	mDesiredAngularVelociy = mTargetRotation - mRotation;
+	//Get params
+	float targetRotation         = character.GetParams().targetRotation;
+	float maxAngularVelocity     = character.GetParams().max_angular_velocity;
+	float maxAngularAcceleration = character.GetParams().max_angular_acceleration;
+	float angularArriveRadius    = character.GetParams().angular_arrive_radius;
+	
 
-	//convert desired velocity to [-PI, PI] interval
+	//Calculate desired angular velocity
+	float mRotation = character.GetRot();
+	float mDesiredAngularVelociy = targetRotation - mRotation;
+
+	//Convert desired angular velocity to [-PI, PI] interval
 	if (mDesiredAngularVelociy > 180.0f) {
-		mDesiredAngularVelociy -= 2 * 180.0f;
+		mDesiredAngularVelociy -= 360.0f;
 	}
 	else if (mDesiredAngularVelociy < -180.0f) {
-		mDesiredAngularVelociy += 2 * 180.0f;
+		mDesiredAngularVelociy += 360.0f;
 	}
 
-	//apply arrive interpolation
-	if (abs(mDesiredAngularVelociy) < mAngular_arrive_radius) {
-		mDesiredAngularVelociy = (mDesiredAngularVelociy / abs(mDesiredAngularVelociy)) * mMax_angular_velocity * (abs(mDesiredAngularVelociy) / mAngular_arrive_radius);
+	//Apply arrive interpolation
+	if (abs(mDesiredAngularVelociy) < angularArriveRadius) {
+		mDesiredAngularVelociy = (mDesiredAngularVelociy / abs(mDesiredAngularVelociy)) * maxAngularVelocity * (abs(mDesiredAngularVelociy) / angularArriveRadius);
 	}
 	else {
-		mDesiredAngularVelociy = (mDesiredAngularVelociy / abs(mDesiredAngularVelociy)) * mMax_angular_velocity;
+		mDesiredAngularVelociy = (mDesiredAngularVelociy / abs(mDesiredAngularVelociy)) * maxAngularVelocity;
 	}
 
-
+	float mAngularAcceleration;
 	if (mDesiredAngularVelociy > character.GetAngularVelocity())
-		mAngularAcceleration = mMax_angular_acceleration;
+		mAngularAcceleration = maxAngularAcceleration;
 	else if (mDesiredAngularVelociy < character.GetAngularVelocity())
-		mAngularAcceleration = -mMax_angular_acceleration;
+		mAngularAcceleration = -maxAngularAcceleration;
 	else
 		mAngularAcceleration = 0.0f;
 

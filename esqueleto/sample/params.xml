@@ -9,7 +9,7 @@
 		<max_angular_velocity value="60"> </max_angular_velocity>
 		<max_angular_acceleration value="60"> </max_angular_acceleration>
 		<angular_dest_radius value="0"> </angular_dest_radius>
-		<angular_arrive_radius value="0"> </angular_arrive_radius>
+		<angular_arrive_radius value="10"> </angular_arrive_radius>
 		<targetRotation value="0"> </targetRotation>
 		
 		<look_ahead value="40"></look_ahead>

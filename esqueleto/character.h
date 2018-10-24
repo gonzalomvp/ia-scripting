@@ -22,40 +22,39 @@ public:
 	Character();
 	~Character();
 	
-	void SetLinearVelocity(float x, float y) { mLinearVelocity.mX = x; mLinearVelocity.mY = y;}
-	void SetAngularVelocity(float angle) { mAngularVelocity = angle;}
-	
-	USVec2D GetLinearVelocity() const { return mLinearVelocity;}
-	float GetAngularVelocity() const { return mAngularVelocity;}
-	USVec2D GetEnemyPosition() const { return mEnemyPosition; }
-	float GetEnemySpeed() const { return mEnemySpeed; }
-	bool GetIsHit() const { return m_isHit; }
-	void SetIsHit(bool value) { m_isHit = value; }
-	float GetLife() const { return m_life; }
-	void SetLife(float value) { m_life = value; }
+	// Getters and Setters
+	USVec2D       GetLinearVelocity()  const { return mLinearVelocity;  }
+	float         GetAngularVelocity() const { return mAngularVelocity; }
+	bool          GetIsHit()           const { return mIsHit;           }
+	float         GetLife()            const { return mLife;            }
+	USVec2D       GetEnemyPosition()   const { return mEnemyPosition;   }
+	float         GetEnemySpeed()      const { return mEnemySpeed;      }
+	Params&       GetParams()                { return mParams;          }
 
+	void SetLinearVelocity  (float x, float y) { mLinearVelocity  = USVec2D(x, y); }
+	void SetAngularVelocity (float angle)      { mAngularVelocity = angle;         }
+	void SetIsHit           (bool value)       { mIsHit           = value;         }
+	void SetLife            (float value)      { mLife            = value;         }
+
+	//Borrar!
 	void AddSteering(BaseSteering* steering) { mSteerings.push_back(steering); }
 	void RemoveSteering(BaseSteering* steering) { auto it = std::find(mSteerings.begin(), mSteerings.end(), steering); if (it != mSteerings.end()) mSteerings.erase(it); }
 	void ClearAllSteering() { mSteerings.clear(); }
-	const Params& GetParams() const { return mParams; }
-
-protected:
-	USVec2D mLinearVelocity;
-	float mAngularVelocity;
-	
-	Params mParams;
-	std::vector<USVec2D> mPath;
-	std::vector<BaseSteering*> mSteerings;
-
-	StateMachine* m_stateMachine;
-	BehaviorTree* m_behaviorTree;
 
 private:
-	USVec2D mEnemyPosition;
-	float mEnemySpeed;
-	bool m_isHit;
-	float m_life;
-	
+	USVec2D                    mLinearVelocity;
+	float                      mAngularVelocity;
+	Params                     mParams;
+	bool                       mIsHit;
+	float                      mLife;
+	USVec2D                    mEnemyPosition;
+	float                      mEnemySpeed;
+	std::vector<USVec2D>       mPath;
+	std::vector<BaseSteering*> mSteerings;
+	StateMachine*              mStateMachine;
+	BehaviorTree*              mBehaviorTree;
+
+
 	// Lua configuration
 public:
 	virtual void RegisterLuaFuncs(MOAILuaState& state);

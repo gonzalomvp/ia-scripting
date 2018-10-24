@@ -6,7 +6,7 @@
 
 PursueAction::PursueAction(StateMachine* owner) : Action(owner)
 {
-	mPursueSteering = new PursueSteering(m_owner->getCharacter()->GetParams());
+	mPursueSteering = new PursueSteering();
 }
 
 void PursueAction::start() {

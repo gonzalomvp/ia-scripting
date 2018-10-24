@@ -12,7 +12,7 @@
 #include "stateMachine.h"
 #include "behavior_tree.h"
 
-Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f), m_isHit(false), m_life(5.0f)
+Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f), mIsHit(false), mLife(5.0f)
 {
 	RTTI_BEGIN
 		RTTI_EXTEND (MOAIEntity2D)
@@ -28,20 +28,21 @@ void Character::OnStart()
 {
     ReadParams("params.xml", mParams);
 	ReadPath("path.xml", mPath);
-	//mSteerings.push_back(new SeekSteering(mParams));
-	//mSteerings.push_back(new ArriveSteering(mParams));
-	mSteerings.push_back(new AlignToMovementSteering(mParams));
-	//mSteerings.push_back(new PursueSteering(mParams));
+	//mSteerings.push_back(new SeekSteering());
+	//mSteerings.push_back(new ArriveSteering());
+	mSteerings.push_back(new AlignSteering());
+	//mSteerings.push_back(new AlignToMovementSteering());
+	//mSteerings.push_back(new PursueSteering());
 	//mSteerings.push_back(new PathFollowingSteering(mParams, mPath));
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	mEnemySpeed = mParams.enemy_speed;
 
-	m_stateMachine = new StateMachine(this);
-	m_stateMachine->load();
-	m_stateMachine->start();
+	mStateMachine = new StateMachine(this);
+	mStateMachine->load();
+	mStateMachine->start();
 
-	m_behaviorTree = new BehaviorTree(this);
-	m_behaviorTree->load();
+	mBehaviorTree = new BehaviorTree(this);
+	mBehaviorTree->load();
 }
 
 void Character::OnStop()
@@ -92,23 +93,24 @@ void Character::OnUpdate(float step)
 
 
 	//StateMachine
-	//m_stateMachine->update();
+	//mStateMachine->update();
 
 	//BehaviorTree
-	m_behaviorTree->update(step);
+	//mBehaviorTree->update(step);
 }
 
 void Character::DrawDebug()
 {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
-	gfxDevice.SetPenColor(0.0f, 0.0f, 1.0f, 0.5f);
+	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
+	gfxDevice.SetPointSize(5.0f);
 
 	MOAIDraw::DrawPoint(mParams.targetPosition);
 
 	for (size_t i = 0; i < mSteerings.size(); i++) {
 		mSteerings[i]->DrawDebug();
 	}
-	//Draw current lineal velocity
+	//Draw current lineal velocity in green
 	gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
 	MOAIDraw::DrawLine(GetLoc(), GetLoc() + mLinearVelocity);
 
@@ -120,9 +122,6 @@ void Character::DrawDebug()
 	gfxDevice.SetPointSize(20.0f);
 	MOAIDraw::DrawPoint(mEnemyPosition);
 }
-
-
-
 
 
 // Lua configuration
@@ -176,7 +175,7 @@ int Character::_checkHit(lua_State* L)
 		&& pY > selfY - 32
 		&& pY < selfY + 32)
 	{
-		self->m_isHit = true;
+		self->mIsHit = true;
 	}
 
 	return 0;

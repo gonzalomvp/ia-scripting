@@ -6,7 +6,7 @@
 
 Pursue::Pursue(BehaviorTree* owner) : Behavior(owner)
 {
-	mPursueSteering = new PursueSteering(m_owner->getCharacter()->GetParams());
+	mPursueSteering = new PursueSteering();
 }
 
 void Pursue::onEnter()

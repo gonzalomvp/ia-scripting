@@ -11,7 +11,7 @@ void PathFollowingSteering::GetSteering(Character& character, USVec2D& linearAcc
 	//calcular punto avanzado
 	mLookAheadPoint = lookAheadFromPoint(mClosestPoint, mLook_ahead);
 
-	mArriveSteering.setTargetPosition(mLookAheadPoint);
+	character.GetParams().targetPosition = mLookAheadPoint;
 	mArriveSteering.GetSteering(character, linearAcceleration, angularAcceleration);
 }
 

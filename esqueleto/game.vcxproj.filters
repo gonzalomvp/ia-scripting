@@ -17,15 +17,9 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="params.cpp" />
-    <ClCompile Include="seekSteering.cpp" />
-    <ClCompile Include="arriveSteering.cpp" />
-    <ClCompile Include="alignSteering.cpp" />
-    <ClCompile Include="alignToMovementSteering.cpp" />
-    <ClCompile Include="pathFollowingSteering.cpp" />
     <ClCompile Include="pathfinding\pathfinder.cpp">
       <Filter>pathfinder</Filter>
     </ClCompile>
-    <ClCompile Include="pursueSteering.cpp" />
     <ClCompile Include="stateMachine.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
@@ -86,6 +80,24 @@
     <ClCompile Include="death.cpp">
       <Filter>behavior_tree</Filter>
     </ClCompile>
+    <ClCompile Include="pathFollowingSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="pursueSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="seekSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="alignSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="alignToMovementSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="arriveSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -101,16 +113,9 @@
     </ClInclude>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="params.h" />
-    <ClInclude Include="baseSteering.h" />
-    <ClInclude Include="seekSteering.h" />
-    <ClInclude Include="arriveSteering.h" />
-    <ClInclude Include="alignSteering.h" />
-    <ClInclude Include="alignToMovementSteering.h" />
-    <ClInclude Include="pathFollowingSteering.h" />
     <ClInclude Include="pathfinding\pathfinder.h">
       <Filter>pathfinder</Filter>
     </ClInclude>
-    <ClInclude Include="pursueSteering.h" />
     <ClInclude Include="state.h">
       <Filter>state_machine</Filter>
     </ClInclude>
@@ -186,6 +191,27 @@
     <ClInclude Include="death.h">
       <Filter>behavior_tree</Filter>
     </ClInclude>
+    <ClInclude Include="baseSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="pathFollowingSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="pursueSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="seekSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="alignSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="alignToMovementSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="arriveSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="host">
@@ -202,6 +228,9 @@
     </Filter>
     <Filter Include="behavior_tree">
       <UniqueIdentifier>{03d67d3d-6bf2-472f-bd88-33d70a39dba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="steering_behaviors">
+      <UniqueIdentifier>{7d1870e2-55e7-4251-aa74-e5733165f009}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

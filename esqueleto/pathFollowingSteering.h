@@ -5,7 +5,7 @@
 
 class PathFollowingSteering : public BaseSteering {
 public:
-	PathFollowingSteering(Params params, const std::vector<USVec2D>& path) : mArriveSteering(params), mLook_ahead(params.look_ahead), mPath(path) {}
+	//PathFollowingSteering(Params params, const std::vector<USVec2D>& path) : mArriveSteering(params), mLook_ahead(params.look_ahead), mPath(path) {}
 	virtual void GetSteering(Character& character, USVec2D& linearAcceleration, float& angularAcceleration);
 	virtual void DrawDebug();
 
