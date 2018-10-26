@@ -14,7 +14,7 @@ void ObstacleAvoidanceSteering::GetSteering(Character& character, USVec2D& linea
 
 	//calculate desired velocity to avoid each obstacle
 	for (size_t i = 0; i < mObstacles.size(); ++i) {
-		mLinearAcceleration += calculateObstacleAvoidance(character, mObstacles[i]);
+		mLinearAcceleration += calculateObstacleAvoidance(character, i);
 	}
 
 	//if (!mDesiredVelociy.Equals(USVec2D(0.0f, 0.0f))) {
@@ -42,8 +42,12 @@ void ObstacleAvoidanceSteering::DrawDebug()
 		float obstacleRadius = mObstacles[i].mZ;
 
 		gfxDevice.SetPenColor(1.0f, 1.0f, 1.0f, 0.5f);
+		if (std::find(mCollisionObstacles.begin(), mCollisionObstacles.end(), i) != mCollisionObstacles.end()) {
+			gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 1.0f);
+		}
 		MOAIDraw::DrawEllipseFill(obstacleLoc.mX, obstacleLoc.mY, obstacleRadius, obstacleRadius, 20);
 	}
+	mCollisionObstacles.clear();
 
 	//Draw desired velocity in red
 	//gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
@@ -54,7 +58,8 @@ void ObstacleAvoidanceSteering::DrawDebug()
 	MOAIDraw::DrawLine(mPosition, mPosition + mLinearAcceleration);
 }
 
-USVec2D ObstacleAvoidanceSteering::calculateObstacleAvoidance(Character& character, USVec3D obstacle) {
+USVec2D ObstacleAvoidanceSteering::calculateObstacleAvoidance(Character& character, int obstacleIndex) {
+	USVec3D obstacle = mObstacles[obstacleIndex];
 	USVec2D linearAcceleration(0.0f, 0.0f);
 
 	USVec2D obstacleLoc(obstacle.mX, obstacle.mY);
@@ -81,7 +86,7 @@ USVec2D ObstacleAvoidanceSteering::calculateObstacleAvoidance(Character& charact
 		float penetrationFactor = 1 - (dist / (obstacleRadius + character.GetParams().char_radius));
 
 		float avoidanceDirection = obstacleDirection.Cross(lookAhead);
-		printf("COLLISION: %f\n", avoidanceDirection);
+		mCollisionObstacles.push_back(obstacleIndex);
 		linearAcceleration = obstacleDirection;
 		linearAcceleration.NormSafe();
 		linearAcceleration = linearAcceleration * (100 + (900 * penetrationFactor));
