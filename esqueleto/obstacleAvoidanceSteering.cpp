@@ -4,32 +4,32 @@
 
 void ObstacleAvoidanceSteering::GetSteering(Character& character, USVec2D& linearAcceleration, float& angularAcceleration) {
 	//Get params
-	mObstacles = character.GetObstacles();
-	mPosition  = character.GetLoc();
-	float   maxVelocity = character.GetParams().max_velocity;
-	float   maxAcceleration = character.GetParams().max_acceleration;
+	mObstacles            = character.GetObstacles();
+	mPosition             = character.GetLoc();
+	//float maxVelocity     = character.GetParams().max_velocity;
+	//float maxAcceleration = character.GetParams().max_acceleration;
 
-	mDesiredVelociy = USVec2D(0.0f, 0.0f);
+	//mDesiredVelociy = USVec2D(0.0f, 0.0f);
 	mLinearAcceleration = USVec2D(0.0f, 0.0f);
 
+	//calculate desired velocity to avoid each obstacle
 	for (size_t i = 0; i < mObstacles.size(); ++i) {
-		//calculate forces for obstacle
-		mDesiredVelociy += calculateObstacleAvoidance(character, mObstacles[i]);
+		mLinearAcceleration += calculateObstacleAvoidance(character, mObstacles[i]);
 	}
 
-	if (!mDesiredVelociy.Equals(USVec2D(0.0f, 0.0f))) {
-		mDesiredVelociy.NormSafe();
-		mDesiredVelociy = mDesiredVelociy * maxVelocity;
+	//if (!mDesiredVelociy.Equals(USVec2D(0.0f, 0.0f))) {
+	//	mDesiredVelociy.NormSafe();
+	//	mDesiredVelociy = mDesiredVelociy * maxVelocity;
 
-		//Calculate desired acceleration
-		mLinearAcceleration = mDesiredVelociy - character.GetLinearVelocity();
-		if (mLinearAcceleration.LengthSquared() > 0.5f) {
-			mLinearAcceleration.NormSafe();
-			mLinearAcceleration = mLinearAcceleration * maxAcceleration;
-		}
-	}
+	//	//Calculate desired acceleration
+	//	mLinearAcceleration = mDesiredVelociy - character.GetLinearVelocity();
+	//	if (mLinearAcceleration.LengthSquared() > 0.5f) {
+	//		mLinearAcceleration.NormSafe();
+	//		mLinearAcceleration = mLinearAcceleration * maxAcceleration;
+	//	}
+	//}
 
-	linearAcceleration = mLinearAcceleration * 10.0f;
+	linearAcceleration = mLinearAcceleration;
 }
 
 void ObstacleAvoidanceSteering::DrawDebug()
@@ -46,8 +46,8 @@ void ObstacleAvoidanceSteering::DrawDebug()
 	}
 
 	//Draw desired velocity in red
-	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-	MOAIDraw::DrawLine(mPosition, mPosition + mDesiredVelociy);
+	//gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
+	//MOAIDraw::DrawLine(mPosition, mPosition + mDesiredVelociy);
 
 	//Draw linear acceleration in blue
 	gfxDevice.SetPenColor(0.0f, 0.0f, 1.0f, 0.5f);
@@ -78,9 +78,13 @@ USVec2D ObstacleAvoidanceSteering::calculateObstacleAvoidance(Character& charact
 
 	if (dist < obstacleRadius + character.GetParams().char_radius && projection > 0.0f) {
 		
+		float penetrationFactor = 1 - (dist / (obstacleRadius + character.GetParams().char_radius));
+
 		float avoidanceDirection = obstacleDirection.Cross(lookAhead);
 		printf("COLLISION: %f\n", avoidanceDirection);
 		linearAcceleration = obstacleDirection;
+		linearAcceleration.NormSafe();
+		linearAcceleration = linearAcceleration * (100 + (900 * penetrationFactor));
 		if (avoidanceDirection > 0.0f) {
 			linearAcceleration.Rotate90Clockwise();
 		}
