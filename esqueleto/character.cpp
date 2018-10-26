@@ -34,9 +34,9 @@ void Character::OnStart()
 	mSteerings.push_back(new AlignToMovementSteering());
 	mSteerings.push_back(new ObstacleAvoidanceSteering());
 	//mSteerings.push_back(new SeekSteering());
-	mSteerings.push_back(new ArriveSteering());
+	//mSteerings.push_back(new ArriveSteering());
 	//mSteerings.push_back(new PursueSteering());
-	//mSteerings.push_back(new PathFollowingSteering());
+	mSteerings.push_back(new PathFollowingSteering());
 	
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	mEnemyTarget   = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
@@ -78,17 +78,28 @@ void Character::OnUpdate(float step)
 	
 	//Apply Steering Behaviors
 	USVec2D linearAcceleration(0.0f, 0.0f);
+	USVec2D linearAccelerationAcc(0.0f, 0.0f);
 	float angularAcceleration = 0.0f;
 
 	for (size_t i = 0; i < mSteerings.size(); i++) {
 		mSteerings[i]->GetSteering(*this, linearAcceleration, angularAcceleration);
+		linearAccelerationAcc += linearAcceleration;
 		if (linearAcceleration.LengthSquared() > 0.5f) {
-			break;
+			//break;
 		}
+	}
+	if (linearAccelerationAcc.Length() > mParams.max_acceleration) {
+		linearAccelerationAcc.NormSafe();
+		linearAccelerationAcc = linearAccelerationAcc * mParams.max_acceleration;
 	}
 
 	mAngularVelocity += angularAcceleration * step;
-	mLinearVelocity += linearAcceleration * step;
+	mLinearVelocity += linearAccelerationAcc * step;
+
+	if (mLinearVelocity.Length() > mParams.max_velocity) {
+		mLinearVelocity.NormSafe();
+		mLinearVelocity = mLinearVelocity * mParams.max_velocity;
+	}
 
 	//Move using linear velocity
 	SetLoc(GetLoc() + mLinearVelocity * step);

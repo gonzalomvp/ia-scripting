@@ -29,7 +29,7 @@ void ObstacleAvoidanceSteering::GetSteering(Character& character, USVec2D& linea
 		}
 	}
 
-	linearAcceleration = mLinearAcceleration;
+	linearAcceleration = mLinearAcceleration * 10.0f;
 }
 
 void ObstacleAvoidanceSteering::DrawDebug()
