@@ -241,14 +241,28 @@ bool ReadNavmesh(const char* filename, std::vector<NavPolygon>& polygons)
 		endElem->Attribute("edgestart", &endEdgestart);
 		endElem->Attribute("edgeend", &endEdgeend);
 
+		USVec2D p1 = polygons[startPolygon].mVerts[startEdgestart];
+		USVec2D p2 = polygons[startPolygon].mVerts[startEdgeend];
+		USVec2D p3 = polygons[endPolygon].mVerts[endEdgestart];
+		USVec2D p4 = polygons[endPolygon].mVerts[endEdgeend];
+
+		float s1 = (p1 - p2).LengthSquared();
+		float s2 = (p3 - p4).LengthSquared();
+
+		if (s2 < s1) {
+			p1 = p3;
+			p2 = p4;
+		}
+
+
 		NavPolygon::Edge edge;
-		edge.mVerts[0] = startEdgestart;
-		edge.mVerts[1] = startEdgeend;
+		edge.mVerts[0] = p1;
+		edge.mVerts[1] = p2;
 		edge.mNeighbour = &polygons[startPolygon];
 		polygons[endPolygon].mEdges.push_back(edge);
 
-		edge.mVerts[0] = endEdgestart;
-		edge.mVerts[1] = endEdgeend;
+		edge.mVerts[0] = p1;
+		edge.mVerts[1] = p2;
 		edge.mNeighbour = &polygons[endPolygon];
 		polygons[startPolygon].mEdges.push_back(edge);
 	}

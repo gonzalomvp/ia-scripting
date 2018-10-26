@@ -29,7 +29,7 @@ struct Params
 
 struct NavPolygon {
 	struct Edge {
-		int mVerts[2];
+		USVec2D mVerts[2];
 		NavPolygon* mNeighbour;
 	};
 	std::vector<USVec2D> mVerts;

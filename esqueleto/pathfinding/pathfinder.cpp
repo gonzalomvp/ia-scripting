@@ -199,11 +199,11 @@ void Pathfinder::DrawDebug()
 		NavPolygon polygon = mNavmesh[i];
 		for (int j = 0; j + 1 < polygon.mVerts.size(); ++j) {
 			
-			MOAIDraw::DrawLine(polygon.mVerts[j], polygon.mVerts[j + 1]);
+			//MOAIDraw::DrawLine(polygon.mVerts[j], polygon.mVerts[j + 1]);
 		}
 		//MOAIDraw::DrawLine(polygon.points[0], polygon.points[polygon.points.size() - 1]);
 		gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-		MOAIDraw::DrawPolygon(polygon.mVerts);
+		//MOAIDraw::DrawPolygon(polygon.mVerts);
 
 		gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.1f);
 		//if (std::find(m_path.begin(), m_path.end(), reinterpret_cast<int>(&mNavmesh[i])) != m_path.end())
@@ -244,23 +244,23 @@ bool Pathfinder::PathfindStep()
 				PathNode neighbor(*currentNode.mPolygon.mEdges[i].mNeighbour);
 				//neighbor.mPos = neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[0]];
 				//neighbor.mPos = compute2DPolygonCentroid(&neighbor.mPolygon.mVerts[0], neighbor.mPolygon.mVerts.size());
-				USVec2D segment = neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[0]] - neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[1]];
-				neighbor.mPos = neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[1]] + segment * 0.5f;
+				USVec2D segment = currentNode.mPolygon.mEdges[i].mVerts[0] - currentNode.mPolygon.mEdges[i].mVerts[1];
+				neighbor.mPos = currentNode.mPolygon.mEdges[i].mVerts[1] + segment * 0.5f;
 
-				USVec2D segment2(0, 0);
-				USVec2D mPos2;
-				for (size_t j = 0; j < neighbor.mPolygon.mEdges.size(); j++)
-				{
-					NavPolygon::Edge edge = neighbor.mPolygon.mEdges[j];
-					if (reinterpret_cast<int>(edge.mNeighbour) == currentNode.id) {
-						segment2 = currentNode.mPolygon.mVerts[edge.mVerts[0]] - currentNode.mPolygon.mVerts[edge.mVerts[1]];
-						mPos2 = currentNode.mPolygon.mVerts[edge.mVerts[1]] + segment2 * 0.5f;
-						break;
-					}
-				}
-				if (segment2.LengthSquared() < segment.LengthSquared()) {
-					neighbor.mPos = mPos2;
-				}
+				//USVec2D segment2(0, 0);
+				//USVec2D mPos2;
+				//for (size_t j = 0; j < neighbor.mPolygon.mEdges.size(); j++)
+				//{
+				//	NavPolygon::Edge edge = neighbor.mPolygon.mEdges[j];
+				//	if (reinterpret_cast<int>(edge.mNeighbour) == currentNode.id) {
+				//		segment2 = currentNode.mPolygon.mVerts[edge.mVerts[0]] - currentNode.mPolygon.mVerts[edge.mVerts[1]];
+				//		mPos2 = currentNode.mPolygon.mVerts[edge.mVerts[1]] + segment2 * 0.5f;
+				//		break;
+				//	}
+				//}
+				//if (segment2.LengthSquared() < segment.LengthSquared()) {
+				//	neighbor.mPos = mPos2;
+				//}
 			
 				
 
