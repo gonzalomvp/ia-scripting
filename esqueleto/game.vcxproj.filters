@@ -257,5 +257,8 @@
     <Xml Include="sample\obstacles.xml">
       <Filter>sample</Filter>
     </Xml>
+    <Xml Include="sample\navmesh.xml">
+      <Filter>sample</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

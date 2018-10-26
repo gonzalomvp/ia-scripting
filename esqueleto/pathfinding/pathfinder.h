@@ -2,6 +2,7 @@
 #define __PATHFINDER_H__
 
 #include <moaicore/MOAIEntity2D.h>
+#include "params.h"
 
 #define MAP_ROWS    24
 #define MAP_COLUMNS 32
@@ -41,8 +42,10 @@ public:
 private:
 	void UpdatePath();
 private:
-	USVec2D m_StartPosition;
-	USVec2D m_EndPosition;
+	USVec2D              m_StartPosition;
+	USVec2D              m_EndPosition;
+	std::vector<NavPolygon> mNavmesh;
+
 
 	// Lua configuration
 public:

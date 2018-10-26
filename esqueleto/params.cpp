@@ -185,3 +185,73 @@ bool ReadObstacles(const char* filename, std::vector<USVec3D>& obstacles)
 	}
 	return true;
 }
+
+bool ReadNavmesh(const char* filename, std::vector<NavPolygon>& polygons)
+{
+	TiXmlDocument doc(filename);
+	if (!doc.LoadFile())
+	{
+		fprintf(stderr, "Couldn't read params from %s", filename);
+		return false;
+	}
+
+	TiXmlHandle hDoc(&doc);
+
+	TiXmlElement* pElem;
+	pElem = hDoc.FirstChildElement().Element();
+	if (!pElem)
+	{
+		fprintf(stderr, "Invalid format for %s", filename);
+		return false;
+	}
+
+	TiXmlHandle hRoot(pElem);
+	TiXmlHandle hParams = hRoot.FirstChildElement("polygons").FirstChildElement("polygon");
+
+	TiXmlElement* poligonElem = hParams.Element();
+	for (poligonElem; poligonElem; poligonElem = poligonElem->NextSiblingElement()) {
+		NavPolygon polygon;
+		TiXmlElement* pointElem = poligonElem->FirstChildElement("point");
+		for (pointElem; pointElem; pointElem = pointElem->NextSiblingElement()) {
+			const char* paramName = pointElem->Value();
+			if (!strcmp(paramName, "point")) {
+				USVec2D point;
+				pointElem->Attribute("x", &point.mX);
+				pointElem->Attribute("y", &point.mY);
+				polygon.mVerts.push_back(point);
+			}
+		}
+
+		polygons.push_back(polygon);
+		
+	}
+
+	hParams = hRoot.FirstChildElement("links").FirstChildElement("link");
+	TiXmlElement* linkElem = hParams.Element();
+	for (linkElem; linkElem; linkElem = linkElem->NextSiblingElement()) {
+		int startPolygon, startEdgestart, startEdgeend, endPolygon, endEdgestart, endEdgeend;
+
+		TiXmlElement* startElem = linkElem->FirstChildElement("start");
+		startElem->Attribute("polygon", &startPolygon);
+		startElem->Attribute("edgestart", &startEdgestart);
+		startElem->Attribute("edgeend", &startEdgeend);
+
+		TiXmlElement* endElem = linkElem->FirstChildElement("end");
+		endElem->Attribute("polygon", &endPolygon);
+		endElem->Attribute("edgestart", &endEdgestart);
+		endElem->Attribute("edgeend", &endEdgeend);
+
+		NavPolygon::Edge edge;
+		edge.mVerts[0] = startEdgestart;
+		edge.mVerts[1] = startEdgeend;
+		edge.mNeighbour = &polygons[endPolygon];
+		polygons[startPolygon].mEdges.push_back(edge);
+
+		edge.mVerts[0] = endEdgestart;
+		edge.mVerts[1] = endEdgeend;
+		edge.mNeighbour = &polygons[startPolygon];
+		polygons[endPolygon].mEdges.push_back(edge);
+	}
+
+	return true;
+}

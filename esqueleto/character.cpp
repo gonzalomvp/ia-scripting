@@ -31,8 +31,8 @@ void Character::OnStart()
 	ReadPath("path.xml", mPath);
 	ReadObstacles("obstacles.xml", mObstacles);
 	//mSteerings.push_back(new AlignSteering());
-	mSteerings.push_back(new AlignToMovementSteering());
-	mSteerings.push_back(new ObstacleAvoidanceSteering());
+	//mSteerings.push_back(new AlignToMovementSteering());
+	//mSteerings.push_back(new ObstacleAvoidanceSteering());
 	//mSteerings.push_back(new SeekSteering());
 	//mSteerings.push_back(new ArriveSteering());
 	//mSteerings.push_back(new PursueSteering());

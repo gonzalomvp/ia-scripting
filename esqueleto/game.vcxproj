@@ -211,6 +211,7 @@
     <None Include="sample\test_multiple_images.lua" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="sample\navmesh.xml" />
     <Xml Include="sample\obstacles.xml" />
     <Xml Include="sample\params.xml" />
     <Xml Include="sample\path.xml" />
