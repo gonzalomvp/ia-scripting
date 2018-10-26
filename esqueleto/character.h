@@ -37,6 +37,7 @@ public:
 	void SetAngularVelocity (float angle)      { mAngularVelocity = angle;         }
 	void SetIsHit           (bool value)       { mIsHit           = value;         }
 	void SetLife            (float value)      { mLife            = value;         }
+	void SetPath            (const std::vector<USVec2D>& path) { mPath = path; }
 
 	//Borrar!
 	void AddSteering(BaseSteering* steering) { mSteerings.push_back(steering); }

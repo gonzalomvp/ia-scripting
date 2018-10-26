@@ -244,13 +244,13 @@ bool ReadNavmesh(const char* filename, std::vector<NavPolygon>& polygons)
 		NavPolygon::Edge edge;
 		edge.mVerts[0] = startEdgestart;
 		edge.mVerts[1] = startEdgeend;
-		edge.mNeighbour = &polygons[endPolygon];
-		polygons[startPolygon].mEdges.push_back(edge);
+		edge.mNeighbour = &polygons[startPolygon];
+		polygons[endPolygon].mEdges.push_back(edge);
 
 		edge.mVerts[0] = endEdgestart;
 		edge.mVerts[1] = endEdgeend;
-		edge.mNeighbour = &polygons[startPolygon];
-		polygons[endPolygon].mEdges.push_back(edge);
+		edge.mNeighbour = &polygons[endPolygon];
+		polygons[startPolygon].mEdges.push_back(edge);
 	}
 
 	return true;

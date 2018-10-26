@@ -4,6 +4,8 @@
 #include <moaicore/MOAIEntity2D.h>
 #include "params.h"
 
+class Character;
+
 #define MAP_ROWS    24
 #define MAP_COLUMNS 32
 #define GRID_SIZE   32
@@ -12,12 +14,14 @@ struct PathNode
 {
 	int id;
 	USVec2D mPos;
+	NavPolygon mPolygon;
 	float g_score;
 	float f_score;
 	int parentId;
 
 	PathNode() {}
 	PathNode(const USVec2D& pos) : f_score(0), g_score(0), parentId(-1) { mPos = pos; id = mPos.mX * MAP_COLUMNS + mPos.mY; }
+	PathNode(const NavPolygon& polygon) : f_score(0), g_score(0), parentId(-1), id(reinterpret_cast<int>(&polygon)), mPolygon(polygon) {}
 
 
 	bool operator==(const PathNode& other) const { return id == other.id; }
@@ -55,7 +59,8 @@ public:
 private:
 	static int _setStartPosition(lua_State* L);
 	static int _setEndPosition(lua_State* L);
-    static int _pathfindStep(lua_State* L);
+	static int _pathfindStep(lua_State* L);
+	static int _setCharacter(lua_State* L);
 
 	char m_map[MAP_ROWS][MAP_COLUMNS];
 	std::vector<USVec2D> m_path;
@@ -63,6 +68,7 @@ private:
 	map<int, PathNode> openList;
 	PathNode startNode;
 	PathNode endNode;
+	Character* mCharacter;
 };
 
 

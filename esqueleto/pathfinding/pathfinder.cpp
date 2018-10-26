@@ -1,6 +1,7 @@
 #include <stdafx.h>
 
 #include "pathfinder.h"
+#include "character.h"
 #include <fstream>
 
 
@@ -26,6 +27,7 @@ Pathfinder::Pathfinder() : MOAIEntity2D()
 	file.close();
 	m_StartPosition = USVec2D(0.0f, 0.0f);
 	m_EndPosition   = USVec2D(0.0f, 0.0f);
+	mCharacter = nullptr;
 	ReadNavmesh("navmesh.xml", mNavmesh);
 }
 
@@ -40,12 +42,47 @@ void Pathfinder::UpdatePath()
 	openList.clear();
 	closedList.clear();
 	USVec2D origin(-512, -384);
-    startNode = PathNode(USVec2D(floorf((m_StartPosition.mY - origin.mY) / GRID_SIZE), floorf((m_StartPosition.mX - origin.mX) / GRID_SIZE)));
-	endNode = PathNode(USVec2D(floorf((m_EndPosition.mY - origin.mY) / GRID_SIZE), floorf((m_EndPosition.mX - origin.mX) / GRID_SIZE)));
+	startNode = PathNode(mNavmesh[0]);
+	startNode.mPos = mNavmesh[0].mVerts[0];
+	endNode = PathNode(mNavmesh[32]);
+	endNode.mPos = mNavmesh[0].mVerts[0];
+
+	for (size_t i = 0; i < mNavmesh.size(); i++)
+	{
+		//if (cn_PnPoly(m_StartPosition, &mNavmesh[i].mVerts[0], mNavmesh[i].mVerts.size())) {
+		if(PointInPolygon(m_StartPosition, mNavmesh[i])){
+			startNode = PathNode(mNavmesh[i]);
+			startNode.mPos = m_StartPosition;
+			printf("START: %d\n", i);
+			break;
+		}
+	}
+	for (size_t i = 0; i < mNavmesh.size(); i++)
+	{
+		//if (cn_PnPoly(m_EndPosition, &mNavmesh[i].mVerts[0], mNavmesh[i].mVerts.size())) {
+		if (PointInPolygon(m_EndPosition, mNavmesh[i])) {
+			endNode = PathNode(mNavmesh[i]);
+			endNode.mPos = m_EndPosition;
+			printf("END: %d\n", i);
+			break;
+		}
+	}
 
 	openList[startNode.id] = startNode;
 
 	while (!PathfindStep());
+
+	if (mCharacter)
+	{
+		std::vector<USVec2D> reverse;
+		for (size_t i = 0; i < m_path.size(); i++)
+		{
+			reverse.push_back(m_path[m_path.size() - i - 1]);
+		}
+		reverse.push_back(m_EndPosition);
+		mCharacter->SetPath(reverse);
+	}
+	
 
 	//while (!openList.empty())
 	//{
@@ -107,56 +144,54 @@ void Pathfinder::DrawDebug()
 	//USRect kk = {-512,512, -384,384};
 	//MOAIDraw::DrawGrid(kk, 32, 24);
 
-	for (int row = 0; row < MAP_ROWS; row++)
-	{
-		for (int column = 0; column < MAP_COLUMNS; column++)
-		{
-			if (m_map[row][column] == '#')
-			{
-				gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-				USVec2D origin(column * 32 - 512, row * 32 - 384);
-				MOAIDraw::DrawRectFill(origin.mX, origin.mY, origin.mX + 32, origin.mY + 32);
-			}
-			if (m_map[row][column] == 'o')
-			{
-				gfxDevice.SetPenColor(0.0f, 0.0f, 0.5f, 0.5f);
-				USVec2D origin(column * 32 - 512, row * 32 - 384);
-				MOAIDraw::DrawRectFill(origin.mX, origin.mY, origin.mX + 32, origin.mY + 32);
-			}
-		}
-	}
-	
-	gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.5f);
-	for (auto it = openList.begin(); it != openList.end(); ++it)
-	{
-		int cellX = it->second.mPos.mX * GRID_SIZE - 384;
-		int cellY = it->second.mPos.mY * GRID_SIZE - 512;
-		MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
-	}
+	//for (int row = 0; row < MAP_ROWS; row++)
+	//{
+	//	for (int column = 0; column < MAP_COLUMNS; column++)
+	//	{
+	//		if (m_map[row][column] == '#')
+	//		{
+	//			gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
+	//			USVec2D origin(column * 32 - 512, row * 32 - 384);
+	//			MOAIDraw::DrawRectFill(origin.mX, origin.mY, origin.mX + 32, origin.mY + 32);
+	//		}
+	//		if (m_map[row][column] == 'o')
+	//		{
+	//			gfxDevice.SetPenColor(0.0f, 0.0f, 0.5f, 0.5f);
+	//			USVec2D origin(column * 32 - 512, row * 32 - 384);
+	//			MOAIDraw::DrawRectFill(origin.mX, origin.mY, origin.mX + 32, origin.mY + 32);
+	//		}
+	//	}
+	//}
+	//
+	//gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.5f);
+	//for (auto it = openList.begin(); it != openList.end(); ++it)
+	//{
+	//	int cellX = it->second.mPos.mX * GRID_SIZE - 384;
+	//	int cellY = it->second.mPos.mY * GRID_SIZE - 512;
+	//	MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
+	//}
 
-	gfxDevice.SetPenColor(0.5f, 0.0f, 0.0f, 0.5f);
-	for (auto it = closedList.begin(); it != closedList.end(); ++it)
-	{
-		int cellX = it->second.mPos.mX * GRID_SIZE - 384;
-		int cellY = it->second.mPos.mY * GRID_SIZE - 512;
-		MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
-	}
+	//gfxDevice.SetPenColor(0.5f, 0.0f, 0.0f, 0.5f);
+	//for (auto it = closedList.begin(); it != closedList.end(); ++it)
+	//{
+	//	int cellX = it->second.mPos.mX * GRID_SIZE - 384;
+	//	int cellY = it->second.mPos.mY * GRID_SIZE - 512;
+	//	MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
+	//}
 
 	gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
-	for (int i = 0; i < m_path.size(); i++)
+	for (int i = 0; i + 1 < m_path.size(); i++)
 	{
-		int cellX = m_path[i].mX * GRID_SIZE - 384;
-		int cellY = m_path[i].mY * GRID_SIZE - 512;
-		MOAIDraw::DrawRectFill(cellY, cellX, cellY + GRID_SIZE, cellX + GRID_SIZE);
+		//MOAIDraw::DrawLine(m_path[i], m_path[i + 1]);
 	}
 
-	USRect kk = { -512,512, -384,384 };
-	gfxDevice.SetPenColor(0.0f, 0.4f, 0.0f, 0.5f);
-	MOAIDraw::DrawGrid(kk, 32, 24);
+	//USRect kk = { -512,512, -384,384 };
+	//gfxDevice.SetPenColor(0.0f, 0.4f, 0.0f, 0.5f);
+	//MOAIDraw::DrawGrid(kk, 32, 24);
 
-	gfxDevice.SetPointSize(5.0f);
-	MOAIDraw::DrawPoint(m_StartPosition);
-	MOAIDraw::DrawPoint(m_EndPosition);
+	//gfxDevice.SetPointSize(5.0f);
+	//MOAIDraw::DrawPoint(m_StartPosition);
+	//MOAIDraw::DrawPoint(m_EndPosition);
 
 	//Draw Navmesh
 	for (int i = 0; i < mNavmesh.size(); i++)
@@ -169,8 +204,15 @@ void Pathfinder::DrawDebug()
 		//MOAIDraw::DrawLine(polygon.points[0], polygon.points[polygon.points.size() - 1]);
 		gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
 		MOAIDraw::DrawPolygon(polygon.mVerts);
-		gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.05f);
-		MOAIDraw::DrawPolygonFilled(polygon.mVerts);
+
+		gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.1f);
+		//if (std::find(m_path.begin(), m_path.end(), reinterpret_cast<int>(&mNavmesh[i])) != m_path.end())
+		//{
+		//	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.05f);
+		//}
+
+		
+		//MOAIDraw::DrawPolygonFilled(polygon.mVerts);
 	}
 
 }
@@ -197,43 +239,85 @@ bool Pathfinder::PathfindStep()
 		else {
 			openList.erase(currentNode.id);
 			closedList[currentNode.id] = currentNode;
-			for (int row = -1; row <= 1; ++row) {
-				for (int column = -1; column <= 1; ++column) {
-					if ((row != 0 || column != 0)
-						&& (currentNode.mPos.mX + row >= 0)
-						&& (currentNode.mPos.mX + row < MAP_ROWS)
-						&& (currentNode.mPos.mY + column >= 0)
-						&& (currentNode.mPos.mY + column < MAP_COLUMNS)) {
-						float factor = 1.0f;
-						if (row != 0 && column != 0 ) {
-							factor = 1.4f;
-						}
-						PathNode neighbor(USVec2D(currentNode.mPos.mX + row, currentNode.mPos.mY + column));
-						neighbor.parentId = currentNode.id;
-						if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == '#') {
-							neighbor.g_score = 9999999;
-						}
-						else if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == 'o') {
-							neighbor.g_score = currentNode.g_score + 3 * factor; // agua
-						}
-						else {
-							neighbor.g_score = currentNode.g_score + 1 * factor; //casillas colindantes tiene coste 1
-						}
-						neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
-						if (closedList.count(neighbor.id)) {
-							continue;
-						}
-						if (openList.count(neighbor.id)) {
-							if (neighbor.g_score < openList[neighbor.id].g_score) {
-								openList[neighbor.id] = neighbor;
-							}
-						}
-						else {
-							openList[neighbor.id] = neighbor;
-						}
+			for (size_t i = 0; i < currentNode.mPolygon.mEdges.size() ; ++i)
+			{
+				PathNode neighbor(*currentNode.mPolygon.mEdges[i].mNeighbour);
+				//neighbor.mPos = neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[0]];
+				//neighbor.mPos = compute2DPolygonCentroid(&neighbor.mPolygon.mVerts[0], neighbor.mPolygon.mVerts.size());
+				USVec2D segment = neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[0]] - neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[1]];
+				neighbor.mPos = neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[1]] + segment * 0.5f;
+
+				USVec2D segment2(0, 0);
+				USVec2D mPos2;
+				for (size_t j = 0; j < neighbor.mPolygon.mEdges.size(); j++)
+				{
+					NavPolygon::Edge edge = neighbor.mPolygon.mEdges[j];
+					if (reinterpret_cast<int>(edge.mNeighbour) == currentNode.id) {
+						segment2 = currentNode.mPolygon.mVerts[edge.mVerts[0]] - currentNode.mPolygon.mVerts[edge.mVerts[1]];
+						mPos2 = currentNode.mPolygon.mVerts[edge.mVerts[1]] + segment2 * 0.5f;
+						break;
 					}
 				}
+				if (segment2.LengthSquared() < segment.LengthSquared()) {
+					neighbor.mPos = mPos2;
+				}
+			
+				
+
+				neighbor.parentId = currentNode.id;
+				neighbor.g_score = currentNode.g_score + 1;
+				neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
+				if (closedList.count(neighbor.id)) {
+					continue;
+				}
+				if (openList.count(neighbor.id)) {
+					if (neighbor.g_score < openList[neighbor.id].g_score) {
+						openList[neighbor.id] = neighbor;
+					}
+				}
+				else {
+					openList[neighbor.id] = neighbor;
+				}
 			}
+
+
+			//for (int row = -1; row <= 1; ++row) {
+			//	for (int column = -1; column <= 1; ++column) {
+			//		if ((row != 0 || column != 0)
+			//			&& (currentNode.mPos.mX + row >= 0)
+			//			&& (currentNode.mPos.mX + row < MAP_ROWS)
+			//			&& (currentNode.mPos.mY + column >= 0)
+			//			&& (currentNode.mPos.mY + column < MAP_COLUMNS)) {
+			//			float factor = 1.0f;
+			//			if (row != 0 && column != 0 ) {
+			//				factor = 1.4f;
+			//			}
+			//			PathNode neighbor(USVec2D(currentNode.mPos.mX + row, currentNode.mPos.mY + column));
+			//			neighbor.parentId = currentNode.id;
+			//			if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == '#') {
+			//				neighbor.g_score = 9999999;
+			//			}
+			//			else if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == 'o') {
+			//				neighbor.g_score = currentNode.g_score + 3 * factor; // agua
+			//			}
+			//			else {
+			//				neighbor.g_score = currentNode.g_score + 1 * factor; //casillas colindantes tiene coste 1
+			//			}
+			//			neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
+			//			if (closedList.count(neighbor.id)) {
+			//				continue;
+			//			}
+			//			if (openList.count(neighbor.id)) {
+			//				if (neighbor.g_score < openList[neighbor.id].g_score) {
+			//					openList[neighbor.id] = neighbor;
+			//				}
+			//			}
+			//			else {
+			//				openList[neighbor.id] = neighbor;
+			//			}
+			//		}
+			//	}
+			//}
 		}
 	}
 	else
@@ -268,6 +352,7 @@ void Pathfinder::RegisterLuaFuncs(MOAILuaState& state)
 		{ "setStartPosition",		_setStartPosition},
 		{ "setEndPosition",			_setEndPosition},
         { "pathfindStep",           _pathfindStep},
+		{ "setCharacter",           _setCharacter},
 		{ NULL, NULL }
 	};
 
@@ -300,6 +385,14 @@ int Pathfinder::_pathfindStep(lua_State* L)
 
     self->PathfindStep();
     return 0;
+}
+
+int Pathfinder::_setCharacter(lua_State* L)
+{
+	MOAI_LUA_SETUP(Pathfinder, "U")
+
+	self->mCharacter = state.GetLuaObject<Character>(2, 0.0f);
+	return 0;
 }
 
 
