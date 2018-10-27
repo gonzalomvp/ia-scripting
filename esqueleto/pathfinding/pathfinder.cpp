@@ -2,6 +2,7 @@
 
 #include "pathfinder.h"
 #include "character.h"
+#include "map_node.h"
 #include <fstream>
 
 
@@ -42,45 +43,45 @@ void Pathfinder::UpdatePath()
 	openList.clear();
 	closedList.clear();
 	USVec2D origin(-512, -384);
-	startNode = PathNode(mNavmesh[0]);
-	startNode.mPos = mNavmesh[0].mVerts[0];
-	endNode = PathNode(mNavmesh[32]);
-	endNode.mPos = mNavmesh[0].mVerts[0];
+	startNode = PathNode(mNavmesh[14]);
+	startNode.mPos = mNavmesh[0]->mVerts[0];
+	endNode = PathNode(mNavmesh[57]);
+	endNode.mPos = mNavmesh[0]->mVerts[0];
 
-	for (size_t i = 0; i < mNavmesh.size(); i++)
-	{
-		//if (cn_PnPoly(m_StartPosition, &mNavmesh[i].mVerts[0], mNavmesh[i].mVerts.size())) {
-		if(PointInPolygon(m_StartPosition, mNavmesh[i])){
-			startNode = PathNode(mNavmesh[i]);
-			startNode.mPos = m_StartPosition;
-			printf("START: %d\n", i);
-			break;
-		}
-	}
-	for (size_t i = 0; i < mNavmesh.size(); i++)
-	{
-		//if (cn_PnPoly(m_EndPosition, &mNavmesh[i].mVerts[0], mNavmesh[i].mVerts.size())) {
-		if (PointInPolygon(m_EndPosition, mNavmesh[i])) {
-			endNode = PathNode(mNavmesh[i]);
-			endNode.mPos = m_EndPosition;
-			printf("END: %d\n", i);
-			break;
-		}
-	}
+	//for (size_t i = 0; i < mNavmesh.size(); i++)
+	//{
+	//	//if (cn_PnPoly(m_StartPosition, &mNavmesh[i].mVerts[0], mNavmesh[i].mVerts.size())) {
+	//	if(PointInPolygon(m_StartPosition, *mNavmesh[i])){
+	//		startNode = PathNode(mNavmesh[i]);
+	//		startNode.mPos = m_StartPosition;
+	//		printf("START: %d\n", i);
+	//		break;
+	//	}
+	//}
+	//for (size_t i = 0; i < mNavmesh.size(); i++)
+	//{
+	//	//if (cn_PnPoly(m_EndPosition, &mNavmesh[i].mVerts[0], mNavmesh[i].mVerts.size())) {
+	//	if (PointInPolygon(m_EndPosition, *mNavmesh[i])) {
+	//		endNode = PathNode(mNavmesh[i]);
+	//		endNode.mPos = m_EndPosition;
+	//		printf("END: %d\n", i);
+	//		break;
+	//	}
+	//}
 
-	openList[startNode.id] = startNode;
+	openList[startNode.mMapNode] = startNode;
 
 	while (!PathfindStep());
 
 	if (mCharacter)
 	{
-		std::vector<USVec2D> reverse;
-		for (size_t i = 0; i < m_path.size(); i++)
-		{
-			reverse.push_back(m_path[m_path.size() - i - 1]);
-		}
-		reverse.push_back(m_EndPosition);
-		mCharacter->SetPath(reverse);
+		//std::vector<USVec2D> reverse;
+		//for (size_t i = 0; i < m_path.size(); i++)
+		//{
+		//	reverse.push_back(m_path[m_path.size() - i - 1]);
+		//}
+		//reverse.push_back(m_EndPosition);
+		//mCharacter->SetPath(reverse);
 	}
 	
 
@@ -196,23 +197,23 @@ void Pathfinder::DrawDebug()
 	//Draw Navmesh
 	for (int i = 0; i < mNavmesh.size(); i++)
 	{
-		NavPolygon polygon = mNavmesh[i];
+		NavPolygon polygon = *mNavmesh[i];
 		for (int j = 0; j + 1 < polygon.mVerts.size(); ++j) {
 			
 			//MOAIDraw::DrawLine(polygon.mVerts[j], polygon.mVerts[j + 1]);
 		}
 		//MOAIDraw::DrawLine(polygon.points[0], polygon.points[polygon.points.size() - 1]);
 		gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-		//MOAIDraw::DrawPolygon(polygon.mVerts);
+		MOAIDraw::DrawPolygon(polygon.mVerts);
 
 		gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.1f);
-		//if (std::find(m_path.begin(), m_path.end(), reinterpret_cast<int>(&mNavmesh[i])) != m_path.end())
-		//{
-		//	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.05f);
-		//}
+		if (std::find(m_path.begin(), m_path.end(), mNavmesh[i]) != m_path.end())
+		{
+			gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.05f);
+		}
 
 		
-		//MOAIDraw::DrawPolygonFilled(polygon.mVerts);
+		MOAIDraw::DrawPolygonFilled(polygon.mVerts);
 	}
 
 }
@@ -224,10 +225,10 @@ bool Pathfinder::PathfindStep()
 	{
 		PathNode currentNode = popNodeWithMinCost(openList);
 		m_path.clear();
-		int parentId = currentNode.parentId;
-		m_path.push_back(currentNode.mPos);
-		while (parentId != -1) {
-			m_path.push_back(closedList[parentId].mPos);
+		const MapNode* parentId = currentNode.parentId;
+		m_path.push_back(currentNode.mMapNode);
+		while (parentId) {
+			m_path.push_back(closedList[parentId].mMapNode);
 			parentId = closedList[parentId].parentId;
 		}
 
@@ -237,48 +238,70 @@ bool Pathfinder::PathfindStep()
 			return true;
 		}
 		else {
-			openList.erase(currentNode.id);
-			closedList[currentNode.id] = currentNode;
-			for (size_t i = 0; i < currentNode.mPolygon.mEdges.size() ; ++i)
-			{
-				PathNode neighbor(*currentNode.mPolygon.mEdges[i].mNeighbour);
-				//neighbor.mPos = neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[0]];
-				//neighbor.mPos = compute2DPolygonCentroid(&neighbor.mPolygon.mVerts[0], neighbor.mPolygon.mVerts.size());
-				USVec2D segment = currentNode.mPolygon.mEdges[i].mVerts[0] - currentNode.mPolygon.mEdges[i].mVerts[1];
-				neighbor.mPos = currentNode.mPolygon.mEdges[i].mVerts[1] + segment * 0.5f;
+			openList.erase(currentNode.mMapNode);
+			closedList[currentNode.mMapNode] = currentNode;
+			const MapNode* neighbor = currentNode.mMapNode->getNextNeighbor(nullptr);
+			while (neighbor) {
+				if (!closedList.count(neighbor)) {
+					PathNode neighborNode(neighbor);
+					neighborNode.parentId = currentNode.mMapNode;
+					neighborNode.g_score = currentNode.g_score + 1;
+					neighborNode.f_score = neighborNode.g_score /*+ (endNode.mPos - neighborNode.mPos).Length()*/;
 
-				//USVec2D segment2(0, 0);
-				//USVec2D mPos2;
-				//for (size_t j = 0; j < neighbor.mPolygon.mEdges.size(); j++)
-				//{
-				//	NavPolygon::Edge edge = neighbor.mPolygon.mEdges[j];
-				//	if (reinterpret_cast<int>(edge.mNeighbour) == currentNode.id) {
-				//		segment2 = currentNode.mPolygon.mVerts[edge.mVerts[0]] - currentNode.mPolygon.mVerts[edge.mVerts[1]];
-				//		mPos2 = currentNode.mPolygon.mVerts[edge.mVerts[1]] + segment2 * 0.5f;
-				//		break;
-				//	}
-				//}
-				//if (segment2.LengthSquared() < segment.LengthSquared()) {
-				//	neighbor.mPos = mPos2;
-				//}
-			
-				
-
-				neighbor.parentId = currentNode.id;
-				neighbor.g_score = currentNode.g_score + 1;
-				neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
-				if (closedList.count(neighbor.id)) {
-					continue;
-				}
-				if (openList.count(neighbor.id)) {
-					if (neighbor.g_score < openList[neighbor.id].g_score) {
-						openList[neighbor.id] = neighbor;
+					if (openList.count(neighbor)) {
+						if (neighborNode.g_score < openList[neighbor].g_score) {
+							openList[neighbor] = neighborNode;
+						}
+					}
+					else {
+						openList[neighbor] = neighborNode;
 					}
 				}
-				else {
-					openList[neighbor.id] = neighbor;
-				}
+				neighbor = currentNode.mMapNode->getNextNeighbor(neighbor);
 			}
+
+
+
+			//for (size_t i = 0; i < currentNode.mPolygon.mEdges.size() ; ++i)
+			//{
+			//	PathNode neighbor(*currentNode.mPolygon.mEdges[i].mNeighbour);
+			//	//neighbor.mPos = neighbor.mPolygon.mVerts[currentNode.mPolygon.mEdges[i].mVerts[0]];
+			//	//neighbor.mPos = compute2DPolygonCentroid(&neighbor.mPolygon.mVerts[0], neighbor.mPolygon.mVerts.size());
+			//	USVec2D segment = currentNode.mPolygon.mEdges[i].mVerts[0] - currentNode.mPolygon.mEdges[i].mVerts[1];
+			//	neighbor.mPos = currentNode.mPolygon.mEdges[i].mVerts[1] + segment * 0.5f;
+
+			//	//USVec2D segment2(0, 0);
+			//	//USVec2D mPos2;
+			//	//for (size_t j = 0; j < neighbor.mPolygon.mEdges.size(); j++)
+			//	//{
+			//	//	NavPolygon::Edge edge = neighbor.mPolygon.mEdges[j];
+			//	//	if (reinterpret_cast<int>(edge.mNeighbour) == currentNode.id) {
+			//	//		segment2 = currentNode.mPolygon.mVerts[edge.mVerts[0]] - currentNode.mPolygon.mVerts[edge.mVerts[1]];
+			//	//		mPos2 = currentNode.mPolygon.mVerts[edge.mVerts[1]] + segment2 * 0.5f;
+			//	//		break;
+			//	//	}
+			//	//}
+			//	//if (segment2.LengthSquared() < segment.LengthSquared()) {
+			//	//	neighbor.mPos = mPos2;
+			//	//}
+			//
+			//	
+
+			//	neighbor.parentId = currentNode.id;
+			//	neighbor.g_score = currentNode.g_score + 1;
+			//	neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
+			//	if (closedList.count(neighbor.id)) {
+			//		continue;
+			//	}
+			//	if (openList.count(neighbor.id)) {
+			//		if (neighbor.g_score < openList[neighbor.id].g_score) {
+			//			openList[neighbor.id] = neighbor;
+			//		}
+			//	}
+			//	else {
+			//		openList[neighbor.id] = neighbor;
+			//	}
+			//}
 
 
 			//for (int row = -1; row <= 1; ++row) {
@@ -322,7 +345,7 @@ bool Pathfinder::PathfindStep()
 	}
 	else
 	{
-		openList[startNode.id] = startNode;
+		openList[startNode.mMapNode] = startNode;
 		PathfindStep();
 	}
 
@@ -396,17 +419,17 @@ int Pathfinder::_setCharacter(lua_State* L)
 }
 
 
-PathNode popNodeWithMinCost(map<int, PathNode> openlist)
+PathNode popNodeWithMinCost(map<const MapNode*, PathNode> openlist)
 {
 	float minCost = 99999999.0f;
-	int popIndex = -1;
+	PathNode popIndex;
 	for (auto it = openlist.begin(); it != openlist.end(); ++it)
 	{
 		if (it->second.f_score < minCost)
 		{
 			minCost = it->second.f_score;
-			popIndex = it->first;
+			popIndex = it->second;
 		}
 	}
-	return openlist[popIndex];
+	return popIndex;
 }

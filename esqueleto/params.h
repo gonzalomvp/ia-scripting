@@ -1,6 +1,7 @@
 #ifndef __PARAMS_H__
 #define __PARAMS_H__
 
+#include "map_node.h"
 #include <vector>
 
 struct Params
@@ -27,19 +28,19 @@ struct Params
 	float char_radius;
 };
 
-struct NavPolygon {
-	struct Edge {
-		USVec2D mVerts[2];
-		NavPolygon* mNeighbour;
-	};
-	std::vector<USVec2D> mVerts;
-	std::vector<Edge> mEdges;
-};
+//struct NavPolygon {
+//	struct Edge {
+//		USVec2D mVerts[2];
+//		NavPolygon* mNeighbour;
+//	};
+//	std::vector<USVec2D> mVerts;
+//	std::vector<Edge> mEdges;
+//};
 
 bool ReadParams(const char* filename, Params& params);
 bool ReadPath(const char* filename, std::vector<USVec2D>& path);
 bool ReadObstacles(const char* filename, std::vector<USVec3D>& obstacles);
-bool ReadNavmesh(const char* filename, std::vector<NavPolygon>& polygons);
+bool ReadNavmesh(const char* filename, std::vector<NavPolygon*>& polygons);
 
 inline int isLeft(USVec2D P0, USVec2D P1, USVec2D P2)
 {

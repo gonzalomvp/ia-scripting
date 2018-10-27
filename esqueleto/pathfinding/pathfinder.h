@@ -5,6 +5,7 @@
 #include "params.h"
 
 class Character;
+class MapNode;
 
 #define MAP_ROWS    24
 #define MAP_COLUMNS 32
@@ -15,19 +16,21 @@ struct PathNode
 	int id;
 	USVec2D mPos;
 	NavPolygon mPolygon;
+	const MapNode* mMapNode;
 	float g_score;
 	float f_score;
-	int parentId;
+	const MapNode* parentId;
 
 	PathNode() {}
-	PathNode(const USVec2D& pos) : f_score(0), g_score(0), parentId(-1) { mPos = pos; id = mPos.mX * MAP_COLUMNS + mPos.mY; }
-	PathNode(const NavPolygon& polygon) : f_score(0), g_score(0), parentId(-1), id(reinterpret_cast<int>(&polygon)), mPolygon(polygon) {}
+	PathNode(const USVec2D& pos) : f_score(0), g_score(0), parentId(nullptr) { mPos = pos; id = mPos.mX * MAP_COLUMNS + mPos.mY; }
+	PathNode(const NavPolygon& polygon) : f_score(0), g_score(0), parentId(nullptr), id(reinterpret_cast<int>(&polygon)), mPolygon(polygon) {}
+	PathNode(const MapNode* mapNode) : f_score(0), g_score(0), parentId(nullptr), mMapNode(mapNode) {}
 
 
-	bool operator==(const PathNode& other) const { return id == other.id; }
+	bool operator==(const PathNode& other) const { return mMapNode == other.mMapNode; }
 };
 
-PathNode popNodeWithMinCost(map<int, PathNode> openlist);
+PathNode popNodeWithMinCost(map<const MapNode*, PathNode> openlist);
 
 class Pathfinder: public virtual MOAIEntity2D
 {
@@ -48,7 +51,7 @@ private:
 private:
 	USVec2D              m_StartPosition;
 	USVec2D              m_EndPosition;
-	std::vector<NavPolygon> mNavmesh;
+	std::vector<NavPolygon*> mNavmesh;
 
 
 	// Lua configuration
@@ -63,9 +66,9 @@ private:
 	static int _setCharacter(lua_State* L);
 
 	char m_map[MAP_ROWS][MAP_COLUMNS];
-	std::vector<USVec2D> m_path;
-	map<int, PathNode> closedList;
-	map<int, PathNode> openList;
+	std::vector<const MapNode*> m_path;
+	map<const MapNode*, PathNode> closedList;
+	map<const MapNode*, PathNode> openList;
 	PathNode startNode;
 	PathNode endNode;
 	Character* mCharacter;

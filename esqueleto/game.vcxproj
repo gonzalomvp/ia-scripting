@@ -146,6 +146,7 @@
     <ClCompile Include="idle_state.cpp" />
     <ClCompile Include="is_close.cpp" />
     <ClCompile Include="is_dead.cpp" />
+    <ClCompile Include="map_node.cpp" />
     <ClCompile Include="obstacleAvoidanceSteering.cpp" />
     <ClCompile Include="params.cpp" />
     <ClCompile Include="pathfinding\pathfinder.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="idle_state.h" />
     <ClInclude Include="is_close.h" />
     <ClInclude Include="is_dead.h" />
+    <ClInclude Include="map_node.h" />
     <ClInclude Include="notCondition.h" />
     <ClInclude Include="obstacleAvoidanceSteering.h" />
     <ClInclude Include="params.h" />

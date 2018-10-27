@@ -186,7 +186,7 @@ bool ReadObstacles(const char* filename, std::vector<USVec3D>& obstacles)
 	return true;
 }
 
-bool ReadNavmesh(const char* filename, std::vector<NavPolygon>& polygons)
+bool ReadNavmesh(const char* filename, std::vector<NavPolygon*>& polygons)
 {
 	TiXmlDocument doc(filename);
 	if (!doc.LoadFile())
@@ -210,7 +210,7 @@ bool ReadNavmesh(const char* filename, std::vector<NavPolygon>& polygons)
 
 	TiXmlElement* poligonElem = hParams.Element();
 	for (poligonElem; poligonElem; poligonElem = poligonElem->NextSiblingElement()) {
-		NavPolygon polygon;
+		NavPolygon* polygon = new NavPolygon();
 		TiXmlElement* pointElem = poligonElem->FirstChildElement("point");
 		for (pointElem; pointElem; pointElem = pointElem->NextSiblingElement()) {
 			const char* paramName = pointElem->Value();
@@ -218,7 +218,7 @@ bool ReadNavmesh(const char* filename, std::vector<NavPolygon>& polygons)
 				USVec2D point;
 				pointElem->Attribute("x", &point.mX);
 				pointElem->Attribute("y", &point.mY);
-				polygon.mVerts.push_back(point);
+				polygon->mVerts.push_back(point);
 			}
 		}
 
@@ -241,10 +241,10 @@ bool ReadNavmesh(const char* filename, std::vector<NavPolygon>& polygons)
 		endElem->Attribute("edgestart", &endEdgestart);
 		endElem->Attribute("edgeend", &endEdgeend);
 
-		USVec2D p1 = polygons[startPolygon].mVerts[startEdgestart];
-		USVec2D p2 = polygons[startPolygon].mVerts[startEdgeend];
-		USVec2D p3 = polygons[endPolygon].mVerts[endEdgestart];
-		USVec2D p4 = polygons[endPolygon].mVerts[endEdgeend];
+		USVec2D p1 = polygons[startPolygon]->mVerts[startEdgestart];
+		USVec2D p2 = polygons[startPolygon]->mVerts[startEdgeend];
+		USVec2D p3 = polygons[endPolygon]->mVerts[endEdgestart];
+		USVec2D p4 = polygons[endPolygon]->mVerts[endEdgeend];
 
 		float s1 = (p1 - p2).LengthSquared();
 		float s2 = (p3 - p4).LengthSquared();
@@ -254,17 +254,23 @@ bool ReadNavmesh(const char* filename, std::vector<NavPolygon>& polygons)
 			p2 = p4;
 		}
 
+		std::array<USVec2D, 2> verts;
+		verts[0] = p1;
+		verts[1] = p2;
+		polygons[startPolygon]->mEdges[polygons[endPolygon]] = verts;
+		polygons[endPolygon]->mEdges[polygons[startPolygon]] = verts;
 
-		NavPolygon::Edge edge;
-		edge.mVerts[0] = p1;
-		edge.mVerts[1] = p2;
-		edge.mNeighbour = &polygons[startPolygon];
-		polygons[endPolygon].mEdges.push_back(edge);
 
-		edge.mVerts[0] = p1;
-		edge.mVerts[1] = p2;
-		edge.mNeighbour = &polygons[endPolygon];
-		polygons[startPolygon].mEdges.push_back(edge);
+		//NavPolygon::Edge edge;
+		//edge.mVerts[0] = p1;
+		//edge.mVerts[1] = p2;
+		//edge.mNeighbour = &polygons[startPolygon];
+		//polygons[endPolygon].mEdges.push_back(edge);
+
+		//edge.mVerts[0] = p1;
+		//edge.mVerts[1] = p2;
+		//edge.mNeighbour = &polygons[endPolygon];
+		//polygons[startPolygon].mEdges.push_back(edge);
 	}
 
 	return true;

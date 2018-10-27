@@ -101,6 +101,9 @@
     <ClCompile Include="obstacleAvoidanceSteering.cpp">
       <Filter>steering_behaviors</Filter>
     </ClCompile>
+    <ClCompile Include="map_node.cpp">
+      <Filter>pathfinder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="obstacleAvoidanceSteering.h">
       <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="map_node.h">
+      <Filter>pathfinder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
