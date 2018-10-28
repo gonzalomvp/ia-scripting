@@ -5,139 +5,51 @@
 #include "map_node.h"
 #include <fstream>
 
-
-
-Pathfinder::Pathfinder() : MOAIEntity2D()
-{
+Pathfinder::Pathfinder() : MOAIEntity2D(), mStartPosition(0.0f, 0.0f), mEndPosition(0.0f, 0.0f), mCharacter(nullptr) {
 	RTTI_BEGIN
 		RTTI_EXTEND(MOAIEntity2D)
 	RTTI_END
 
-	
-	m_StartPosition = USVec2D(0.0f, 0.0f);
-	m_EndPosition   = USVec2D(0.0f, 0.0f);
-	mCharacter = nullptr;
-	ReadGrid("map.txt", mNavmesh);
+	ReadGrid("grid_map.txt", mMap);
 	//ReadNavmesh("navmesh.xml", mNavmesh);
 }
 
-Pathfinder::~Pathfinder()
-{
+Pathfinder::~Pathfinder() {
 
 }
 
-void Pathfinder::UpdatePath()
-{
-	m_path.clear();
-	openList.clear();
-	closedList.clear();
-	USVec2D origin(-512, -384);
-	startNode = PathNode(mNavmesh[14]);
-	endNode = PathNode(mNavmesh[57]);
+void Pathfinder::UpdatePath() {
+	mPath.clear();
+	mOpenList.clear();
+	mClosedList.clear();
 
-	const MapNode* nodeOfPoint = MapNode::getNodeOfPoint(m_StartPosition, mNavmesh);
+	const MapNode* nodeOfPoint = MapNode::getNodeOfPoint(mStartPosition, mMap);
 	if (nodeOfPoint) {
-		startNode = PathNode(nodeOfPoint);
-		m_StartPosition = nodeOfPoint->getPathPoint(nodeOfPoint);
+		mStartPosition = nodeOfPoint->getPathPoint(nodeOfPoint);
 	}
-	nodeOfPoint = MapNode::getNodeOfPoint(m_EndPosition, mNavmesh);
+	mOpenList[nodeOfPoint] = PathNode(nodeOfPoint);
+
+	nodeOfPoint = MapNode::getNodeOfPoint(mEndPosition, mMap);
 	if (nodeOfPoint) {
-		endNode = PathNode(nodeOfPoint);
-		m_EndPosition = nodeOfPoint->getPathPoint(nodeOfPoint);
+		mEndPosition = nodeOfPoint->getPathPoint(nodeOfPoint);
 	}
-
-
-	//for (size_t i = 0; i < mNavmesh.size(); i++)
-	//{
-	//	//if (cn_PnPoly(m_StartPosition, &mNavmesh[i].mVerts[0], mNavmesh[i].mVerts.size())) {
-	//	if(PointInPolygon(m_StartPosition, *mNavmesh[i])){
-	//		startNode = PathNode(mNavmesh[i]);
-	//		startNode.mPos = m_StartPosition;
-	//		printf("START: %d\n", i);
-	//		break;
-	//	}
-	//}
-	//for (size_t i = 0; i < mNavmesh.size(); i++)
-	//{
-	//	//if (cn_PnPoly(m_EndPosition, &mNavmesh[i].mVerts[0], mNavmesh[i].mVerts.size())) {
-	//	if (PointInPolygon(m_EndPosition, *mNavmesh[i])) {
-	//		endNode = PathNode(mNavmesh[i]);
-	//		endNode.mPos = m_EndPosition;
-	//		printf("END: %d\n", i);
-	//		break;
-	//	}
-	//}
-
-	openList[startNode.mMapNode] = startNode;
 
 	while (!PathfindStep());
 
 	if (mCharacter)
 	{
 		std::vector<USVec2D> reverse;
-		reverse.push_back(m_StartPosition);
-		for (size_t i = 0; i + 1 < m_path.size(); i++)
+		reverse.push_back(mStartPosition);
+		for (size_t i = 0; i + 1 < mPath.size(); i++)
 		{
-			const MapNode* n1 = m_path[m_path.size() - i - 1];
-			const MapNode* n2 = m_path[m_path.size() - i - 2];
+			const MapNode* n1 = mPath[mPath.size() - i - 1];
+			const MapNode* n2 = mPath[mPath.size() - i - 2];
 
 			reverse.push_back(n1->getPathPoint(n2));
 		}
-		reverse.push_back(m_EndPosition);
+		reverse.push_back(mEndPosition);
 		mCharacter->SetPath(reverse);
 	}
-	
-
-	//while (!openList.empty())
-	//{
-	//	PathNode currentNode = popNodeWithMinCost(openList);
-	//	if (currentNode == endNode) {
-	//		m_path.push_back(currentNode.mPos);
-	//		int parentId = currentNode.parentId;
-	//		while (parentId != -1) {
-	//			m_path.push_back(closedList[parentId].mPos);
-	//			parentId = closedList[parentId].parentId;
-	//		}
-	//		break;
-	//	}
-	//	else {
-	//		openList.erase(currentNode.id);
-	//		closedList[currentNode.id] = currentNode;
-	//		for (int row = -1; row <= 1; ++row) {
-	//			for (int column = -1; column <= 1; ++column) {
-	//				if ((row != 0 || column != 0) 
-	//					&& (currentNode.mPos.mX + row >= 0)
-	//					&& (currentNode.mPos.mX + row < MAP_ROWS)
-	//					&& (currentNode.mPos.mY + column >= 0)
-	//					&& (currentNode.mPos.mY + column < MAP_COLUMNS)) {
-	//					PathNode neighbor(USVec2D(currentNode.mPos.mX + row, currentNode.mPos.mY + column));
-	//					neighbor.parentId = currentNode.id;
-	//					if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == '#') {
-	//						neighbor.g_score = 9999999;
-	//					}
-	//					else if (m_map[(int)neighbor.mPos.mX][(int)neighbor.mPos.mY] == 'o') {
-	//						neighbor.g_score = currentNode.g_score + 3; // agua
-	//					}
-	//					else {
-	//						neighbor.g_score = currentNode.g_score + 1; //casillas colindantes tiene coste 1
-	//					}
-	//					neighbor.f_score = neighbor.g_score + (endNode.mPos - neighbor.mPos).Length();
-	//					if (closedList.count(neighbor.id)) {
-	//						continue;
-	//					}
-	//					if (openList.count(neighbor.id)) {
-	//						if (neighbor.g_score < openList[neighbor.id].g_score) {
-	//							openList[neighbor.id] = neighbor;
-	//						}
-	//					}
-	//					else {
-	//						openList[neighbor.id] = neighbor;
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
 }
 
 void Pathfinder::DrawDebug()
@@ -184,7 +96,7 @@ void Pathfinder::DrawDebug()
 	//}
 
 	gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
-	for (int i = 0; i + 1 < m_path.size(); i++)
+	for (int i = 0; i + 1 < mPath.size(); i++)
 	{
 		//MOAIDraw::DrawLine(m_path[i], m_path[i + 1]);
 	}
@@ -198,9 +110,9 @@ void Pathfinder::DrawDebug()
 	//MOAIDraw::DrawPoint(m_EndPosition);
 
 	//Draw Navmesh
-	for (int i = 0; i < mNavmesh.size(); i++)
+	for (int i = 0; i < mMap.size(); i++)
 	{
-		mNavmesh[i]->DrawDebug(m_path);
+		mMap[i]->DrawDebug(mPath);
 	}
 
 }
@@ -208,49 +120,49 @@ void Pathfinder::DrawDebug()
 bool Pathfinder::PathfindStep()
 {
     // returns true if pathfinding process finished
-	if (!openList.empty())
+	if (!mOpenList.empty())
 	{
-		PathNode currentNode = popNodeWithMinCost(openList);
-		m_path.clear();
-		const MapNode* parentId = currentNode.parentId;
-		m_path.push_back(currentNode.mMapNode);
+		PathNode currentNode = popNodeWithMinCost();
+		mPath.clear();
+		const MapNode* parentId = currentNode.mParentNode;
+		mPath.push_back(currentNode.mNode);
 		while (parentId) {
-			m_path.push_back(closedList[parentId].mMapNode);
-			parentId = closedList[parentId].parentId;
+			mPath.push_back(mClosedList[parentId].mNode);
+			parentId = mClosedList[parentId].mParentNode;
 		}
 
-		if (currentNode == endNode) {
-			openList.clear();
-			closedList.clear();
+		if (currentNode.mNode == MapNode::getNodeOfPoint(mEndPosition, mMap)) {
+			mOpenList.clear();
+			mClosedList.clear();
 			return true;
 		}
 		else {
-			USVec2D initPos = m_StartPosition;
-			if (currentNode.parentId) {
-				initPos = currentNode.mMapNode->getPathPoint(currentNode.parentId);
+			USVec2D initPos = mStartPosition;
+			if (currentNode.mParentNode) {
+				initPos = currentNode.mNode->getPathPoint(currentNode.mParentNode);
 			}
-			openList.erase(currentNode.mMapNode);
-			closedList[currentNode.mMapNode] = currentNode;
-			const MapNode* neighbor = currentNode.mMapNode->getNextNeighbor(nullptr);
+			mOpenList.erase(currentNode.mNode);
+			mClosedList[currentNode.mNode] = currentNode;
+			const MapNode* neighbor = currentNode.mNode->getNextNeighbor(nullptr);
 			while (neighbor) {
-				if (!closedList.count(neighbor)) {
+				if (!mClosedList.count(neighbor)) {
 					PathNode neighborNode(neighbor);
-					USVec2D endPos = currentNode.mMapNode->getPathPoint(neighbor);
+					USVec2D endPos = currentNode.mNode->getPathPoint(neighbor);
 
-					neighborNode.parentId = currentNode.mMapNode;
-					neighborNode.g_score = currentNode.g_score + currentNode.mMapNode->getCostToNeighbor(initPos, neighbor);
-					neighborNode.f_score = neighborNode.g_score + endPos.Dist(m_EndPosition);
+					neighborNode.mParentNode = currentNode.mNode;
+					neighborNode.g_score = currentNode.g_score + currentNode.mNode->getCostToNeighbor(initPos, neighbor);
+					neighborNode.f_score = neighborNode.g_score + endPos.Dist(mEndPosition);
 
-					if (openList.count(neighbor)) {
-						if (neighborNode.g_score < openList[neighbor].g_score) {
-							openList[neighbor] = neighborNode;
+					if (mOpenList.count(neighbor)) {
+						if (neighborNode.g_score < mOpenList[neighbor].g_score) {
+							mOpenList[neighbor] = neighborNode;
 						}
 					}
 					else {
-						openList[neighbor] = neighborNode;
+						mOpenList[neighbor] = neighborNode;
 					}
 				}
-				neighbor = currentNode.mMapNode->getNextNeighbor(neighbor);
+				neighbor = currentNode.mNode->getNextNeighbor(neighbor);
 			}
 
 
@@ -338,26 +250,28 @@ bool Pathfinder::PathfindStep()
 	}
 	else
 	{
-		openList[startNode.mMapNode] = startNode;
+		const MapNode* nodeOfPoint = MapNode::getNodeOfPoint(mStartPosition, mMap);
+		mOpenList[nodeOfPoint] = PathNode(nodeOfPoint);
 		PathfindStep();
 	}
 
     return false;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+PathNode Pathfinder::popNodeWithMinCost()
+{
+	float minCost = 99999999.0f;
+	PathNode popIndex;
+	for (auto it = mOpenList.begin(); it != mOpenList.end(); ++it)
+	{
+		if (it->second.f_score < minCost)
+		{
+			minCost = it->second.f_score;
+			popIndex = it->second;
+		}
+	}
+	return popIndex;
+}
 
 //lua configuration ----------------------------------------------------------------//
 void Pathfinder::RegisterLuaFuncs(MOAILuaState& state)
@@ -409,20 +323,4 @@ int Pathfinder::_setCharacter(lua_State* L)
 
 	self->mCharacter = state.GetLuaObject<Character>(2, 0.0f);
 	return 0;
-}
-
-
-PathNode popNodeWithMinCost(map<const MapNode*, PathNode> openlist)
-{
-	float minCost = 99999999.0f;
-	PathNode popIndex;
-	for (auto it = openlist.begin(); it != openlist.end(); ++it)
-	{
-		if (it->second.f_score < minCost)
-		{
-			minCost = it->second.f_score;
-			popIndex = it->second;
-		}
-	}
-	return popIndex;
 }

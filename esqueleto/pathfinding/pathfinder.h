@@ -7,49 +7,40 @@
 class Character;
 class MapNode;
 
-
-
-struct PathNode
-{
-	int id;
-	USVec2D mPos;
-	NavPolygon mPolygon;
-	const MapNode* mMapNode;
+struct PathNode {
+	const MapNode* mNode;
+	const MapNode* mParentNode;
 	float g_score;
 	float f_score;
-	const MapNode* parentId;
-
-	PathNode() {}
-	PathNode(const NavPolygon& polygon) : f_score(0), g_score(0), parentId(nullptr), id(reinterpret_cast<int>(&polygon)), mPolygon(polygon) {}
-	PathNode(const MapNode* mapNode) : f_score(0), g_score(0), parentId(nullptr), mMapNode(mapNode) {}
-
-
-	bool operator==(const PathNode& other) const { return mMapNode == other.mMapNode; }
+	
+	PathNode()                       : PathNode(nullptr)                                            {}
+	PathNode(const MapNode* mapNode) : f_score(0), g_score(0), mParentNode(nullptr), mNode(mapNode) {}
 };
 
-PathNode popNodeWithMinCost(map<const MapNode*, PathNode> openlist);
-
-class Pathfinder: public virtual MOAIEntity2D
-{
+class Pathfinder: public virtual MOAIEntity2D {
 public:
-	Pathfinder();
+	Pathfinder ();
 	~Pathfinder();
 
+	//const USVec2D& GetStartPosition() const { return mStartPosition; }
+	//const USVec2D& GetEndPosition  () const { return mEndPosition;   }
+
+	void SetStartPosition (float x, float y) { mStartPosition = USVec2D(x, y); UpdatePath(); }
+	void SetEndPosition   (float x, float y) { mEndPosition   = USVec2D(x, y); UpdatePath(); }
+
+	bool PathfindStep();
 	virtual void DrawDebug();
-
-	void SetStartPosition(float x, float y) { m_StartPosition = USVec2D(x, y); UpdatePath();}
-	void SetEndPosition(float x, float y) { m_EndPosition = USVec2D(x, y); UpdatePath();}
-	const USVec2D& GetStartPosition() const { return m_StartPosition;}
-	const USVec2D& GetEndPosition() const { return m_EndPosition;}
-
-    bool PathfindStep();
 private:
 	void UpdatePath();
-private:
-	USVec2D              m_StartPosition;
-	USVec2D              m_EndPosition;
-	std::vector<MapNode*> mNavmesh;
+	PathNode popNodeWithMinCost();
 
+	USVec2D                       mStartPosition;
+	USVec2D                       mEndPosition;
+	std::vector<MapNode*>         mMap;
+	std::vector<const MapNode*>   mPath;
+	map<const MapNode*, PathNode> mOpenList;
+	map<const MapNode*, PathNode> mClosedList;
+	Character*                    mCharacter;
 
 	// Lua configuration
 public:
@@ -61,13 +52,6 @@ private:
 	static int _setEndPosition(lua_State* L);
 	static int _pathfindStep(lua_State* L);
 	static int _setCharacter(lua_State* L);
-
-	std::vector<const MapNode*> m_path;
-	map<const MapNode*, PathNode> closedList;
-	map<const MapNode*, PathNode> openList;
-	PathNode startNode;
-	PathNode endNode;
-	Character* mCharacter;
 };
 
 
