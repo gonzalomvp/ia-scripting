@@ -7,9 +7,7 @@
 class Character;
 class MapNode;
 
-#define MAP_ROWS    24
-#define MAP_COLUMNS 32
-#define GRID_SIZE   32
+
 
 struct PathNode
 {
@@ -22,7 +20,6 @@ struct PathNode
 	const MapNode* parentId;
 
 	PathNode() {}
-	PathNode(const USVec2D& pos) : f_score(0), g_score(0), parentId(nullptr) { mPos = pos; id = mPos.mX * MAP_COLUMNS + mPos.mY; }
 	PathNode(const NavPolygon& polygon) : f_score(0), g_score(0), parentId(nullptr), id(reinterpret_cast<int>(&polygon)), mPolygon(polygon) {}
 	PathNode(const MapNode* mapNode) : f_score(0), g_score(0), parentId(nullptr), mMapNode(mapNode) {}
 
@@ -65,7 +62,6 @@ private:
 	static int _pathfindStep(lua_State* L);
 	static int _setCharacter(lua_State* L);
 
-	char m_map[MAP_ROWS][MAP_COLUMNS];
 	std::vector<const MapNode*> m_path;
 	map<const MapNode*, PathNode> closedList;
 	map<const MapNode*, PathNode> openList;

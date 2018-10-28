@@ -4,6 +4,10 @@
 #include <vector>
 #include <map>
 
+#define MAP_ROWS    24
+#define MAP_COLUMNS 32
+#define GRID_SIZE   32
+
 struct MapNode {
 	virtual bool isPointInNode(const USVec2D& point) const = 0;
 	virtual USVec2D getPathPoint(const MapNode* neighbor) const = 0;
@@ -14,8 +18,15 @@ struct MapNode {
 };
 
 struct GridNode : public MapNode {
-	virtual bool isPointInNode(const USVec2D& point) const override { return false; }
-	virtual USVec2D getPathPoint(const MapNode* neighbor) const override { return USVec2D(); }
+	virtual bool isPointInNode(const USVec2D& point) const override;
+	virtual USVec2D getPathPoint(const MapNode* neighbor) const override;
+	virtual const MapNode* getNextNeighbor(const MapNode* previous) const override;
+	virtual void DrawDebug() override;
+
+	int mIndex;
+	int mCost;
+	std::vector<GridNode*> mNeighbors;
+	//costToNeig??
 };
 
 struct NavPolygon : public MapNode {

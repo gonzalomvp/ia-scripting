@@ -13,23 +13,12 @@ Pathfinder::Pathfinder() : MOAIEntity2D()
 		RTTI_EXTEND(MOAIEntity2D)
 	RTTI_END
 
-	//Read map file
-	std::ifstream file("map.txt", std::ios::binary);
-	std::string line;
-
-	for (size_t row = 0; row < MAP_ROWS; row++)
-	{
-		getline(file, line);
-		for (size_t column = 0; column < MAP_COLUMNS; column++)
-		{
-			m_map[row][column] = line[column];
-		}
-	}
-	file.close();
+	
 	m_StartPosition = USVec2D(0.0f, 0.0f);
 	m_EndPosition   = USVec2D(0.0f, 0.0f);
 	mCharacter = nullptr;
-	ReadNavmesh("navmesh.xml", mNavmesh);
+	ReadGrid("map.txt", mNavmesh);
+	//ReadNavmesh("navmesh.xml", mNavmesh);
 }
 
 Pathfinder::~Pathfinder()
@@ -154,8 +143,8 @@ void Pathfinder::DrawDebug()
 	USVec2D offset(1024, 768);
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
 	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-	//USRect kk = {-512,512, -384,384};
-	//MOAIDraw::DrawGrid(kk, 32, 24);
+	USRect kk = {-512,512, -384,384};
+	MOAIDraw::DrawGrid(kk, 32, 24);
 
 	//for (int row = 0; row < MAP_ROWS; row++)
 	//{

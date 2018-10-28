@@ -186,6 +186,52 @@ bool ReadObstacles(const char* filename, std::vector<USVec3D>& obstacles)
 	return true;
 }
 
+bool ReadGrid(const char* filename, std::vector<MapNode*>& cells) {
+	//Read map file
+	std::ifstream file(filename, std::ios::binary);
+	std::string line;
+
+	for (size_t row = 0; row < MAP_ROWS; row++) {
+		getline(file, line);
+		for (size_t column = 0; column < MAP_COLUMNS; column++) {
+			GridNode* cell = new GridNode();
+			cell->mIndex = row * MAP_COLUMNS + column;
+			switch (line[column]) {
+				case '#':
+					cell->mCost = 9999999;
+					break;
+				case 'o':
+					cell->mCost = 3;
+					break;
+				default:
+					cell->mCost = 1;
+					break;
+			}
+			cells.push_back(cell);
+		}
+	}
+	file.close();
+	for (size_t row = 0; row < MAP_ROWS; ++row) {
+		for (size_t column = 0; column < MAP_COLUMNS; ++column) {
+			for (int neighborRow = -1; neighborRow <= 1; ++neighborRow) {
+				for (int neighborColumn = -1; neighborColumn <= 1; ++neighborColumn) {
+					if ((neighborRow != 0 || neighborColumn != 0)
+						&& (row + neighborRow >= 0)
+						&& (row + neighborRow < MAP_ROWS)
+						&& (column + neighborColumn >= 0)
+						&& (column + neighborColumn < MAP_COLUMNS)) {
+
+						reinterpret_cast<GridNode*>(cells[row * MAP_COLUMNS + column])->mNeighbors.push_back(reinterpret_cast<GridNode*>(cells[(row + neighborRow) * MAP_COLUMNS + (column + neighborColumn)]));
+					}
+				}
+			}
+		}
+	}
+
+
+	return true;
+}
+
 bool ReadNavmesh(const char* filename, std::vector<MapNode*>& polygons)
 {
 	TiXmlDocument doc(filename);
