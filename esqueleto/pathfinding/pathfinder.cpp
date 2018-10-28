@@ -38,10 +38,12 @@ void Pathfinder::UpdatePath()
 	const MapNode* nodeOfPoint = MapNode::getNodeOfPoint(m_StartPosition, mNavmesh);
 	if (nodeOfPoint) {
 		startNode = PathNode(nodeOfPoint);
+		m_StartPosition = nodeOfPoint->getPathPoint(nodeOfPoint);
 	}
 	nodeOfPoint = MapNode::getNodeOfPoint(m_EndPosition, mNavmesh);
 	if (nodeOfPoint) {
 		endNode = PathNode(nodeOfPoint);
+		m_EndPosition = nodeOfPoint->getPathPoint(nodeOfPoint);
 	}
 
 
@@ -198,7 +200,7 @@ void Pathfinder::DrawDebug()
 	//Draw Navmesh
 	for (int i = 0; i < mNavmesh.size(); i++)
 	{
-		mNavmesh[i]->DrawDebug();
+		mNavmesh[i]->DrawDebug(m_path);
 	}
 
 }
@@ -227,8 +229,6 @@ bool Pathfinder::PathfindStep()
 			if (currentNode.parentId) {
 				initPos = currentNode.mMapNode->getPathPoint(currentNode.parentId);
 			}
-		
-
 			openList.erase(currentNode.mMapNode);
 			closedList[currentNode.mMapNode] = currentNode;
 			const MapNode* neighbor = currentNode.mMapNode->getNextNeighbor(nullptr);
@@ -238,8 +238,8 @@ bool Pathfinder::PathfindStep()
 					USVec2D endPos = currentNode.mMapNode->getPathPoint(neighbor);
 
 					neighborNode.parentId = currentNode.mMapNode;
-					neighborNode.g_score = currentNode.g_score + initPos.DistSqrd(endPos);
-					neighborNode.f_score = neighborNode.g_score + endPos.DistSqrd(m_EndPosition);
+					neighborNode.g_score = currentNode.g_score + currentNode.mMapNode->getCostToNeighbor(initPos, neighbor);
+					neighborNode.f_score = neighborNode.g_score + endPos.Dist(m_EndPosition);
 
 					if (openList.count(neighbor)) {
 						if (neighborNode.g_score < openList[neighbor].g_score) {

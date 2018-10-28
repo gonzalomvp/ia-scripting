@@ -54,18 +54,27 @@ USVec2D GridNode::getPathPoint(const MapNode* neighbor) const {
 	return point;
 }
 
-void GridNode::DrawDebug() {
+float GridNode::getCostToNeighbor(USVec2D& init, const MapNode* neighbor) const {
+	const GridNode* node = reinterpret_cast<const GridNode*>(neighbor);
+	return node->mCost * getPathPoint(this).Dist(getPathPoint(neighbor));
+}
+
+void GridNode::DrawDebug(const std::vector<const MapNode*>& map) {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
 	gfxDevice.SetPointSize(1.0f);
 	USVec2D center = getPathPoint(this);
 	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
 	MOAIDraw::DrawPoint(center);
 
-	if (mCost == 3) {
+	if (std::find(map.begin(), map.end(), this) != map.end()) {
+		gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
+		MOAIDraw::DrawRectFill(center.mX - GRID_SIZE * 0.5f, center.mY - GRID_SIZE * 0.5f, center.mX + GRID_SIZE * 0.5f, center.mY + GRID_SIZE * 0.5f);
+	}
+	else if (mCost == 3) {
 		gfxDevice.SetPenColor(0.0f, 0.0f, 0.5f, 0.5f);
 		MOAIDraw::DrawRectFill(center.mX - GRID_SIZE * 0.5f, center.mY - GRID_SIZE * 0.5f, center.mX + GRID_SIZE * 0.5f, center.mY + GRID_SIZE * 0.5f);
 	}
-	if (mCost == 9999999) {
+	else if (mCost == 9999999) {
 		gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
 		MOAIDraw::DrawRectFill(center.mX - GRID_SIZE * 0.5f, center.mY - GRID_SIZE * 0.5f, center.mX + GRID_SIZE * 0.5f, center.mY + GRID_SIZE * 0.5f);
 	}
@@ -107,6 +116,11 @@ const MapNode* NavPolygon::getNextNeighbor(const MapNode* previous) const {
 	return node;
 }
 
-void NavPolygon::DrawDebug() {
+float NavPolygon::getCostToNeighbor(USVec2D& init, const MapNode* neighbor) const {
+	USVec2D end = getPathPoint(neighbor);
+	return init.Dist(end);
+}
+
+void NavPolygon::DrawDebug(const std::vector<const MapNode*>& map) {
 	MOAIDraw::DrawPolygon(mVerts);
 }
