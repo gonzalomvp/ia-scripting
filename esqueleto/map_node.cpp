@@ -48,3 +48,7 @@ const MapNode* NavPolygon::getNextNeighbor(const MapNode* previous) const {
 
 	return node;
 }
+
+void NavPolygon::DrawDebug() {
+	//MOAIDraw::DrawPolygon(mVerts);
+}

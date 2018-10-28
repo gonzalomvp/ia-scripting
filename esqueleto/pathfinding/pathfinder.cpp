@@ -209,23 +209,7 @@ void Pathfinder::DrawDebug()
 	//Draw Navmesh
 	for (int i = 0; i < mNavmesh.size(); i++)
 	{
-		NavPolygon polygon = *reinterpret_cast<NavPolygon*>(mNavmesh[i]);
-		for (int j = 0; j + 1 < polygon.mVerts.size(); ++j) {
-			
-			//MOAIDraw::DrawLine(polygon.mVerts[j], polygon.mVerts[j + 1]);
-		}
-		//MOAIDraw::DrawLine(polygon.points[0], polygon.points[polygon.points.size() - 1]);
-		gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-		//MOAIDraw::DrawPolygon(polygon.mVerts);
-
-		gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.1f);
-		if (std::find(m_path.begin(), m_path.end(), mNavmesh[i]) != m_path.end())
-		{
-			gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.05f);
-		}
-
-		
-		//MOAIDraw::DrawPolygonFilled(polygon.mVerts);
+		mNavmesh[i]->DrawDebug();
 	}
 
 }
