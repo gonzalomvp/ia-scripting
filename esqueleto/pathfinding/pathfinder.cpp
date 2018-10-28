@@ -10,8 +10,8 @@ Pathfinder::Pathfinder() : MOAIEntity2D(), mStartPosition(0.0f, 0.0f), mEndPosit
 		RTTI_EXTEND(MOAIEntity2D)
 	RTTI_END
 
-	ReadGrid("grid_map.txt", mMap);
-	//ReadNavmesh("navmesh.xml", mNavmesh);
+	//ReadGrid("grid_map.txt", mMap);
+	ReadNavmesh("navmesh.xml", mMap);
 }
 
 Pathfinder::~Pathfinder() {
@@ -24,14 +24,14 @@ void Pathfinder::UpdatePath() {
 	mClosedList.clear();
 
 	const MapNode* nodeOfPoint = MapNode::getNodeOfPoint(mStartPosition, mMap);
-	if (nodeOfPoint) {
-		mStartPosition = nodeOfPoint->getPathPoint(nodeOfPoint);
+	if (!nodeOfPoint) {
+		return;
 	}
 	mOpenList[nodeOfPoint] = PathNode(nodeOfPoint);
 
 	nodeOfPoint = MapNode::getNodeOfPoint(mEndPosition, mMap);
-	if (nodeOfPoint) {
-		mEndPosition = nodeOfPoint->getPathPoint(nodeOfPoint);
+	if (!nodeOfPoint) {
+		return;
 	}
 
 	while (!PathfindStep());
@@ -58,7 +58,7 @@ void Pathfinder::DrawDebug()
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
 	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
 	USRect kk = {-512,512, -384,384};
-	MOAIDraw::DrawGrid(kk, 32, 24);
+	//MOAIDraw::DrawGrid(kk, 32, 24);
 
 	//for (int row = 0; row < MAP_ROWS; row++)
 	//{
@@ -260,7 +260,7 @@ bool Pathfinder::PathfindStep()
 
 PathNode Pathfinder::popNodeWithMinCost()
 {
-	float minCost = 99999999.0f;
+	float minCost = 9999999999.0f;
 	PathNode popIndex;
 	for (auto it = mOpenList.begin(); it != mOpenList.end(); ++it)
 	{
@@ -321,6 +321,6 @@ int Pathfinder::_setCharacter(lua_State* L)
 {
 	MOAI_LUA_SETUP(Pathfinder, "U")
 
-	self->mCharacter = state.GetLuaObject<Character>(2, 0.0f);
+	self->SetCharacter(state.GetLuaObject<Character>(2, 0.0f));
 	return 0;
 }

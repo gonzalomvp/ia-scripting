@@ -47,7 +47,7 @@ entity:addImage(gfxQuad4)   -- SetImage(4)  dragon_hit.png
 entity:setProp(prop, layer)
 -- Start the character (allow calls to OnUpdate)
 entity:start()
-entity:setLoc(0, 0)
+entity:setLoc(-406, -238)
 entity:setRot(-135)
 entity:setLinearVel(10, 20)
 --entity:setAngularVel(30)
@@ -60,8 +60,6 @@ MOAIDrawDebug.insertEntity(entity)
 
 
 pathfinder = Pathfinder.new()
-pathfinder:setStartPosition(5, 10)
-pathfinder:setEndPosition(20, 40)
 pathfinder:setCharacter(entity)
 MOAIDrawDebug.insertEntity(pathfinder)
 

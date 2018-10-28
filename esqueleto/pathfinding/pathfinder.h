@@ -3,8 +3,8 @@
 
 #include <moaicore/MOAIEntity2D.h>
 #include "params.h"
+#include "character.h"
 
-class Character;
 class MapNode;
 
 struct PathNode {
@@ -25,6 +25,7 @@ public:
 	//const USVec2D& GetStartPosition() const { return mStartPosition; }
 	//const USVec2D& GetEndPosition  () const { return mEndPosition;   }
 
+	void SetCharacter(Character* character)  { mCharacter = character; mStartPosition = mCharacter->GetLoc(); mEndPosition = mCharacter->GetLoc(); UpdatePath(); }
 	void SetStartPosition (float x, float y) { mStartPosition = USVec2D(x, y); UpdatePath(); }
 	void SetEndPosition   (float x, float y) { mEndPosition   = USVec2D(x, y); UpdatePath(); }
 
