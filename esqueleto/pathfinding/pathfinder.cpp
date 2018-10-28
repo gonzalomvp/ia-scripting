@@ -250,15 +250,23 @@ bool Pathfinder::PathfindStep()
 			return true;
 		}
 		else {
+			USVec2D initPos = m_StartPosition;
+			if (currentNode.parentId) {
+				initPos = currentNode.mMapNode->getPathPoint(currentNode.parentId);
+			}
+		
+
 			openList.erase(currentNode.mMapNode);
 			closedList[currentNode.mMapNode] = currentNode;
 			const MapNode* neighbor = currentNode.mMapNode->getNextNeighbor(nullptr);
 			while (neighbor) {
 				if (!closedList.count(neighbor)) {
 					PathNode neighborNode(neighbor);
+					USVec2D endPos = currentNode.mMapNode->getPathPoint(neighbor);
+
 					neighborNode.parentId = currentNode.mMapNode;
-					neighborNode.g_score = currentNode.g_score + 1;
-					neighborNode.f_score = neighborNode.g_score /*+ (endNode.mPos - neighborNode.mPos).Length()*/;
+					neighborNode.g_score = currentNode.g_score + initPos.DistSqrd(endPos);
+					neighborNode.f_score = neighborNode.g_score + endPos.DistSqrd(m_EndPosition);
 
 					if (openList.count(neighbor)) {
 						if (neighborNode.g_score < openList[neighbor].g_score) {
