@@ -51,7 +51,7 @@ private:
 private:
 	USVec2D              m_StartPosition;
 	USVec2D              m_EndPosition;
-	std::vector<NavPolygon*> mNavmesh;
+	std::vector<MapNode*> mNavmesh;
 
 
 	// Lua configuration

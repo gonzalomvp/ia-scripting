@@ -40,7 +40,7 @@ struct Params
 bool ReadParams(const char* filename, Params& params);
 bool ReadPath(const char* filename, std::vector<USVec2D>& path);
 bool ReadObstacles(const char* filename, std::vector<USVec3D>& obstacles);
-bool ReadNavmesh(const char* filename, std::vector<NavPolygon*>& polygons);
+bool ReadNavmesh(const char* filename, std::vector<MapNode*>& polygons);
 
 inline int isLeft(USVec2D P0, USVec2D P1, USVec2D P2)
 {

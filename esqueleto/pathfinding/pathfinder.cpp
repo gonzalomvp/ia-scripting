@@ -44,9 +44,17 @@ void Pathfinder::UpdatePath()
 	closedList.clear();
 	USVec2D origin(-512, -384);
 	startNode = PathNode(mNavmesh[14]);
-	startNode.mPos = mNavmesh[0]->mVerts[0];
 	endNode = PathNode(mNavmesh[57]);
-	endNode.mPos = mNavmesh[0]->mVerts[0];
+
+	const MapNode* nodeOfPoint = MapNode::getNodeOfPoint(m_StartPosition, mNavmesh);
+	if (nodeOfPoint) {
+		startNode = PathNode(nodeOfPoint);
+	}
+	nodeOfPoint = MapNode::getNodeOfPoint(m_EndPosition, mNavmesh);
+	if (nodeOfPoint) {
+		endNode = PathNode(nodeOfPoint);
+	}
+
 
 	//for (size_t i = 0; i < mNavmesh.size(); i++)
 	//{
@@ -75,13 +83,17 @@ void Pathfinder::UpdatePath()
 
 	if (mCharacter)
 	{
-		//std::vector<USVec2D> reverse;
-		//for (size_t i = 0; i < m_path.size(); i++)
-		//{
-		//	reverse.push_back(m_path[m_path.size() - i - 1]);
-		//}
-		//reverse.push_back(m_EndPosition);
-		//mCharacter->SetPath(reverse);
+		std::vector<USVec2D> reverse;
+		reverse.push_back(m_StartPosition);
+		for (size_t i = 0; i + 1 < m_path.size(); i++)
+		{
+			const MapNode* n1 = m_path[m_path.size() - i - 1];
+			const MapNode* n2 = m_path[m_path.size() - i - 2];
+
+			reverse.push_back(n1->getPathPoint(n2));
+		}
+		reverse.push_back(m_EndPosition);
+		mCharacter->SetPath(reverse);
 	}
 	
 
@@ -197,14 +209,14 @@ void Pathfinder::DrawDebug()
 	//Draw Navmesh
 	for (int i = 0; i < mNavmesh.size(); i++)
 	{
-		NavPolygon polygon = *mNavmesh[i];
+		NavPolygon polygon = *reinterpret_cast<NavPolygon*>(mNavmesh[i]);
 		for (int j = 0; j + 1 < polygon.mVerts.size(); ++j) {
 			
 			//MOAIDraw::DrawLine(polygon.mVerts[j], polygon.mVerts[j + 1]);
 		}
 		//MOAIDraw::DrawLine(polygon.points[0], polygon.points[polygon.points.size() - 1]);
 		gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-		MOAIDraw::DrawPolygon(polygon.mVerts);
+		//MOAIDraw::DrawPolygon(polygon.mVerts);
 
 		gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.1f);
 		if (std::find(m_path.begin(), m_path.end(), mNavmesh[i]) != m_path.end())
@@ -213,7 +225,7 @@ void Pathfinder::DrawDebug()
 		}
 
 		
-		MOAIDraw::DrawPolygonFilled(polygon.mVerts);
+		//MOAIDraw::DrawPolygonFilled(polygon.mVerts);
 	}
 
 }

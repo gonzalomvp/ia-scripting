@@ -186,7 +186,7 @@ bool ReadObstacles(const char* filename, std::vector<USVec3D>& obstacles)
 	return true;
 }
 
-bool ReadNavmesh(const char* filename, std::vector<NavPolygon*>& polygons)
+bool ReadNavmesh(const char* filename, std::vector<MapNode*>& polygons)
 {
 	TiXmlDocument doc(filename);
 	if (!doc.LoadFile())
@@ -241,10 +241,10 @@ bool ReadNavmesh(const char* filename, std::vector<NavPolygon*>& polygons)
 		endElem->Attribute("edgestart", &endEdgestart);
 		endElem->Attribute("edgeend", &endEdgeend);
 
-		USVec2D p1 = polygons[startPolygon]->mVerts[startEdgestart];
-		USVec2D p2 = polygons[startPolygon]->mVerts[startEdgeend];
-		USVec2D p3 = polygons[endPolygon]->mVerts[endEdgestart];
-		USVec2D p4 = polygons[endPolygon]->mVerts[endEdgeend];
+		USVec2D p1 = reinterpret_cast<NavPolygon*>(polygons[startPolygon])->mVerts[startEdgestart];
+		USVec2D p2 = reinterpret_cast<NavPolygon*>(polygons[startPolygon])->mVerts[startEdgeend];
+		USVec2D p3 = reinterpret_cast<NavPolygon*>(polygons[endPolygon])->mVerts[endEdgestart];
+		USVec2D p4 = reinterpret_cast<NavPolygon*>(polygons[endPolygon])->mVerts[endEdgeend];
 
 		float s1 = (p1 - p2).LengthSquared();
 		float s2 = (p3 - p4).LengthSquared();
@@ -257,8 +257,8 @@ bool ReadNavmesh(const char* filename, std::vector<NavPolygon*>& polygons)
 		std::array<USVec2D, 2> verts;
 		verts[0] = p1;
 		verts[1] = p2;
-		polygons[startPolygon]->mEdges[polygons[endPolygon]] = verts;
-		polygons[endPolygon]->mEdges[polygons[startPolygon]] = verts;
+		reinterpret_cast<NavPolygon*>(polygons[startPolygon])->mEdges[polygons[endPolygon]] = verts;
+		reinterpret_cast<NavPolygon*>(polygons[endPolygon])->mEdges[polygons[startPolygon]] = verts;
 
 
 		//NavPolygon::Edge edge;
