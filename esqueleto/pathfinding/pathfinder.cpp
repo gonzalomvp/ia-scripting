@@ -40,12 +40,42 @@ void Pathfinder::UpdatePath() {
 
 	if (mCharacter) {
 		std::vector<USVec2D> reverse;
-		reverse.push_back(mStartPosition);
+		std::vector<std::array<USVec2D, 2>> edges;
 		for (size_t i = 0; i + 1 < mPath.size(); i++) {
-			const MapNode* node1 = mPath[mPath.size() - i - 1];
-			const MapNode* node2 = mPath[mPath.size() - i - 2];
+			const NavPolygon* node1 = reinterpret_cast<const NavPolygon*>(mPath[mPath.size() - i - 1]);
+			const NavPolygon* node2 = reinterpret_cast<const NavPolygon*>(mPath[mPath.size() - i - 2]);
+			std::map<const MapNode*, std::array<USVec2D, 2>> tempEdges = node1->mEdges;
+			edges.push_back(tempEdges[node2]);
+		}
 
-			reverse.push_back(node1->getPathPoint(node2));
+		USVec2D currentPosition = mStartPosition;
+		reverse.push_back(currentPosition);
+		for (size_t i = 0; i < edges.size(); ++i) {
+			if (get_line_intersection(currentPosition.mX, currentPosition.mY, mEndPosition.mX, mEndPosition.mY, edges[i][0].mX, edges[i][0].mY, edges[i][1].mX, edges[i][1].mY, &currentPosition.mX, &currentPosition.mY)) {
+				//reverse.push_back(currentPosition);
+			}
+			else {
+				USVec2D right = edges[i][0];
+				USVec2D left = edges[i][1];
+				USVec2D v1 = right - currentPosition;
+				USVec2D v2 = left - currentPosition;
+				
+				float dir = v1.Cross(v2);
+				if (dir < 0.0f) {
+					v1 = v2;
+					right = edges[i][1];
+					left = edges[i][0];
+				}
+				v2 = mEndPosition - currentPosition;
+				dir = v1.Cross(v2);
+				if (dir < 0.0f) {
+					currentPosition = right;
+				}
+				else {
+					currentPosition = left;
+				}
+				reverse.push_back(currentPosition);
+			}
 		}
 		reverse.push_back(mEndPosition);
 		mCharacter->SetPath(reverse);
@@ -217,4 +247,28 @@ int Pathfinder::_setCharacter(lua_State* L)
 
 	self->SetCharacter(state.GetLuaObject<Character>(2, 0.0f));
 	return 0;
+}
+
+bool get_line_intersection(float p0_x, float p0_y, float p1_x, float p1_y,
+	float p2_x, float p2_y, float p3_x, float p3_y, float *i_x, float *i_y)
+{
+	float s1_x, s1_y, s2_x, s2_y;
+	s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
+	s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
+
+	float s, t;
+	s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+	t = (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+	if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+	{
+		// Collision detected
+		if (i_x != NULL)
+			*i_x = p0_x + (t * s1_x);
+		if (i_y != NULL)
+			*i_y = p0_y + (t * s1_y);
+		return true;
+	}
+
+	return false; // No collision
 }
