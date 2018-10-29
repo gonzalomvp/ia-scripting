@@ -5,6 +5,8 @@
 #include"pursue_action.h"
 #include "hit_action.h"
 #include "hit_condition.h"
+#include "dead_condition.h"
+#include "death_timer.h"
 #include "state.h"
 #include "transition.h"
 #include "distance_condition.h"
@@ -30,6 +32,17 @@ void StateMachine::load() {
 	hit->setStateAction(hitTimer);
 	m_States.push_back(hit);
 
+	State* death = new State();
+	Action* deathAnim = new ChangeSpriteAction(this, 1);
+	Action* deathTimer = new DeathTimer(this);
+	death->setEnterAction(deathAnim);
+	death->setStateAction(deathTimer);
+	m_States.push_back(death);
+
+
+	Transition* onKilled = new Transition(new DeadCondition(this), death);
+	idle->addTransition(onKilled);
+
 	Transition* inPursueRange = new Transition(new DistanceCondition(this, 200.0f), alarm);
 	idle->addTransition(inPursueRange);
 
@@ -42,6 +55,9 @@ void StateMachine::load() {
 
 	Transition* hitEnd = new Transition(new NotCondition(this, new HitCondition(this)), idle);
 	hit->addTransition(hitEnd);
+
+	Transition* respawn = new Transition(new NotCondition(this, new DeadCondition(this)), idle);
+	death->addTransition(respawn);
 }
 
 void StateMachine::start()

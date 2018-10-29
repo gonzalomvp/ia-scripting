@@ -12,5 +12,6 @@ void HitAction::update(float step) {
 	mHitTimer += step;
 	if (mHitTimer >= 0.5f) {
 		mOwner->getCharacter()->SetIsHit(false);
+		mOwner->getCharacter()->SetLife(mOwner->getCharacter()->GetLife() - 1.0f);
 	}
 }

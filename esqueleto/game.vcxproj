@@ -133,7 +133,9 @@
     <ClCompile Include="change_sprite_action.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="check_hit.cpp" />
+    <ClCompile Include="dead_condition.cpp" />
     <ClCompile Include="death.cpp" />
+    <ClCompile Include="death_timer.cpp" />
     <ClCompile Include="distance_condition.cpp" />
     <ClCompile Include="gameConfig.cpp" />
     <ClCompile Include="hit.cpp" />
@@ -178,7 +180,9 @@
     <ClInclude Include="character.h" />
     <ClInclude Include="check_hit.h" />
     <ClInclude Include="condition.h" />
+    <ClInclude Include="dead_condition.h" />
     <ClInclude Include="death.h" />
+    <ClInclude Include="death_timer.h" />
     <ClInclude Include="distance_condition.h" />
     <ClInclude Include="gameConfig.h" />
     <ClInclude Include="group.h" />

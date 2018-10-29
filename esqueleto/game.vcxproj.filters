@@ -107,6 +107,12 @@
     <ClCompile Include="hit_action.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
+    <ClCompile Include="dead_condition.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="death_timer.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -225,6 +231,12 @@
       <Filter>state_machine</Filter>
     </ClInclude>
     <ClInclude Include="hit_action.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="dead_condition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="death_timer.h">
       <Filter>state_machine</Filter>
     </ClInclude>
   </ItemGroup>
