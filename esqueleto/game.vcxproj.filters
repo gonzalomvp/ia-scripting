@@ -113,6 +113,9 @@
     <ClCompile Include="death_timer.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
+    <ClCompile Include="stop_action.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -237,6 +240,9 @@
       <Filter>state_machine</Filter>
     </ClInclude>
     <ClInclude Include="death_timer.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="stop_action.h">
       <Filter>state_machine</Filter>
     </ClInclude>
   </ItemGroup>

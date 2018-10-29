@@ -1,8 +1,9 @@
 #include <stdafx.h>
 #include "stateMachine.h"
 
-#include"change_sprite_action.h"
-#include"pursue_action.h"
+#include "change_sprite_action.h"
+#include "pursue_action.h"
+#include "stop_action.h"
 #include "hit_action.h"
 #include "hit_condition.h"
 #include "dead_condition.h"
@@ -111,6 +112,9 @@ Action* StateMachine::createAction(TiXmlElement* actionElem) {
 
 		if (type == "changeSprite") {
 			action = new ChangeSpriteAction(this, std::stoi(params[0]));
+		}
+		else if (type == "stop") {
+			action = new StopAction(this);
 		}
 		else if (type == "pursue") {
 			action = new PursueAction(this);

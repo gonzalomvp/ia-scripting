@@ -22,6 +22,4 @@ void PursueAction::update(float step) {
 void PursueAction::end() {
 	mOwner->getCharacter()->RemoveSteering(mPursueSteering);
 	mOwner->getCharacter()->RemoveSteering(mAlignToMovementSteering);
-	mOwner->getCharacter()->SetLinearVelocity(0.0f, 0.0f);
-	mOwner->getCharacter()->SetAngularVelocity(0.0f);
 }
