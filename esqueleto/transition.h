@@ -8,7 +8,7 @@ class Transition {
 public:
 	Transition(Condition* condition, State* targetState, Action* triggerAction = nullptr) : m_condition(condition), m_targetState(targetState), m_triggerAction(triggerAction) {}
 	bool canTrigger() const;
-	State* trigger();
+	State* trigger(float step);
 
 private:
 	Condition* m_condition;

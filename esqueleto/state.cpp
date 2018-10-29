@@ -4,12 +4,12 @@
 #include "action.h"
 #include "transition.h"
 
-void State::onEnter()
+void State::onEnter(float step)
 {
 	if (m_enterAction)
 	{
 		m_enterAction->start();
-		m_enterAction->update();
+		m_enterAction->update(step);
 		m_enterAction->end();
 	}
 	if (m_stateAction)
@@ -18,15 +18,15 @@ void State::onEnter()
 	}
 }
 
-void State::update()
+void State::update(float step)
 {
 	if (m_stateAction)
 	{
-		m_stateAction->update();
+		m_stateAction->update(step);
 	}
 }
 
-void State::onExit()
+void State::onExit(float step)
 {
 	if (m_stateAction)
 	{
@@ -35,7 +35,7 @@ void State::onExit()
 	if (m_exitAction)
 	{
 		m_exitAction->start();
-		m_exitAction->update();
+		m_exitAction->update(step);
 		m_exitAction->end();
 	}
 }

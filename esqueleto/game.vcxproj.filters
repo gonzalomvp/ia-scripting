@@ -29,13 +29,7 @@
     <ClCompile Include="change_sprite_action.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
-    <ClCompile Include="enemy_seen_condition.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
     <ClCompile Include="state.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
-    <ClCompile Include="DistanceCondition.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
     <ClCompile Include="transition.cpp">
@@ -104,6 +98,24 @@
     <ClCompile Include="map_node.cpp">
       <Filter>pathfinder</Filter>
     </ClCompile>
+    <ClCompile Include="distance_condition.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="hit_condition.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="hit_action.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="dead_condition.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="death_timer.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="stop_action.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -141,15 +153,6 @@
       <Filter>state_machine</Filter>
     </ClInclude>
     <ClInclude Include="change_sprite_action.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy_seen_condition.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy_close_condition.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="distanceCondition.h">
       <Filter>state_machine</Filter>
     </ClInclude>
     <ClInclude Include="pursue_action.h">
@@ -223,6 +226,24 @@
     </ClInclude>
     <ClInclude Include="map_node.h">
       <Filter>pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="distance_condition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="hit_condition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="hit_action.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="dead_condition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="death_timer.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="stop_action.h">
+      <Filter>state_machine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

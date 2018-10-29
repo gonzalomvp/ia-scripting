@@ -4,9 +4,9 @@ class StateMachine;
 
 class Condition {
 public:
-	Condition(StateMachine* owner) : m_owner(owner) {}
+	Condition(StateMachine* owner) : mOwner(owner) {}
 	virtual bool check() const = 0;
 
 protected:
-	StateMachine* m_owner;
+	StateMachine* mOwner;
 };

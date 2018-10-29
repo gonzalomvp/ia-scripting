@@ -1,0 +1,93 @@
+<root>
+	<states>
+		<state>
+			<enter_action type="changeSprite">
+				<param value="0"></param>
+			</enter_action>
+			<state_action type="stop">
+			</state_action>
+		</state>
+		<state>
+			<enter_action type="changeSprite">
+				<param value="3"></param>
+			</enter_action>
+			<state_action type="pursue">
+			</state_action>
+		</state>
+		<state>
+			<enter_action type="changeSprite">
+				<param value="4"></param>
+			</enter_action>
+			<state_action type="hit">
+			</state_action>
+		</state>
+		<state>
+			<enter_action type="changeSprite">
+				<param value="1"></param>
+			</enter_action>
+			<state_action type="death">
+			</state_action>
+		</state>
+		<state>
+			<enter_action type="changeSprite">
+				<param value="2"></param>
+			</enter_action>
+			<state_action type="pursue">
+			</state_action>
+		</state>
+	</states>
+	<transitions>
+		<transition initial_state="0" end_state="3">
+			<condition type="dead">
+			</condition>
+		</transition>
+		<transition initial_state="0" end_state="2">
+			<condition type="hit">
+			</condition>
+		</transition>
+		<transition initial_state="0" end_state="1">
+			<condition type="distanceLessThan">
+				<param value="200"></param>
+			</condition>
+		</transition>
+		<transition initial_state="1" end_state="2">
+			<condition type="hit">
+			</condition>
+		</transition>
+		<transition initial_state="1" end_state="4">
+			<condition type="distanceLessThan">
+				<param value="80"></param>
+			</condition>
+		</transition>
+		<transition initial_state="1" end_state="0">
+			<condition type="not">
+				<condition type="distanceLessThan">
+					<param value="200"></param>
+				</condition>
+			</condition>
+		</transition>
+		<transition initial_state="2" end_state="0">
+			<condition type="not">
+				<condition type="hit">
+				</condition>
+			</condition>
+		</transition>
+		<transition initial_state="3" end_state="0">
+			<condition type="not">
+				<condition type="dead">
+				</condition>
+			</condition>
+		</transition>
+		<transition initial_state="4" end_state="2">
+			<condition type="hit">
+			</condition>
+		</transition>
+		<transition initial_state="4" end_state="0">
+			<condition type="not">
+				<condition type="distanceLessThan">
+					<param value="80"></param>
+				</condition>
+			</condition>
+		</transition>
+	</transitions>
+</root>

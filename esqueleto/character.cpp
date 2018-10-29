@@ -29,20 +29,20 @@ void Character::OnStart()
 {
     ReadParams("params.xml", mParams);
 	ReadPath("path.xml", mPath);
-	ReadObstacles("obstacles.xml", mObstacles);
+	//ReadObstacles("obstacles.xml", mObstacles);
 	//mSteerings.push_back(new AlignSteering());
-	mSteerings.push_back(new AlignToMovementSteering());
+	//mSteerings.push_back(new AlignToMovementSteering());
 	//mSteerings.push_back(new ObstacleAvoidanceSteering());
 	//mSteerings.push_back(new SeekSteering());
 	//mSteerings.push_back(new ArriveSteering());
 	//mSteerings.push_back(new PursueSteering());
-	mSteerings.push_back(new PathFollowingSteering());
+	//mSteerings.push_back(new PathFollowingSteering());
 	
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	mEnemyTarget   = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 
 	mStateMachine = new StateMachine(this);
-	mStateMachine->load();
+	mStateMachine->load("state_machine.xml");
 	mStateMachine->start();
 
 	mBehaviorTree = new BehaviorTree(this);
@@ -108,11 +108,8 @@ void Character::OnUpdate(float step)
 	//SetRot(atan2(mLinearVelocity.mY , mLinearVelocity.mX) * 57.2958f);
 	SetRot(GetRot() + mAngularVelocity * step);
 
-	
-
-
 	//StateMachine
-	//mStateMachine->update();
+	mStateMachine->update(step);
 
 	//BehaviorTree
 	//mBehaviorTree->update(step);
