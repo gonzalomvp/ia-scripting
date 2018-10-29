@@ -10,8 +10,8 @@ Pathfinder::Pathfinder() : MOAIEntity2D(), mStartPosition(0.0f, 0.0f), mEndPosit
 		RTTI_EXTEND(MOAIEntity2D)
 	RTTI_END
 
-	ReadGrid("grid_map.txt", mMap);
-	//ReadNavmesh("navmesh.xml", mMap);
+	//ReadGrid("grid_map.txt", mMap);
+	ReadNavmesh("navmesh.xml", mMap);
 }
 
 Pathfinder::~Pathfinder() {
