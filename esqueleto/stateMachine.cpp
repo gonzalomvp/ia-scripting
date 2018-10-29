@@ -3,9 +3,11 @@
 
 #include"change_sprite_action.h"
 #include"pursue_action.h"
+#include "hit_action.h"
+#include "hit_condition.h"
 #include "state.h"
 #include "transition.h"
-#include "distanceCondition.h"
+#include "distance_condition.h"
 #include "notCondition.h"
 
 void StateMachine::load() {
@@ -21,28 +23,42 @@ void StateMachine::load() {
 	alarm->setStateAction(pursueAction);
 	m_States.push_back(alarm);
 
-	Transition* closeTransition = new Transition(new DistanceCondition(this), alarm);
-	idle->addTransition(closeTransition);
+	State* hit = new State();
+	Action* hitAnim = new ChangeSpriteAction(this, 4);
+	Action* hitTimer = new HitAction(this);
+	hit->setEnterAction(hitAnim);
+	hit->setStateAction(hitTimer);
+	m_States.push_back(hit);
 
-	Transition* farTransition = new Transition(new NotCondition(this, new DistanceCondition(this)), idle);
-	alarm->addTransition(farTransition);
+	Transition* inPursueRange = new Transition(new DistanceCondition(this, 200.0f), alarm);
+	idle->addTransition(inPursueRange);
+
+	Transition* outOfRange = new Transition(new NotCondition(this, new DistanceCondition(this, 200.0f)), idle);
+	alarm->addTransition(outOfRange);
+
+	Transition* hitStart = new Transition(new HitCondition(this), hit);
+	idle->addTransition(hitStart);
+	alarm->addTransition(hitStart);
+
+	Transition* hitEnd = new Transition(new NotCondition(this, new HitCondition(this)), idle);
+	hit->addTransition(hitEnd);
 }
 
 void StateMachine::start()
 {
 	m_currentState = m_States[0];
-	m_currentState->onEnter();
+	m_currentState->onEnter(0);
 }
 
-void StateMachine::update() {
-	m_currentState->update();
+void StateMachine::update(float step) {
+	m_currentState->update(step);
 	const std::vector<Transition*>& transitions = m_currentState->getTransitions();
 	for (size_t i = 0; i < transitions.size(); i++) {
 		Transition* transition = transitions[i];
 		if (transition->canTrigger()) {
-			m_currentState->onExit();
-			State* nextState = transition->trigger();
-			nextState->onEnter();
+			m_currentState->onExit(step);
+			State* nextState = transition->trigger(step);
+			nextState->onEnter(step);
 			m_currentState = nextState;
 			return;
 		}

@@ -3,9 +3,9 @@
 
 class ChangeSpriteAction : public Action {
 public:
-	ChangeSpriteAction(StateMachine* owner, int imageIndex) : Action(owner), m_imageIndex(imageIndex) {}
+	ChangeSpriteAction(StateMachine* owner, int imageIndex) : Action(owner), mImageIndex(imageIndex) {}
 	virtual void start();
 
 private:
-	int m_imageIndex;
+	int mImageIndex;
 };

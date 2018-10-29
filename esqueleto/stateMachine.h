@@ -9,7 +9,7 @@ public:
 	StateMachine(Character* owner) : m_owner(owner) {}
 	void load();
 	void start();
-	void update();
+	void update(float step);
 	Character* getCharacter() const { return m_owner; }
 
 private:

@@ -23,7 +23,7 @@ gfxQuad:setRect ( -512, -384, 512, 384 )
 gfxQuad:setUVRect ( 0, 0, 1, 1 )
 prop = MOAIProp2D.new ()
 prop:setDeck ( gfxQuad )
-layer:insertProp ( prop )
+--layer:insertProp ( prop )
 
 gfxQuad  = createImage("dragon.png", char_size)
 gfxQuad1 = createImage("dragon_dead.png", char_size)
@@ -49,7 +49,7 @@ entity:setProp(prop, layer)
 entity:start()
 entity:setLoc(-406, -238)
 entity:setRot(-135)
-entity:setLinearVel(10, 20)
+entity:setLinearVel(0, 0)
 --entity:setAngularVel(30)
 
 -- Enable Debug Draw
@@ -59,9 +59,9 @@ layer:setDrawDebug(debug)
 MOAIDrawDebug.insertEntity(entity)
 
 
-pathfinder = Pathfinder.new()
-pathfinder:setCharacter(entity)
-MOAIDrawDebug.insertEntity(pathfinder)
+--pathfinder = Pathfinder.new()
+--pathfinder:setCharacter(entity)
+--MOAIDrawDebug.insertEntity(pathfinder)
 
 mouseX = 0
 mouseY = 0

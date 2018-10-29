@@ -8,9 +8,9 @@ class State {
 public:
 	State() : m_enterAction(nullptr), m_exitAction(nullptr), m_stateAction(nullptr) {}
 
-	virtual void onEnter();
-	virtual void update();
-	virtual void onExit();
+	virtual void onEnter(float step);
+	virtual void update(float step);
+	virtual void onExit(float step);
 	const std::vector<Transition*>& getTransitions() { return m_transitions; }
 
 	void setEnterAction(Action* action) { m_enterAction = action; }
