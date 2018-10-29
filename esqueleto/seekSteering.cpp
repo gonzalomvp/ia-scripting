@@ -30,6 +30,8 @@ void SeekSteering::GetSteering(Character& character, USVec2D& linearAcceleration
 
 void SeekSteering::DrawDebug() {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
+	gfxDevice.SetPenWidth(1.0f);
+	gfxDevice.SetPointSize(1.0f);
 	
 	//Draw desired velocity in red
 	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);

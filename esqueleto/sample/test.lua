@@ -23,7 +23,7 @@ gfxQuad:setRect ( -512, -384, 512, 384 )
 gfxQuad:setUVRect ( 0, 0, 1, 1 )
 prop = MOAIProp2D.new ()
 prop:setDeck ( gfxQuad )
-layer:insertProp ( prop )
+--layer:insertProp ( prop )
 
 gfxQuad  = createImage("dragon.png", char_size)
 gfxQuad1 = createImage("dragon_dead.png", char_size)

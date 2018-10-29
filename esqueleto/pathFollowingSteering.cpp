@@ -24,7 +24,8 @@ void PathFollowingSteering::GetSteering(Character& character, USVec2D& linearAcc
 void PathFollowingSteering::DrawDebug()
 {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
-
+	gfxDevice.SetPenWidth(2.0f);
+	gfxDevice.SetPointSize(5.0f);
 	//Draw path
 	for (size_t i = 0; i + 1 < mPath.size(); ++i) {
 		//Closest segment in green
@@ -40,12 +41,10 @@ void PathFollowingSteering::DrawDebug()
 
 	//Draw closest point in green
 	gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.0f);
-	gfxDevice.SetPointSize(5.0f);
 	MOAIDraw::DrawPoint(mClosestPoint);
 
 	//Draw future location in blue
 	gfxDevice.SetPenColor(0.0f, 0.0f, 1.0f, 0.0f);
-	gfxDevice.SetPointSize(5.0f);
 	MOAIDraw::DrawPoint(mFutureLoc);
 
 	//Delegated steering debug

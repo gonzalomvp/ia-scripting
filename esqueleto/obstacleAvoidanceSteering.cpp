@@ -35,6 +35,8 @@ void ObstacleAvoidanceSteering::GetSteering(Character& character, USVec2D& linea
 void ObstacleAvoidanceSteering::DrawDebug()
 {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
+	gfxDevice.SetPenWidth(1.0f);
+	gfxDevice.SetPointSize(1.0f);
 
 	//Draw obstacles
 	for (size_t i = 0; i < mObstacles.size(); ++i) {

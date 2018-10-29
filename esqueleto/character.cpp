@@ -122,6 +122,7 @@ void Character::DrawDebug()
 {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
 	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
+	gfxDevice.SetPenWidth(1.0f);
 	gfxDevice.SetPointSize(5.0f);
 
 	MOAIDraw::DrawPoint(mParams.targetPosition);

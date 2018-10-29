@@ -22,8 +22,8 @@ public:
 	Pathfinder ();
 	~Pathfinder();
 
-	//const USVec2D& GetStartPosition() const { return mStartPosition; }
-	//const USVec2D& GetEndPosition  () const { return mEndPosition;   }
+	const USVec2D& GetStartPosition() const { return mStartPosition; }
+	const USVec2D& GetEndPosition  () const { return mEndPosition;   }
 
 	void SetCharacter(Character* character)  { mCharacter = character; mStartPosition = mCharacter->GetLoc(); mEndPosition = mCharacter->GetLoc(); UpdatePath(); }
 	void SetStartPosition (float x, float y) { mStartPosition = USVec2D(x, y); UpdatePath(); }

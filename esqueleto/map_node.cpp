@@ -59,25 +59,37 @@ float GridNode::getCostToNeighbor(USVec2D& init, const MapNode* neighbor) const 
 	return node->mCost * getPathPoint(this).Dist(getPathPoint(neighbor));
 }
 
-void GridNode::DrawDebug(const std::vector<const MapNode*>& map) {
+void GridNode::DrawDebug() const {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
 	gfxDevice.SetPointSize(1.0f);
 	USVec2D center = getPathPoint(this);
-	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-	MOAIDraw::DrawPoint(center);
 
-	if (std::find(map.begin(), map.end(), this) != map.end()) {
-		gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
-		MOAIDraw::DrawRectFill(center.mX - GRID_SIZE * 0.5f, center.mY - GRID_SIZE * 0.5f, center.mX + GRID_SIZE * 0.5f, center.mY + GRID_SIZE * 0.5f);
-	}
-	else if (mCost == 3) {
+	//Grid outline
+	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.0f);
+	gfxDevice.SetPenWidth(1.0f);
+	DrawOutline();
+
+	//Water
+	if (mCost == 3) {
 		gfxDevice.SetPenColor(0.0f, 0.0f, 0.5f, 0.5f);
-		MOAIDraw::DrawRectFill(center.mX - GRID_SIZE * 0.5f, center.mY - GRID_SIZE * 0.5f, center.mX + GRID_SIZE * 0.5f, center.mY + GRID_SIZE * 0.5f);
+		DrawFill();
 	}
+
+	//Blocked
 	else if (mCost == 9999999) {
 		gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-		MOAIDraw::DrawRectFill(center.mX - GRID_SIZE * 0.5f, center.mY - GRID_SIZE * 0.5f, center.mX + GRID_SIZE * 0.5f, center.mY + GRID_SIZE * 0.5f);
+		DrawFill();
 	}
+}
+
+void GridNode::DrawOutline() const {
+	USVec2D center = getPathPoint(this);
+	MOAIDraw::DrawRectOutline(center.mX - GRID_SIZE * 0.5f, center.mY - GRID_SIZE * 0.5f, center.mX + GRID_SIZE * 0.5f, center.mY + GRID_SIZE * 0.5f);
+}
+
+void GridNode::DrawFill() const {
+	USVec2D center = getPathPoint(this);
+	MOAIDraw::DrawRectFill(center.mX - GRID_SIZE * 0.5f, center.mY - GRID_SIZE * 0.5f, center.mX + GRID_SIZE * 0.5f, center.mY + GRID_SIZE * 0.5f);
 }
 
 bool NavPolygon::isPointInNode(const USVec2D& point) const  {
@@ -121,6 +133,18 @@ float NavPolygon::getCostToNeighbor(USVec2D& init, const MapNode* neighbor) cons
 	return init.Dist(end);
 }
 
-void NavPolygon::DrawDebug(const std::vector<const MapNode*>& map) {
+void NavPolygon::DrawDebug() const {
+	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
+	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.0f);
+	gfxDevice.SetPenWidth(1.0f);
+	DrawOutline();
+	
+}
+
+void NavPolygon::DrawOutline() const {
 	MOAIDraw::DrawPolygon(mVerts);
+}
+
+void NavPolygon::DrawFill() const {
+	MOAIDraw::DrawPolygonFilled(mVerts);
 }
