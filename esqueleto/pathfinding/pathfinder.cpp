@@ -41,12 +41,11 @@ void Pathfinder::UpdatePath() {
 	if (mCharacter) {
 		std::vector<USVec2D> reverse;
 		reverse.push_back(mStartPosition);
-		for (size_t i = 0; i + 1 < mPath.size(); i++)
-		{
-			const MapNode* n1 = mPath[mPath.size() - i - 1];
-			const MapNode* n2 = mPath[mPath.size() - i - 2];
+		for (size_t i = 0; i + 1 < mPath.size(); i++) {
+			const MapNode* node1 = mPath[mPath.size() - i - 1];
+			const MapNode* node2 = mPath[mPath.size() - i - 2];
 
-			reverse.push_back(n1->getPathPoint(n2));
+			reverse.push_back(node1->getPathPoint(node2));
 		}
 		reverse.push_back(mEndPosition);
 		mCharacter->SetPath(reverse);
@@ -64,14 +63,12 @@ void Pathfinder::DrawDebug() {
 	//Draw Open list in light blue
 	for (auto it = mOpenList.begin(); it != mOpenList.end(); ++it) {
 		gfxDevice.SetPenColor(0.0f, 1.0f, 1.0f, 0.5f);
-		gfxDevice.SetPenWidth(3.0f);
 		it->first->DrawFill();
 	}
 
 	//Draw Closed list in orange
 	for (auto it = mClosedList.begin(); it != mClosedList.end(); ++it) {
 		gfxDevice.SetPenColor(1.0f, 0.5f, 0.0f, 0.5f);
-		gfxDevice.SetPenWidth(3.0f);
 		it->first->DrawFill();
 	}
 
@@ -79,7 +76,6 @@ void Pathfinder::DrawDebug() {
 	if (mOpenList.size() > 0) {
 		for (int i = 0; i < mPath.size(); i++) {
 			gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
-			gfxDevice.SetPenWidth(3.0f);
 			mPath[i]->DrawFill();
 		}
 	}
@@ -90,14 +86,23 @@ bool Pathfinder::PathfindStep() {
     // returns true if pathfinding process finishes
 	if (!mOpenList.empty()) {
 		PathNode currentNode = popNodeWithMinCost();
-		mPath.clear();
+
+		//Abort if not possible to get node from list
+		if (!currentNode.mNode) {
+			return true;
+		}
+
 		const MapNode* parentId = currentNode.mParentNode;
+
+		//Build path
+		mPath.clear();
 		mPath.push_back(currentNode.mNode);
 		while (parentId) {
 			mPath.push_back(mClosedList[parentId].mNode);
 			parentId = mClosedList[parentId].mParentNode;
 		}
 
+		//Check if arrived to end node
 		if (currentNode.mNode == MapNode::getNodeOfPoint(mEndPosition, mMap)) {
 			mOpenList.clear();
 			mClosedList.clear();
@@ -110,6 +115,8 @@ bool Pathfinder::PathfindStep() {
 			}
 			mOpenList.erase(currentNode.mNode);
 			mClosedList[currentNode.mNode] = currentNode;
+
+			//Calculate cost for each neighbor
 			const MapNode* neighbor = currentNode.mNode->getNextNeighbor(nullptr);
 			while (neighbor) {
 				if (!mClosedList.count(neighbor)) {
@@ -121,6 +128,7 @@ bool Pathfinder::PathfindStep() {
 					neighborNode.f_score = neighborNode.g_score + endPos.Dist(mEndPosition);
 
 					if (mOpenList.count(neighbor)) {
+						//Update cost if lower
 						if (neighborNode.g_score < mOpenList[neighbor].g_score) {
 							mOpenList[neighbor] = neighborNode;
 						}
@@ -133,26 +141,30 @@ bool Pathfinder::PathfindStep() {
 			}
 		}
 	}
-	else
-	{
+	else {
 		const MapNode* nodeOfPoint = MapNode::getNodeOfPoint(mStartPosition, mMap);
 		mOpenList[nodeOfPoint] = PathNode(nodeOfPoint);
 		PathfindStep();
 	}
-
     return false;
 }
 
 PathNode Pathfinder::popNodeWithMinCost() {
-	float minCost = 9999999999.0f;
-	PathNode popIndex;
-	for (auto it = mOpenList.begin(); it != mOpenList.end(); ++it) {
-		if (it->second.f_score < minCost) {
-			minCost = it->second.f_score;
-			popIndex = it->second;
+	PathNode minCostNode;
+	float minCost = 0.0f;
+
+	if (mOpenList.begin() != mOpenList.end()) {
+		minCostNode = mOpenList.begin()->second;
+		minCost = mOpenList.begin()->second.f_score;
+		for (auto it = mOpenList.begin(); it != mOpenList.end(); ++it) {
+			if (it->second.f_score < minCost) {
+				minCostNode = it->second;
+				minCost = it->second.f_score;
+			}
 		}
 	}
-	return popIndex;
+	
+	return minCostNode;
 }
 
 //lua configuration ----------------------------------------------------------------//
