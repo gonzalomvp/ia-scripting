@@ -42,7 +42,7 @@ void Character::OnStart()
 	mEnemyTarget   = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 
 	mStateMachine = new StateMachine(this);
-	mStateMachine->load();
+	mStateMachine->load("state_machine.xml");
 	mStateMachine->start();
 
 	mBehaviorTree = new BehaviorTree(this);
