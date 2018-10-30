@@ -5,12 +5,14 @@
 #include "character.h"
 #include "behavior_tree/behavior_tree.h"
 
-Pursue::Pursue(BehaviorTree* owner, float arriveDistance) : Behavior(owner), mArriveDistance(arriveDistance) {
+Pursue::Pursue(BehaviorTree* owner, float arriveDistance, float lostDistance) : Behavior(owner), mArriveDistance(arriveDistance), mLostDistance(lostDistance) {
 	mPursueSteering = new PursueSteering();
 	mAlignToMovementSteering = new AlignToMovementSteering();
 }
 
 Pursue::~Pursue() {
+	mOwner->getCharacter()->RemoveSteering(mPursueSteering);
+	mOwner->getCharacter()->RemoveSteering(mAlignToMovementSteering);
 	delete mPursueSteering;
 	delete mAlignToMovementSteering;
 }
@@ -27,14 +29,13 @@ Status Pursue::update(float step)
 	}
 
 	float sqrdDist = mOwner->getCharacter()->GetEnemyPosition().DistSqrd(mOwner->getCharacter()->GetLoc());
-	if (sqrdDist  <= (mArriveDistance * mArriveDistance))
-	{
+	if (sqrdDist > (mLostDistance * mLostDistance)) {
+		return eFail;
+	}
+	if (sqrdDist  <= (mArriveDistance * mArriveDistance)) {
 		return eSuccess;
 	}
-	else
-	{
-		return eRunning;
-	}
+	return eRunning;
 }
 
 void Pursue::onExit() {

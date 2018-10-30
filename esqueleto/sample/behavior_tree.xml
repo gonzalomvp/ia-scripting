@@ -22,7 +22,10 @@
 			<behavior type="changeSprite">
 				<param value="2"></param>
 			</behavior>
-			<behavior type="attack"></behavior>
+			<behavior type="chase">
+				<param value="0"></param>
+				<param value="80"></param>
+			</behavior>
 		</behavior>
 		<behavior type="sequence">
 			<behavior type="distanceLessThan">
@@ -33,6 +36,7 @@
 			</behavior>
 			<behavior type="chase">
 				<param value="80"></param>
+				<param value="200"></param>
 			</behavior>
 		</behavior>
 	</behavior>

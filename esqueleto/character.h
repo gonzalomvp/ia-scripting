@@ -20,7 +20,6 @@ public:
 	virtual void DrawDebug();
 
 	Character();
-	~Character();
 	
 	// Getters and Setters
 	USVec2D                     GetLinearVelocity()  const { return mLinearVelocity;  }

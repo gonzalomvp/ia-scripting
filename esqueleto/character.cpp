@@ -20,16 +20,6 @@ Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f), mI
 	RTTI_END
 }
 
-Character::~Character()
-{
-	for (size_t i = 0; i < mSteerings.size(); ++i) {
-		delete mSteerings[i];
-	}
-	delete mStateMachine;
-	delete mBehaviorTree;
-}
-
-
 void Character::OnStart()
 {
     ReadParams("params.xml", mParams);
@@ -54,9 +44,11 @@ void Character::OnStart()
 	mBehaviorTree->load("behavior_tree.xml");
 }
 
-void Character::OnStop()
-{
-	for (size_t i = 0; i < mSteerings.size(); i++) {
+void Character::OnStop() {
+	delete mStateMachine;
+	delete mBehaviorTree;
+
+	for (size_t i = 0; i < mSteerings.size(); ++i) {
 		delete mSteerings[i];
 	}
 	mSteerings.clear();

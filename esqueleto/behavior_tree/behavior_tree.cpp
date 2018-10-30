@@ -106,7 +106,7 @@ Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
 			behavior = new Attack(this);
 		}
 		else if (type == "chase") {
-			behavior = new Pursue(this, std::stof(params[0]));
+			behavior = new Pursue(this, std::stof(params[0]), std::stof(params[1]));
 		}
 		else if (type == "idle") {
 			behavior = new Idle(this);

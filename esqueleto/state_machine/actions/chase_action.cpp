@@ -11,6 +11,8 @@ ChaseAction::ChaseAction(StateMachine* owner) : Action(owner) {
 }
 
 ChaseAction::~ChaseAction() {
+	mOwner->getCharacter()->RemoveSteering(mPursueSteering);
+	mOwner->getCharacter()->RemoveSteering(mAlignToMovementSteering);
 	delete mPursueSteering;
 	delete mAlignToMovementSteering;
 }
