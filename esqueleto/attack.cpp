@@ -5,7 +5,7 @@
 
 Status Attack::update(float step)
 {
-	m_owner->getCharacter()->SetLinearVelocity(0.0f, 0.0f);
-	m_owner->getCharacter()->SetAngularVelocity(0.0f);
+	mOwner->getCharacter()->SetLinearVelocity(0.0f, 0.0f);
+	mOwner->getCharacter()->SetAngularVelocity(0.0f);
 	return eSuccess;
 }

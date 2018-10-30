@@ -4,7 +4,7 @@
 #include "behavior_tree.h"
 
 void ChangeSprite::onEnter() {
-	m_owner->getCharacter()->SetImage(mImageIndex);
+	mOwner->getCharacter()->SetImage(mImageIndex);
 }
 
 Status ChangeSprite::update(float step) {

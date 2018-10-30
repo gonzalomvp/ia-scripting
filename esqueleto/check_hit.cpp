@@ -5,7 +5,7 @@
 
 Status CheckHit::update(float step)
 {
-	if (m_owner->getCharacter()->GetIsHit())
+	if (mOwner->getCharacter()->GetIsHit())
 	{
 		return eSuccess;
 	}

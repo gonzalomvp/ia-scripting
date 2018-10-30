@@ -5,8 +5,8 @@
 
 Status Death::update(float step)
 {
-	m_owner->getCharacter()->SetLinearVelocity(0.0f, 0.0f);
-	m_owner->getCharacter()->SetAngularVelocity(0.0f);
+	mOwner->getCharacter()->SetLinearVelocity(0.0f, 0.0f);
+	mOwner->getCharacter()->SetAngularVelocity(0.0f);
 	m_respawnTimer += step;
 	if (m_respawnTimer >= 5.0f)
 	{
@@ -26,7 +26,6 @@ void Death::onEnter()
 
 void Death::onExit()
 {
-	m_owner->getCharacter()->SetImage(0);
-	m_owner->getCharacter()->SetLife(5.0f);
-	m_owner->getCharacter()->SetLoc(USVec2D(0, 0));
+	mOwner->getCharacter()->SetLife(5.0f);
+	mOwner->getCharacter()->SetLoc(USVec2D(0, 0));
 }

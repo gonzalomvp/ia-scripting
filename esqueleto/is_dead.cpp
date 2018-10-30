@@ -5,7 +5,7 @@
 
 Status IsDead::update(float step)
 {
-	if (m_owner->getCharacter()->GetLife() <= 0.0f)
+	if (mOwner->getCharacter()->GetLife() <= 0.0f)
 	{
 		return eSuccess;
 	}

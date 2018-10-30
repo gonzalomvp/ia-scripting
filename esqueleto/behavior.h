@@ -12,7 +12,7 @@ enum Status
 
 class Behavior {
 public:
-	Behavior(BehaviorTree* owner) : m_owner(owner), m_Status(eInvalid) {}
+	Behavior(BehaviorTree* owner) : mOwner(owner), m_Status(eInvalid) {}
 	virtual Status tick(float step);
 
 protected:
@@ -20,7 +20,7 @@ protected:
 	virtual void onEnter() {}
 	virtual void onExit()  {}
 
-	BehaviorTree* m_owner;
+	BehaviorTree* mOwner;
 
 private:
 	Status m_Status;

@@ -5,7 +5,7 @@
 
 Status IsClose::update(float step)
 {
-	float sqrdDist = m_owner->getCharacter()->GetEnemyPosition().DistSqrd(m_owner->getCharacter()->GetLoc());
+	float sqrdDist = mOwner->getCharacter()->GetEnemyPosition().DistSqrd(mOwner->getCharacter()->GetLoc());
 	if (sqrdDist < (m_MinDistance * m_MinDistance))
 	{
 		return eSuccess;

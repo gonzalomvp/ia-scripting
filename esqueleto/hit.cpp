@@ -5,8 +5,8 @@
 
 Status Hit::update(float step)
 {
-	m_owner->getCharacter()->SetLinearVelocity(0.0f, 0.0f);
-	m_owner->getCharacter()->SetAngularVelocity(0.0f);
+	mOwner->getCharacter()->SetLinearVelocity(0.0f, 0.0f);
+	mOwner->getCharacter()->SetAngularVelocity(0.0f);
 	m_hitTimer += step;
 	if (m_hitTimer >= 0.5f)
 	{
@@ -26,8 +26,6 @@ void Hit::onEnter()
 
 void Hit::onExit()
 {
-	m_owner->getCharacter()->SetImage(0);
-
-	m_owner->getCharacter()->SetIsHit(false);
-	m_owner->getCharacter()->SetLife(m_owner->getCharacter()->GetLife() - 1.0f);
+	mOwner->getCharacter()->SetIsHit(false);
+	mOwner->getCharacter()->SetLife(mOwner->getCharacter()->GetLife() - 1.0f);
 }
