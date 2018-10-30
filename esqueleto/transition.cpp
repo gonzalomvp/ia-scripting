@@ -1,6 +1,5 @@
 #include <stdafx.h>
 #include "transition.h"
-
 #include "action.h"
 #include "condition.h"
 
@@ -14,7 +13,7 @@ bool Transition::canTrigger() const {
 }
 
 State* Transition::trigger(float step) { 
-	if (mTriggerAction){
+	if (mTriggerAction) {
 		mTriggerAction->start();
 		mTriggerAction->update(step);
 		mTriggerAction->end();

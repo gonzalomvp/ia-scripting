@@ -1,51 +1,42 @@
 #include <stdafx.h>
 #include "state.h"
-
 #include "action.h"
 #include "transition.h"
 
 State::~State() {
-	delete m_enterAction;
-	delete m_exitAction;
-	delete m_stateAction;
+	delete mEnterAction;
+	delete mExitAction;
+	delete mStateAction;
 
-	for (size_t i = 0; i < m_transitions.size(); ++i) {
-		delete m_transitions[i];
+	for (size_t i = 0; i < mTransitions.size(); ++i) {
+		delete mTransitions[i];
 	}
 }
 
-void State::onEnter(float step)
-{
-	if (m_enterAction)
-	{
-		m_enterAction->start();
-		m_enterAction->update(step);
-		m_enterAction->end();
+void State::onEnter(float step) {
+	if (mEnterAction) {
+		mEnterAction->start();
+		mEnterAction->update(step);
+		mEnterAction->end();
 	}
-	if (m_stateAction)
-	{
-		m_stateAction->start();
+	if (mStateAction) {
+		mStateAction->start();
 	}
 }
 
-void State::update(float step)
-{
-	if (m_stateAction)
-	{
-		m_stateAction->update(step);
+void State::update(float step) {
+	if (mStateAction) {
+		mStateAction->update(step);
 	}
 }
 
-void State::onExit(float step)
-{
-	if (m_stateAction)
-	{
-		m_stateAction->end();
+void State::onExit(float step) {
+	if (mStateAction) {
+		mStateAction->end();
 	}
-	if (m_exitAction)
-	{
-		m_exitAction->start();
-		m_exitAction->update(step);
-		m_exitAction->end();
+	if (mExitAction) {
+		mExitAction->start();
+		mExitAction->update(step);
+		mExitAction->end();
 	}
 }

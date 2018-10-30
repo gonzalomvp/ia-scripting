@@ -1,6 +1,5 @@
 #include <stdafx.h>
 #include "hit_action.h"
-
 #include "character.h"
 #include "stateMachine.h"
 

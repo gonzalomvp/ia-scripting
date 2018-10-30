@@ -23,9 +23,6 @@
     <ClCompile Include="stateMachine.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
-    <ClCompile Include="idle_state.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
     <ClCompile Include="change_sprite_action.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
@@ -33,9 +30,6 @@
       <Filter>state_machine</Filter>
     </ClCompile>
     <ClCompile Include="transition.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
-    <ClCompile Include="pursue_action.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
     <ClCompile Include="behavior.cpp">
@@ -110,17 +104,20 @@
     <ClCompile Include="dead_condition.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
-    <ClCompile Include="death_timer.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
-    <ClCompile Include="stop_action.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
     <ClCompile Include="change_sprite.cpp">
       <Filter>behavior_tree</Filter>
     </ClCompile>
     <ClCompile Include="group.cpp">
       <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="death_action.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="idle_action.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="chase_action.cpp">
+      <Filter>state_machine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,16 +152,7 @@
     <ClInclude Include="stateMachine.h">
       <Filter>state_machine</Filter>
     </ClInclude>
-    <ClInclude Include="idle_state.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
     <ClInclude Include="change_sprite_action.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="pursue_action.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="notCondition.h">
       <Filter>state_machine</Filter>
     </ClInclude>
     <ClInclude Include="behavior.h">
@@ -245,14 +233,20 @@
     <ClInclude Include="dead_condition.h">
       <Filter>state_machine</Filter>
     </ClInclude>
-    <ClInclude Include="death_timer.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="stop_action.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
     <ClInclude Include="change_sprite.h">
       <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="death_action.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="idle_action.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="not_condition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="chase_action.h">
+      <Filter>state_machine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -41,7 +41,7 @@ void Character::OnStart()
 	//mSteerings.push_back(new SeekSteering());
 	//mSteerings.push_back(new ArriveSteering());
 	//mSteerings.push_back(new PursueSteering());
-	mSteerings.push_back(new PathFollowingSteering());
+	//mSteerings.push_back(new PathFollowingSteering());
 	
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	mEnemyTarget   = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
@@ -114,7 +114,7 @@ void Character::OnUpdate(float step)
 	SetRot(GetRot() + mAngularVelocity * step);
 
 	//StateMachine
-	//mStateMachine->update(step);
+	mStateMachine->update(step);
 
 	//BehaviorTree
 	//mBehaviorTree->update(step);

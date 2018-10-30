@@ -2,16 +2,16 @@
 #include "stateMachine.h"
 
 #include "change_sprite_action.h"
-#include "pursue_action.h"
-#include "stop_action.h"
+#include "chase_action.h"
+#include "idle_action.h"
 #include "hit_action.h"
 #include "hit_condition.h"
 #include "dead_condition.h"
-#include "death_timer.h"
+#include "death_action.h"
 #include "state.h"
 #include "transition.h"
 #include "distance_condition.h"
-#include "notCondition.h"
+#include "not_condition.h"
 
 #include <tinyxml.h>
 
@@ -119,17 +119,17 @@ Action* StateMachine::createAction(TiXmlElement* actionElem) {
 		if (type == "changeSprite") {
 			action = new ChangeSpriteAction(this, std::stoi(params[0]));
 		}
-		else if (type == "stop") {
-			action = new StopAction(this);
+		else if (type == "idle") {
+			action = new IdleAction(this);
 		}
-		else if (type == "pursue") {
-			action = new PursueAction(this);
+		else if (type == "chase") {
+			action = new ChaseAction(this);
 		}
 		else if (type == "hit") {
 			action = new HitAction(this);
 		}
 		else if (type == "death") {
-			action = new DeathTimer(this);
+			action = new DeathAction(this);
 		}
 	}
 	

@@ -5,5 +5,5 @@
 class DeadCondition : public Condition {
 public:
 	DeadCondition(StateMachine* owner) : Condition(owner) {}
-	virtual bool check() const;
+	virtual bool check() const override;
 };

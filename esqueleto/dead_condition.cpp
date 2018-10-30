@@ -1,6 +1,5 @@
 #include <stdafx.h>
 #include "dead_condition.h"
-
 #include "character.h"
 #include "stateMachine.h"
 

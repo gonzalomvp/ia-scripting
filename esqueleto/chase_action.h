@@ -4,12 +4,11 @@
 class AlignToMovementSteering;
 class PursueSteering;
 
-class PursueAction : public Action {
+class ChaseAction : public Action {
 public:
-	PursueAction(StateMachine* owner);
-	~PursueAction();
+	ChaseAction(StateMachine* owner);
+	~ChaseAction();
 	virtual void start() override;
-	virtual void update(float step) override;
 	virtual void end() override;
 
 private:

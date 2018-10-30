@@ -4,14 +4,14 @@
 			<enter_action type="changeSprite">
 				<param value="0"></param>
 			</enter_action>
-			<state_action type="stop">
+			<state_action type="idle">
 			</state_action>
 		</state>
 		<state>
 			<enter_action type="changeSprite">
 				<param value="3"></param>
 			</enter_action>
-			<state_action type="pursue">
+			<state_action type="chase">
 			</state_action>
 		</state>
 		<state>
@@ -32,7 +32,7 @@
 			<enter_action type="changeSprite">
 				<param value="2"></param>
 			</enter_action>
-			<state_action type="pursue">
+			<state_action type="chase">
 			</state_action>
 		</state>
 	</states>

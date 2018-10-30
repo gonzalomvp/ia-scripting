@@ -6,23 +6,24 @@ class Transition;
 
 class State {
 public:
-	State() : m_enterAction(nullptr), m_exitAction(nullptr), m_stateAction(nullptr) {}
+	State() : mEnterAction(nullptr), mExitAction(nullptr), mStateAction(nullptr) {}
 	~State();
 
 	virtual void onEnter(float step);
 	virtual void update(float step);
 	virtual void onExit(float step);
-	const std::vector<Transition*>& getTransitions() { return m_transitions; }
 
-	void setEnterAction(Action* action) { m_enterAction = action; }
-	void setExitAction (Action* action) { m_exitAction  = action; }
-	void setStateAction(Action* action) { m_stateAction = action; }
+	const std::vector<Transition*>& getTransitions() { return mTransitions; }
 
-	void addTransition(Transition* transition) { m_transitions.push_back(transition); }
+	void setEnterAction(Action* action) { mEnterAction = action; }
+	void setExitAction (Action* action) { mExitAction = action;  }
+	void setStateAction(Action* action) { mStateAction = action; }
+
+	void addTransition(Transition* transition) { mTransitions.push_back(transition); }
 
 private:
-	Action*                  m_enterAction;
-	Action*                  m_exitAction;
-	Action*                  m_stateAction;
-	std::vector<Transition*> m_transitions;
+	Action*                  mEnterAction;
+	Action*                  mExitAction;
+	Action*                  mStateAction;
+	std::vector<Transition*> mTransitions;
 };
