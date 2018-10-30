@@ -17,7 +17,7 @@
 	<behavior type="selector">
 		<behavior type="sequence">
 			<behavior type="distanceLessThan">
-				<param value="50"></param>
+				<param value="80"></param>
 			</behavior>
 			<behavior type="changeSprite">
 				<param value="2"></param>
@@ -31,7 +31,9 @@
 			<behavior type="changeSprite">
 				<param value="3"></param>
 			</behavior>
-			<behavior type="chase"></behavior>
+			<behavior type="chase">
+				<param value="80"></param>
+			</behavior>
 		</behavior>
 	</behavior>
 	<behavior type="sequence">

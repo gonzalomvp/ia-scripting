@@ -111,7 +111,7 @@ Action* StateMachine::createAction(TiXmlElement* actionElem) {
 		}
 
 		if (type == "changeSprite") {
-			action = new ChangeSpriteAction(this, std::stoi(params[0]));
+			action = new ChangeSpriteAction(this, std::stof(params[0]));
 		}
 		else if (type == "stop") {
 			action = new StopAction(this);
@@ -147,7 +147,7 @@ Condition* StateMachine::createCondition(TiXmlElement* conditionElem) {
 			condition = new HitCondition(this);
 		}
 		else if (type == "distanceLessThan") {
-			condition = new DistanceCondition(this, std::stoi(params[0]));
+			condition = new DistanceCondition(this, std::stof(params[0]));
 		}
 		else if (type == "not") {
 			TiXmlElement* notConditionElem = conditionElem->FirstChildElement("condition");

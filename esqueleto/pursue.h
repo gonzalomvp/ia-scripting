@@ -8,7 +8,7 @@ class PursueSteering;
 class Pursue : public Behavior
 {
 public:
-	Pursue(BehaviorTree* owner);
+	Pursue(BehaviorTree* owner, float arriveDistance);
 
 protected:
 	virtual void onEnter() override;
@@ -18,4 +18,5 @@ protected:
 private:
 	AlignToMovementSteering * mAlignToMovementSteering;
 	PursueSteering * mPursueSteering;
+	float mArriveDistance;
 };

@@ -79,7 +79,7 @@ Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
 			behavior = sequence;
 		}
 		else if (type == "changeSprite") {
-			behavior = new ChangeSprite(this, std::stoi(params[0]));
+			behavior = new ChangeSprite(this, std::stof(params[0]));
 		}
 		else if (type == "isDead") {
 			behavior = new IsDead(this);
@@ -94,13 +94,13 @@ Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
 			behavior = new Hit(this);
 		}
 		else if (type == "distanceLessThan") {
-			behavior = new IsClose(this, std::stoi(params[0]));
+			behavior = new IsClose(this, std::stof(params[0]));
 		}
 		else if (type == "attack") {
 			behavior = new Attack(this);
 		}
 		else if (type == "chase") {
-			behavior = new Pursue(this);
+			behavior = new Pursue(this, std::stof(params[0]));
 		}
 		else if (type == "idle") {
 			behavior = new Idle(this);

@@ -5,13 +5,12 @@
 
 Status IsClose::update(float step)
 {
-	float sqrdDist = mOwner->getCharacter()->GetEnemyPosition().DistSqrd(mOwner->getCharacter()->GetLoc());
-	if (sqrdDist < (m_MinDistance * m_MinDistance))
-	{
+	Character* character = mOwner->getCharacter();
+	USVec2D enemyPos = character->GetEnemyPosition();
+
+	if (enemyPos.DistSqrd(character->GetLoc()) < (mMinDistance * mMinDistance)) {
 		return eSuccess;
 	}
-	else
-	{
-		return eFail;
-	}
+
+	return eFail;
 }
