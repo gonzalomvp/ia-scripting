@@ -51,4 +51,9 @@ void ArriveSteering::DrawDebug() {
 	//Draw arrive area in red
 	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
 	MOAIDraw::DrawEllipseOutline(mTargetPosition.mX, mTargetPosition.mY, mArriveRadius, mArriveRadius, 20);
+
+	//Draw target in red
+	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
+	gfxDevice.SetPointSize(5.0f);
+	MOAIDraw::DrawPoint(mTargetPosition);
 }

@@ -12,4 +12,5 @@ private:
 	USVec2D mDesiredVelociy;
 	USVec2D mLinearAcceleration;
 	USVec2D mPosition;
+	USVec2D mTargetPosition;
 };

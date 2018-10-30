@@ -24,24 +24,28 @@ void Character::OnStart()
 {
     ReadParams("params.xml", mParams);
 	ReadPath("path.xml", mPath);
-	ReadObstacles("obstacles.xml", mObstacles);
+	//ReadObstacles("obstacles.xml", mObstacles);
 	//mSteerings.push_back(new AlignSteering());
-	mSteerings.push_back(new AlignToMovementSteering());
-	mSteerings.push_back(new ObstacleAvoidanceSteering());
+	//mSteerings.push_back(new AlignToMovementSteering());
+	//mSteerings.push_back(new ObstacleAvoidanceSteering());
 	//mSteerings.push_back(new SeekSteering());
 	//mSteerings.push_back(new ArriveSteering());
-	mSteerings.push_back(new PursueSteering());
+	//mSteerings.push_back(new PursueSteering());
 	//mSteerings.push_back(new PathFollowingSteering());
 	
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	mEnemyTarget   = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 
 	mStateMachine = new StateMachine(this);
-	mStateMachine->load("state_machine.xml");
+	if (!mStateMachine->load("state_machine.xml")) {
+		exit(1);
+	}
 	mStateMachine->start();
 
 	mBehaviorTree = new BehaviorTree(this);
-	mBehaviorTree->load("behavior_tree.xml");
+	if (!mBehaviorTree->load("behavior_tree.xml")) {
+		exit(1);
+	}
 }
 
 void Character::OnStop() {
@@ -113,7 +117,7 @@ void Character::OnUpdate(float step)
 	SetRot(GetRot() + mAngularVelocity * step);
 
 	//StateMachine
-	//mStateMachine->update(step);
+	mStateMachine->update(step);
 
 	//BehaviorTree
 	//mBehaviorTree->update(step);
@@ -122,11 +126,6 @@ void Character::OnUpdate(float step)
 void Character::DrawDebug()
 {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
-	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
-	gfxDevice.SetPenWidth(1.0f);
-	gfxDevice.SetPointSize(5.0f);
-
-	MOAIDraw::DrawPoint(mParams.targetPosition);
 
 	for (size_t i = 0; i < mSteerings.size(); i++) {
 		mSteerings[i]->DrawDebug();

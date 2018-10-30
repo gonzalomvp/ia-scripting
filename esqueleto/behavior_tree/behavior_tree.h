@@ -6,7 +6,7 @@ class TiXmlElement;
 
 class BehaviorTree {
 public:
-	BehaviorTree(Character* owner) : mOwner(owner) {}
+	BehaviorTree(Character* owner) : mOwner(owner), mRootBehavior(nullptr) {}
 	~BehaviorTree();
 	
 	Character* getCharacter() const { return mOwner; }

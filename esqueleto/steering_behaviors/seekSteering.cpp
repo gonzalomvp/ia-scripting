@@ -4,13 +4,13 @@
 
 void SeekSteering::GetSteering(Character& character, USVec2D& linearAcceleration, float& angularAcceleration) {
 	//Get params
-	USVec2D targetPosition  = character.GetParams().targetPosition;
+	mTargetPosition          = character.GetParams().targetPosition;
 	float   maxVelocity     = character.GetParams().max_velocity;
 	float   maxAcceleration = character.GetParams().max_acceleration;
 	
 	//Calculate desired velocity
 	mPosition = character.GetLoc();
-	mDesiredVelociy = targetPosition - character.GetLoc();
+	mDesiredVelociy = mTargetPosition - character.GetLoc();
 	mDesiredVelociy.NormSafe();
 	mDesiredVelociy = mDesiredVelociy * maxVelocity;
 
@@ -40,4 +40,9 @@ void SeekSteering::DrawDebug() {
 	//Draw linear acceleration in blue
 	gfxDevice.SetPenColor(0.0f, 0.0f, 1.0f, 0.5f);
 	MOAIDraw::DrawLine(mPosition, mPosition + mLinearAcceleration);
+
+	//Draw target in red
+	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 0.5f);
+	gfxDevice.SetPointSize(5.0f);
+	MOAIDraw::DrawPoint(mTargetPosition);
 }
