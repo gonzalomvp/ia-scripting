@@ -3,8 +3,7 @@
 
 class BehaviorTree;
 
-class CheckHit : public Behavior
-{
+class CheckHit : public Behavior {
 public:
 	CheckHit(BehaviorTree* owner) : Behavior(owner) {}
 

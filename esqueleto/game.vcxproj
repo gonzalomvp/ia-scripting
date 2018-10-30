@@ -131,9 +131,9 @@
     <ClCompile Include="behavior_tree\actions\pursue.cpp" />
     <ClCompile Include="behavior_tree\behavior.cpp" />
     <ClCompile Include="behavior_tree\behavior_tree.cpp" />
+    <ClCompile Include="behavior_tree\conditions\check_dead.cpp" />
+    <ClCompile Include="behavior_tree\conditions\check_distance.cpp" />
     <ClCompile Include="behavior_tree\conditions\check_hit.cpp" />
-    <ClCompile Include="behavior_tree\conditions\is_close.cpp" />
-    <ClCompile Include="behavior_tree\conditions\is_dead.cpp" />
     <ClCompile Include="behavior_tree\group.cpp" />
     <ClCompile Include="behavior_tree\selector.cpp" />
     <ClCompile Include="behavior_tree\sequence.cpp" />
@@ -176,9 +176,9 @@
     <ClInclude Include="behavior_tree\actions\pursue.h" />
     <ClInclude Include="behavior_tree\behavior.h" />
     <ClInclude Include="behavior_tree\behavior_tree.h" />
+    <ClInclude Include="behavior_tree\conditions\check_dead.h" />
+    <ClInclude Include="behavior_tree\conditions\check_distance.h" />
     <ClInclude Include="behavior_tree\conditions\check_hit.h" />
-    <ClInclude Include="behavior_tree\conditions\is_close.h" />
-    <ClInclude Include="behavior_tree\conditions\is_dead.h" />
     <ClInclude Include="behavior_tree\group.h" />
     <ClInclude Include="behavior_tree\selector.h" />
     <ClInclude Include="behavior_tree\sequence.h" />

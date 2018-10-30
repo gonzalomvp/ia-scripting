@@ -3,10 +3,9 @@
 
 class BehaviorTree;
 
-class IsClose : public Behavior
-{
+class CheckDistance : public Behavior {
 public:
-	IsClose(BehaviorTree* owner, float minDistance) : Behavior(owner), mMinDistance(minDistance) {}
+	CheckDistance(BehaviorTree* owner, float minDistance) : Behavior(owner), mMinDistance(minDistance) {}
 
 protected:
 	virtual Status update(float step) override;

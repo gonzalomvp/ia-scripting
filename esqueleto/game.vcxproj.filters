@@ -107,14 +107,14 @@
     <ClCompile Include="behavior_tree\conditions\check_hit.cpp">
       <Filter>behavior_tree\conditions</Filter>
     </ClCompile>
-    <ClCompile Include="behavior_tree\conditions\is_close.cpp">
-      <Filter>behavior_tree\conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="behavior_tree\conditions\is_dead.cpp">
-      <Filter>behavior_tree\conditions</Filter>
-    </ClCompile>
     <ClCompile Include="pathfinding\map_node.cpp">
       <Filter>pathfinder</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\conditions\check_dead.cpp">
+      <Filter>behavior_tree\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\conditions\check_distance.cpp">
+      <Filter>behavior_tree\conditions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,14 +233,14 @@
     <ClInclude Include="behavior_tree\conditions\check_hit.h">
       <Filter>behavior_tree\conditions</Filter>
     </ClInclude>
-    <ClInclude Include="behavior_tree\conditions\is_close.h">
-      <Filter>behavior_tree\conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="behavior_tree\conditions\is_dead.h">
-      <Filter>behavior_tree\conditions</Filter>
-    </ClInclude>
     <ClInclude Include="pathfinding\map_node.h">
       <Filter>pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\conditions\check_dead.h">
+      <Filter>behavior_tree\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\conditions\check_distance.h">
+      <Filter>behavior_tree\conditions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

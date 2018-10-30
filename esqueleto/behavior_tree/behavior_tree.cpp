@@ -9,8 +9,8 @@
 #include "behavior_tree/actions/pursue.h"
 #include "behavior_tree/conditions/check_hit.h"
 #include "behavior_tree/actions/death.h"
-#include "behavior_tree/conditions/is_close.h"
-#include "behavior_tree/conditions/is_dead.h"
+#include "behavior_tree/conditions/check_dead.h"
+#include "behavior_tree/conditions/check_distance.h"
 
 #include <tinyxml.h>
 
@@ -85,20 +85,20 @@ Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
 		else if (type == "changeSprite") {
 			behavior = new ChangeSprite(this, std::stoi(params[0]));
 		}
-		else if (type == "isDead") {
-			behavior = new IsDead(this);
+		else if (type == "checkDead") {
+			behavior = new CheckDead(this);
 		}
 		else if (type == "death") {
 			behavior = new Death(this);
 		}
-		else if (type == "isHit") {
+		else if (type == "checkHit") {
 			behavior = new CheckHit(this);
 		}
 		else if (type == "hit") {
 			behavior = new Hit(this);
 		}
-		else if (type == "distanceLessThan") {
-			behavior = new IsClose(this, std::stof(params[0]));
+		else if (type == "checkDistance") {
+			behavior = new CheckDistance(this, std::stof(params[0]));
 		}
 		else if (type == "chase") {
 			behavior = new Pursue(this, std::stof(params[0]), std::stof(params[1]));

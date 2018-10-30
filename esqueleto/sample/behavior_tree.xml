@@ -1,14 +1,14 @@
 <root>
 <behavior type="selector">
 	<behavior type="sequence">
-		<behavior type="isDead"></behavior>
+		<behavior type="checkDead"></behavior>
 		<behavior type="changeSprite">
 			<param value="1"></param>
 		</behavior>
 		<behavior type="death"></behavior>
 	</behavior>
 	<behavior type="sequence">
-		<behavior type="isHit"></behavior>
+		<behavior type="checkHit"></behavior>
 		<behavior type="changeSprite">
 			<param value="4"></param>
 		</behavior>
@@ -16,7 +16,7 @@
 	</behavior>
 	<behavior type="selector">
 		<behavior type="sequence">
-			<behavior type="distanceLessThan">
+			<behavior type="checkDistance">
 				<param value="80"></param>
 			</behavior>
 			<behavior type="changeSprite">
@@ -28,7 +28,7 @@
 			</behavior>
 		</behavior>
 		<behavior type="sequence">
-			<behavior type="distanceLessThan">
+			<behavior type="checkDistance">
 				<param value="200"></param>
 			</behavior>
 			<behavior type="changeSprite">

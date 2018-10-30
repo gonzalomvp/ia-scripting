@@ -3,10 +3,9 @@
 
 class BehaviorTree;
 
-class IsDead : public Behavior
-{
+class CheckDead : public Behavior {
 public:
-	IsDead(BehaviorTree* owner) : Behavior(owner) {}
+	CheckDead(BehaviorTree* owner) : Behavior(owner) {}
 
 protected:
 	virtual Status update(float step) override;
