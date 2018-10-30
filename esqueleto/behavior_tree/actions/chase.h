@@ -5,11 +5,10 @@ class BehaviorTree;
 class AlignToMovementSteering;
 class PursueSteering;
 
-class Pursue : public Behavior
-{
+class Chase : public Behavior {
 public:
-	Pursue(BehaviorTree* owner, float arriveDistance, float lostDistance);
-	~Pursue();
+	Chase(BehaviorTree* owner, float arriveDistance, float lostDistance);
+	~Chase();
 
 protected:
 	virtual void onEnter() override;
@@ -17,8 +16,8 @@ protected:
 	virtual void onExit() override;
 
 private:
+	float                    mArriveDistance;
+	float                    mLostDistance;
 	AlignToMovementSteering* mAlignToMovementSteering;
-	PursueSteering* mPursueSteering;
-	float mArriveDistance;
-	float mLostDistance;
+	PursueSteering*          mPursueSteering;
 };

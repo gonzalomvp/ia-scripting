@@ -3,10 +3,7 @@
 #include "character.h"
 #include "behavior_tree/behavior_tree.h"
 
-void ChangeSprite::onEnter() {
-	mOwner->getCharacter()->SetImage(mImageIndex);
-}
-
 Status ChangeSprite::update(float step) {
+	mOwner->getCharacter()->SetImage(mImageIndex);
 	return eSuccess;
 }

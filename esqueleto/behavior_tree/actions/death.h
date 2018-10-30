@@ -3,14 +3,15 @@
 
 class BehaviorTree;
 
-class Death : public Behavior
-{
+class Death : public Behavior {
 public:
 	Death(BehaviorTree* owner) : Behavior(owner) {}
 
 protected:
-	virtual Status update(float step) override;
 	virtual void onEnter() override;
+	virtual Status update(float step) override;
 	virtual void onExit() override;
-	float m_respawnTimer;
+	
+private:
+	float mRespawnTimer;
 };

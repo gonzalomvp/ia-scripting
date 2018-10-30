@@ -1,28 +1,28 @@
 #include <stdafx.h>
-#include "pursue.h"
+#include "chase.h"
 #include "steering_behaviors/alignToMovementSteering.h"
 #include "steering_behaviors/pursueSteering.h"
 #include "character.h"
 #include "behavior_tree/behavior_tree.h"
 
-Pursue::Pursue(BehaviorTree* owner, float arriveDistance, float lostDistance) : Behavior(owner), mArriveDistance(arriveDistance), mLostDistance(lostDistance) {
-	mPursueSteering = new PursueSteering();
+Chase::Chase(BehaviorTree* owner, float arriveDistance, float lostDistance) : Behavior(owner), mArriveDistance(arriveDistance), mLostDistance(lostDistance) {
+	mPursueSteering          = new PursueSteering();
 	mAlignToMovementSteering = new AlignToMovementSteering();
 }
 
-Pursue::~Pursue() {
+Chase::~Chase() {
 	mOwner->getCharacter()->RemoveSteering(mPursueSteering);
 	mOwner->getCharacter()->RemoveSteering(mAlignToMovementSteering);
 	delete mPursueSteering;
 	delete mAlignToMovementSteering;
 }
 
-void Pursue::onEnter() {	
+void Chase::onEnter() {
 	mOwner->getCharacter()->AddSteering(mPursueSteering);
 	mOwner->getCharacter()->AddSteering(mAlignToMovementSteering);
 }
 
-Status Pursue::update(float step)
+Status Chase::update(float step)
 {
 	if (mOwner->getCharacter()->GetIsHit()) {
 		return eFail;
@@ -38,7 +38,7 @@ Status Pursue::update(float step)
 	return eRunning;
 }
 
-void Pursue::onExit() {
+void Chase::onExit() {
 	mOwner->getCharacter()->RemoveSteering(mPursueSteering);
 	mOwner->getCharacter()->RemoveSteering(mAlignToMovementSteering);
 }

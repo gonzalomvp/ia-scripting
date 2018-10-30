@@ -101,9 +101,6 @@
     <ClCompile Include="behavior_tree\actions\idle.cpp">
       <Filter>behavior_tree\actions</Filter>
     </ClCompile>
-    <ClCompile Include="behavior_tree\actions\pursue.cpp">
-      <Filter>behavior_tree\actions</Filter>
-    </ClCompile>
     <ClCompile Include="behavior_tree\conditions\check_hit.cpp">
       <Filter>behavior_tree\conditions</Filter>
     </ClCompile>
@@ -115,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="behavior_tree\conditions\check_distance.cpp">
       <Filter>behavior_tree\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\actions\chase.cpp">
+      <Filter>behavior_tree\actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,9 +227,6 @@
     <ClInclude Include="behavior_tree\actions\idle.h">
       <Filter>behavior_tree\actions</Filter>
     </ClInclude>
-    <ClInclude Include="behavior_tree\actions\pursue.h">
-      <Filter>behavior_tree\actions</Filter>
-    </ClInclude>
     <ClInclude Include="behavior_tree\conditions\check_hit.h">
       <Filter>behavior_tree\conditions</Filter>
     </ClInclude>
@@ -241,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="behavior_tree\conditions\check_distance.h">
       <Filter>behavior_tree\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\actions\chase.h">
+      <Filter>behavior_tree\actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

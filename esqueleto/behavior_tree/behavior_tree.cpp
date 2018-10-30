@@ -6,7 +6,7 @@
 #include "behavior_tree/actions/change_sprite.h"
 #include "behavior_tree/actions/hit.h"
 #include "behavior_tree/actions/idle.h"
-#include "behavior_tree/actions/pursue.h"
+#include "behavior_tree/actions/chase.h"
 #include "behavior_tree/conditions/check_hit.h"
 #include "behavior_tree/actions/death.h"
 #include "behavior_tree/conditions/check_dead.h"
@@ -101,7 +101,7 @@ Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
 			behavior = new CheckDistance(this, std::stof(params[0]));
 		}
 		else if (type == "chase") {
-			behavior = new Pursue(this, std::stof(params[0]), std::stof(params[1]));
+			behavior = new Chase(this, std::stof(params[0]), std::stof(params[1]));
 		}
 		else if (type == "idle") {
 			behavior = new Idle(this);

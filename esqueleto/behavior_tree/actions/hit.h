@@ -3,14 +3,15 @@
 
 class BehaviorTree;
 
-class Hit : public Behavior
-{
+class Hit : public Behavior {
 public:
 	Hit(BehaviorTree* owner) : Behavior(owner) {}
 
 protected:
-	virtual Status update(float step) override;
 	virtual void onEnter() override;
+	virtual Status update(float step) override;
 	virtual void onExit() override;
-	float m_hitTimer;
+
+private:
+	float mHitTimer;
 };

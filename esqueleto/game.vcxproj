@@ -125,10 +125,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="behavior_tree\actions\change_sprite.cpp" />
+    <ClCompile Include="behavior_tree\actions\chase.cpp" />
     <ClCompile Include="behavior_tree\actions\death.cpp" />
     <ClCompile Include="behavior_tree\actions\hit.cpp" />
     <ClCompile Include="behavior_tree\actions\idle.cpp" />
-    <ClCompile Include="behavior_tree\actions\pursue.cpp" />
     <ClCompile Include="behavior_tree\behavior.cpp" />
     <ClCompile Include="behavior_tree\behavior_tree.cpp" />
     <ClCompile Include="behavior_tree\conditions\check_dead.cpp" />
@@ -170,10 +170,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="behavior_tree\actions\change_sprite.h" />
+    <ClInclude Include="behavior_tree\actions\chase.h" />
     <ClInclude Include="behavior_tree\actions\death.h" />
     <ClInclude Include="behavior_tree\actions\hit.h" />
     <ClInclude Include="behavior_tree\actions\idle.h" />
-    <ClInclude Include="behavior_tree\actions\pursue.h" />
     <ClInclude Include="behavior_tree\behavior.h" />
     <ClInclude Include="behavior_tree\behavior_tree.h" />
     <ClInclude Include="behavior_tree\conditions\check_dead.h" />
