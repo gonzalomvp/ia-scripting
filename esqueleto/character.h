@@ -38,10 +38,10 @@ public:
 	void SetLife            (float value)      { mLife            = value;         }
 	void SetPath            (const std::vector<USVec2D>& path) { mPath = path; }
 
-	//Borrar!
 	void AddSteering(BaseSteering* steering) { mSteerings.push_back(steering); }
 	void RemoveSteering(BaseSteering* steering) { auto it = std::find(mSteerings.begin(), mSteerings.end(), steering); if (it != mSteerings.end()) mSteerings.erase(it); }
-	void ClearAllSteering() { mSteerings.clear(); }
+
+	void CheckHit(const USVec2D& clickPos);
 
 private:
 	USVec2D                    mLinearVelocity;

@@ -137,6 +137,16 @@ void Character::DrawDebug()
 	MOAIDraw::DrawPoint(mEnemyPosition);
 }
 
+void Character::CheckHit(const USVec2D& clickPos) {
+	if (clickPos.mX > GetLoc().mX - 32
+		&& clickPos.mX  < GetLoc().mX + 32
+		&& clickPos.mY > GetLoc().mY - 32
+		&& clickPos.mY < GetLoc().mY + 32)
+	{
+		mIsHit = true;
+	}
+}
+
 
 // Lua configuration
 
@@ -181,16 +191,7 @@ int Character::_checkHit(lua_State* L)
 	float pX = state.GetValue<float>(2, 0.0f);
 	float pY = state.GetValue<float>(3, 0.0f);
 	
-	float selfX = self->GetLoc().mX;
-	float selfY = self->GetLoc().mY;
-
-	if (pX > selfX - 32
-		&& pX < selfX + 32
-		&& pY > selfY - 32
-		&& pY < selfY + 32)
-	{
-		self->mIsHit = true;
-	}
+	self->CheckHit(USVec2D(pX, pY));
 
 	return 0;
 }
