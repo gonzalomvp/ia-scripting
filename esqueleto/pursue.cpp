@@ -12,7 +12,6 @@ Pursue::Pursue(BehaviorTree* owner) : Behavior(owner)
 void Pursue::onEnter()
 {	
 	//m_owner->getCharacter()->AddSteering(mPursueSteering);
-	m_owner->getCharacter()->SetImage(3);
 }
 
 Status Pursue::update(float step)

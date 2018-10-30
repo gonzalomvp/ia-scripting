@@ -7,7 +7,6 @@ Status Hit::update(float step)
 {
 	m_owner->getCharacter()->SetLinearVelocity(0.0f, 0.0f);
 	m_owner->getCharacter()->SetAngularVelocity(0.0f);
-	m_owner->getCharacter()->SetImage(4);
 	m_hitTimer += step;
 	if (m_hitTimer >= 0.5f)
 	{

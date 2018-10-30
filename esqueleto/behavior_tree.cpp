@@ -3,6 +3,7 @@
 #include "behavior.h"
 #include "selector.h"
 #include "sequence.h"
+#include "change_sprite.h"
 #include "is_close.h"
 #include "pursue.h"
 #include "idle.h"
@@ -76,6 +77,9 @@ Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
 				sequence->AddBehavior(childBehaviors[i]);
 			}
 			behavior = sequence;
+		}
+		else if (type == "changeSprite") {
+			behavior = new ChangeSprite(this, std::stoi(params[0]));
 		}
 		else if (type == "isDead") {
 			behavior = new IsDead(this);

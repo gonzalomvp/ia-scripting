@@ -116,6 +116,9 @@
     <ClCompile Include="stop_action.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
+    <ClCompile Include="change_sprite.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="stop_action.h">
       <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="change_sprite.h">
+      <Filter>behavior_tree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

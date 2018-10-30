@@ -130,6 +130,7 @@
     <ClCompile Include="attack.cpp" />
     <ClCompile Include="behavior.cpp" />
     <ClCompile Include="behavior_tree.cpp" />
+    <ClCompile Include="change_sprite.cpp" />
     <ClCompile Include="change_sprite_action.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="check_hit.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="baseSteering.h" />
     <ClInclude Include="behavior.h" />
     <ClInclude Include="behavior_tree.h" />
+    <ClInclude Include="change_sprite.h" />
     <ClInclude Include="change_sprite_action.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="check_hit.h" />

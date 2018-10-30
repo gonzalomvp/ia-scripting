@@ -2,10 +2,16 @@
 <behavior type="selector">
 	<behavior type="sequence">
 		<behavior type="isDead"></behavior>
+		<behavior type="changeSprite">
+			<param value="1"></param>
+		</behavior>
 		<behavior type="death"></behavior>
 	</behavior>
 	<behavior type="sequence">
 		<behavior type="isHit"></behavior>
+		<behavior type="changeSprite">
+			<param value="4"></param>
+		</behavior>
 		<behavior type="hit"></behavior>
 	</behavior>
 	<behavior type="selector">
@@ -13,15 +19,26 @@
 			<behavior type="distanceLessThan">
 				<param value="50"></param>
 			</behavior>
+			<behavior type="changeSprite">
+				<param value="2"></param>
+			</behavior>
 			<behavior type="attack"></behavior>
 		</behavior>
 		<behavior type="sequence">
 			<behavior type="distanceLessThan">
 				<param value="200"></param>
 			</behavior>
+			<behavior type="changeSprite">
+				<param value="3"></param>
+			</behavior>
 			<behavior type="chase"></behavior>
 		</behavior>
 	</behavior>
-	<behavior type="idle"></behavior>
+	<behavior type="sequence">
+		<behavior type="changeSprite">
+			<param value="0"></param>
+		</behavior>
+		<behavior type="idle"></behavior>
+	</behavior>
 </behavior>
 </root>
