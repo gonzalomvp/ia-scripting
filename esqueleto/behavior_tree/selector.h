@@ -3,14 +3,13 @@
 
 class BehaviorTree;
 
-class Selector : public Group
-{
+class Selector : public Group {
 public:
 	Selector(BehaviorTree* owner) : Group(owner) {}
 
 protected:
-	void onEnter();
-	Status update(float step);
+	virtual void onEnter() override;
+	virtual Status update(float step) override;
 
 	int mCurrentChild;
 };

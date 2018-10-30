@@ -1,13 +1,14 @@
 #include <stdafx.h>
 #include "selector.h"
 
-Status Selector::update(float step)
-{
-	while (true)
-	{
+void Selector::onEnter() {
+	mCurrentChild = 0;
+}
+
+Status Selector::update(float step) {
+	while (true) {
 		Status s = mChildren[mCurrentChild]->tick(step);
-		if (s != eFail)
-		{
+		if (s != eFail) {
 			return s;
 		}
 		++mCurrentChild;
@@ -19,7 +20,3 @@ Status Selector::update(float step)
 	return eInvalid;
 }
 
-void Selector::onEnter()
-{
-	mCurrentChild = 0;
-}

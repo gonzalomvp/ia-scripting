@@ -1,16 +1,13 @@
 #include <stdafx.h>
 #include "behavior.h"
 
-Status Behavior::tick(float step)
-{
-	if (m_Status != eRunning)
-	{
+Status Behavior::tick(float step) {
+	if (mStatus != eRunning) {
 		onEnter();
 	}
-	m_Status = update(step);
-	if (m_Status != eRunning)
-	{
+	mStatus = update(step);
+	if (mStatus != eRunning) {
 		onExit();
 	}
-	return m_Status;
+	return mStatus;
 }

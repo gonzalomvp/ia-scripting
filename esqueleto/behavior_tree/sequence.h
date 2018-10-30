@@ -3,13 +3,13 @@
 
 class BehaviorTree;
 
-class Sequence : public Group
-{
+class Sequence : public Group {
 public:
 	Sequence(BehaviorTree* owner) : Group(owner) {}
 
 protected:
-	void onEnter();
-	Status update(float step);
+	virtual void onEnter() override;
+	virtual Status update(float step) override;
+
 	int mCurrentChild;
 };

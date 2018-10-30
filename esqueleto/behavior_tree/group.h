@@ -4,8 +4,7 @@
 
 class BehaviorTree;
 
-class Group : public Behavior
-{
+class Group : public Behavior {
 public:
 	Group(BehaviorTree* owner) : Behavior(owner) {}
 	~Group();

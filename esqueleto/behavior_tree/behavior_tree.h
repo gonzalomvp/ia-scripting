@@ -1,7 +1,6 @@
 #pragma once
 
 class Character;
-class Group;
 class Behavior;
 class TiXmlElement;
 

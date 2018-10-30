@@ -2,8 +2,7 @@
 
 class BehaviorTree;
 
-enum Status
-{
+enum Status {
 	eInvalid,
 	eSuccess,
 	eFail,
@@ -12,7 +11,7 @@ enum Status
 
 class Behavior {
 public:
-	Behavior(BehaviorTree* owner) : mOwner(owner), m_Status(eInvalid) {}
+	Behavior(BehaviorTree* owner) : mOwner(owner), mStatus(eInvalid) {}
 	virtual ~Behavior() {}
 	virtual Status tick(float step);
 
@@ -24,5 +23,5 @@ protected:
 	BehaviorTree* mOwner;
 
 private:
-	Status m_Status;
+	Status mStatus;
 };
