@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include "is_close.h"
 #include "character.h"
-#include "behavior_tree.h"
+#include "behavior_tree/behavior_tree.h"
 
 Status IsClose::update(float step)
 {

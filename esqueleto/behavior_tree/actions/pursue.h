@@ -1,5 +1,5 @@
 #pragma once
-#include "behavior.h"
+#include "behavior_tree/behavior.h"
 
 class BehaviorTree;
 class AlignToMovementSteering;

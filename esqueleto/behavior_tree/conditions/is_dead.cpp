@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include "is_dead.h"
 #include "character.h"
-#include "behavior_tree.h"
+#include "behavior_tree/behavior_tree.h"
 
 Status IsDead::update(float step)
 {

@@ -3,15 +3,16 @@
 #include "behavior.h"
 #include "selector.h"
 #include "sequence.h"
-#include "change_sprite.h"
-#include "is_close.h"
-#include "pursue.h"
-#include "idle.h"
-#include "attack.h"
-#include "check_hit.h"
-#include "hit.h"
-#include "is_dead.h"
-#include "death.h"
+
+#include "behavior_tree/actions/attack.h"
+#include "behavior_tree/actions/change_sprite.h"
+#include "behavior_tree/actions/hit.h"
+#include "behavior_tree/actions/idle.h"
+#include "behavior_tree/actions/pursue.h"
+#include "behavior_tree/conditions/check_hit.h"
+#include "behavior_tree/actions/death.h"
+#include "behavior_tree/conditions/is_close.h"
+#include "behavior_tree/conditions/is_dead.h"
 
 #include <tinyxml.h>
 

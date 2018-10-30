@@ -1,7 +1,7 @@
 #ifndef __PARAMS_H__
 #define __PARAMS_H__
 
-#include "map_node.h"
+#include "pathfinding/map_node.h"
 #include <vector>
 
 struct Params

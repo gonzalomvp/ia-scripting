@@ -1,16 +1,16 @@
 #pragma once
-#include "behavior.h"
+#include "behavior_tree/behavior.h"
 
 class BehaviorTree;
 
-class Death : public Behavior
+class Hit : public Behavior
 {
 public:
-	Death(BehaviorTree* owner) : Behavior(owner) {}
+	Hit(BehaviorTree* owner) : Behavior(owner) {}
 
 protected:
 	virtual Status update(float step) override;
 	virtual void onEnter() override;
 	virtual void onExit() override;
-	float m_respawnTimer;
+	float m_hitTimer;
 };

@@ -20,51 +20,6 @@
     <ClCompile Include="pathfinding\pathfinder.cpp">
       <Filter>pathfinder</Filter>
     </ClCompile>
-    <ClCompile Include="behavior.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="selector.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="sequence.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="is_close.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="pursue.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="behavior_tree.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="idle.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="attack.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="check_hit.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="hit.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="is_dead.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="death.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="map_node.cpp">
-      <Filter>pathfinder</Filter>
-    </ClCompile>
-    <ClCompile Include="change_sprite.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
-    <ClCompile Include="group.cpp">
-      <Filter>behavior_tree</Filter>
-    </ClCompile>
     <ClCompile Include="state_machine\state.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
@@ -119,6 +74,51 @@
     <ClCompile Include="steering_behaviors\seekSteering.cpp">
       <Filter>steering_behaviors</Filter>
     </ClCompile>
+    <ClCompile Include="behavior_tree\behavior.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\behavior_tree.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\group.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\selector.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\sequence.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\actions\attack.cpp">
+      <Filter>behavior_tree\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\actions\change_sprite.cpp">
+      <Filter>behavior_tree\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\actions\death.cpp">
+      <Filter>behavior_tree\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\actions\hit.cpp">
+      <Filter>behavior_tree\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\actions\idle.cpp">
+      <Filter>behavior_tree\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\actions\pursue.cpp">
+      <Filter>behavior_tree\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\conditions\check_hit.cpp">
+      <Filter>behavior_tree\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\conditions\is_close.cpp">
+      <Filter>behavior_tree\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="behavior_tree\conditions\is_dead.cpp">
+      <Filter>behavior_tree\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="pathfinding\map_node.cpp">
+      <Filter>pathfinder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -136,51 +136,6 @@
     <ClInclude Include="params.h" />
     <ClInclude Include="pathfinding\pathfinder.h">
       <Filter>pathfinder</Filter>
-    </ClInclude>
-    <ClInclude Include="behavior.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="group.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="selector.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="sequence.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="is_close.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="pursue.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="behavior_tree.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="idle.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="attack.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="check_hit.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="hit.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="is_dead.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="death.h">
-      <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="map_node.h">
-      <Filter>pathfinder</Filter>
-    </ClInclude>
-    <ClInclude Include="change_sprite.h">
-      <Filter>behavior_tree</Filter>
     </ClInclude>
     <ClInclude Include="state_machine\action.h">
       <Filter>state_machine</Filter>
@@ -248,6 +203,51 @@
     <ClInclude Include="steering_behaviors\seekSteering.h">
       <Filter>steering_behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="behavior_tree\behavior.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\behavior_tree.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\group.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\selector.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\sequence.h">
+      <Filter>behavior_tree</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\actions\attack.h">
+      <Filter>behavior_tree\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\actions\change_sprite.h">
+      <Filter>behavior_tree\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\actions\death.h">
+      <Filter>behavior_tree\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\actions\hit.h">
+      <Filter>behavior_tree\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\actions\idle.h">
+      <Filter>behavior_tree\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\actions\pursue.h">
+      <Filter>behavior_tree\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\conditions\check_hit.h">
+      <Filter>behavior_tree\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\conditions\is_close.h">
+      <Filter>behavior_tree\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="behavior_tree\conditions\is_dead.h">
+      <Filter>behavior_tree\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="pathfinding\map_node.h">
+      <Filter>pathfinder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="host">
@@ -273,6 +273,12 @@
     </Filter>
     <Filter Include="state_machine\conditions">
       <UniqueIdentifier>{853ee500-a0f4-4d52-88c8-84fc820ed0a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="behavior_tree\actions">
+      <UniqueIdentifier>{58d5c7f7-bc7d-4f3b-a73f-0f1b343e6960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="behavior_tree\conditions">
+      <UniqueIdentifier>{53003ba2-20f1-462e-a0af-603c86039e5a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

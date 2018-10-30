@@ -11,7 +11,7 @@
 #include "steering_behaviors/pursueSteering.h"
 #include "steering_behaviors/seekSteering.h"
 #include "state_machine/state_machine.h"
-#include "behavior_tree.h"
+#include "behavior_tree/behavior_tree.h"
 
 Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f), mIsHit(false), mLife(5.0f), mStateMachine(nullptr), mBehaviorTree(nullptr)
 {
@@ -114,10 +114,10 @@ void Character::OnUpdate(float step)
 	SetRot(GetRot() + mAngularVelocity * step);
 
 	//StateMachine
-	mStateMachine->update(step);
+	//mStateMachine->update(step);
 
 	//BehaviorTree
-	//mBehaviorTree->update(step);
+	mBehaviorTree->update(step);
 }
 
 void Character::DrawDebug()

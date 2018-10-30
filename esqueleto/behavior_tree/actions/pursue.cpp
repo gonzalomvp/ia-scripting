@@ -3,7 +3,7 @@
 #include "steering_behaviors/alignToMovementSteering.h"
 #include "steering_behaviors/pursueSteering.h"
 #include "character.h"
-#include "behavior_tree.h"
+#include "behavior_tree/behavior_tree.h"
 
 Pursue::Pursue(BehaviorTree* owner, float arriveDistance) : Behavior(owner), mArriveDistance(arriveDistance) {
 	mPursueSteering = new PursueSteering();
