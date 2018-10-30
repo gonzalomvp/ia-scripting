@@ -3,7 +3,7 @@
 #include "pursueSteering.h"
 #include "alignToMovementSteering.h"
 #include "character.h"
-#include "stateMachine.h"
+#include "state_machine/state_machine.h"
 
 ChaseAction::ChaseAction(StateMachine* owner) : Action(owner) {
 	mPursueSteering = new PursueSteering();

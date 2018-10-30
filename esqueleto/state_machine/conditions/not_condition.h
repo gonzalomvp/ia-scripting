@@ -1,6 +1,6 @@
 #pragma once
 
-#include "condition.h"
+#include "state_machine/condition.h"
 
 class NotCondition : public Condition {
 public:

@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include "hit_action.h"
 #include "character.h"
-#include "stateMachine.h"
+#include "state_machine/state_machine.h"
 
 void HitAction::start() {
 	mHitTimer = 0.0f;

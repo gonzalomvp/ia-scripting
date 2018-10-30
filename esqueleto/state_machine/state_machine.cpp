@@ -1,17 +1,16 @@
 #include <stdafx.h>
-#include "stateMachine.h"
-
-#include "change_sprite_action.h"
-#include "chase_action.h"
-#include "idle_action.h"
-#include "hit_action.h"
-#include "hit_condition.h"
-#include "dead_condition.h"
-#include "death_action.h"
-#include "state.h"
-#include "transition.h"
-#include "distance_condition.h"
-#include "not_condition.h"
+#include "state_machine/state_machine.h"
+#include "state_machine/state.h"
+#include "state_machine/transition.h"
+#include "state_machine/actions/change_sprite_action.h"
+#include "state_machine/actions/chase_action.h"
+#include "state_machine/actions/death_action.h"
+#include "state_machine/actions/hit_action.h"
+#include "state_machine/actions/idle_action.h"
+#include "state_machine/conditions/dead_condition.h"
+#include "state_machine/conditions/distance_condition.h"
+#include "state_machine/conditions/hit_condition.h"
+#include "state_machine/conditions/not_condition.h"
 
 #include <tinyxml.h>
 
@@ -94,7 +93,7 @@ void StateMachine::start()
 void StateMachine::update(float step) {
 	mCurrentState->update(step);
 	const std::vector<Transition*>& transitions = mCurrentState->getTransitions();
-	for (size_t i = 0; i < transitions.size(); i++) {
+	for (size_t i = 0; i < transitions.size(); ++i) {
 		Transition* transition = transitions[i];
 		if (transition->canTrigger()) {
 			mCurrentState->onExit(step);

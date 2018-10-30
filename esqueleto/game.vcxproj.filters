@@ -20,18 +20,6 @@
     <ClCompile Include="pathfinding\pathfinder.cpp">
       <Filter>pathfinder</Filter>
     </ClCompile>
-    <ClCompile Include="stateMachine.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
-    <ClCompile Include="change_sprite_action.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
-    <ClCompile Include="state.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
-    <ClCompile Include="transition.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
     <ClCompile Include="behavior.cpp">
       <Filter>behavior_tree</Filter>
     </ClCompile>
@@ -92,32 +80,44 @@
     <ClCompile Include="map_node.cpp">
       <Filter>pathfinder</Filter>
     </ClCompile>
-    <ClCompile Include="distance_condition.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
-    <ClCompile Include="hit_condition.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
-    <ClCompile Include="hit_action.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
-    <ClCompile Include="dead_condition.cpp">
-      <Filter>state_machine</Filter>
-    </ClCompile>
     <ClCompile Include="change_sprite.cpp">
       <Filter>behavior_tree</Filter>
     </ClCompile>
     <ClCompile Include="group.cpp">
       <Filter>behavior_tree</Filter>
     </ClCompile>
-    <ClCompile Include="death_action.cpp">
+    <ClCompile Include="state_machine\state.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
-    <ClCompile Include="idle_action.cpp">
+    <ClCompile Include="state_machine\state_machine.cpp">
       <Filter>state_machine</Filter>
     </ClCompile>
-    <ClCompile Include="chase_action.cpp">
+    <ClCompile Include="state_machine\transition.cpp">
       <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="state_machine\actions\change_sprite_action.cpp">
+      <Filter>state_machine\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="state_machine\actions\chase_action.cpp">
+      <Filter>state_machine\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="state_machine\actions\death_action.cpp">
+      <Filter>state_machine\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="state_machine\actions\hit_action.cpp">
+      <Filter>state_machine\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="state_machine\actions\idle_action.cpp">
+      <Filter>state_machine\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="state_machine\conditions\dead_condition.cpp">
+      <Filter>state_machine\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="state_machine\conditions\distance_condition.cpp">
+      <Filter>state_machine\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="state_machine\conditions\hit_condition.cpp">
+      <Filter>state_machine\conditions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,24 +136,6 @@
     <ClInclude Include="params.h" />
     <ClInclude Include="pathfinding\pathfinder.h">
       <Filter>pathfinder</Filter>
-    </ClInclude>
-    <ClInclude Include="state.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="transition.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="condition.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="action.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="stateMachine.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="change_sprite_action.h">
-      <Filter>state_machine</Filter>
     </ClInclude>
     <ClInclude Include="behavior.h">
       <Filter>behavior_tree</Filter>
@@ -221,32 +203,50 @@
     <ClInclude Include="map_node.h">
       <Filter>pathfinder</Filter>
     </ClInclude>
-    <ClInclude Include="distance_condition.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="hit_condition.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="hit_action.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
-    <ClInclude Include="dead_condition.h">
-      <Filter>state_machine</Filter>
-    </ClInclude>
     <ClInclude Include="change_sprite.h">
       <Filter>behavior_tree</Filter>
     </ClInclude>
-    <ClInclude Include="death_action.h">
+    <ClInclude Include="state_machine\action.h">
       <Filter>state_machine</Filter>
     </ClInclude>
-    <ClInclude Include="idle_action.h">
+    <ClInclude Include="state_machine\condition.h">
       <Filter>state_machine</Filter>
     </ClInclude>
-    <ClInclude Include="not_condition.h">
+    <ClInclude Include="state_machine\state.h">
       <Filter>state_machine</Filter>
     </ClInclude>
-    <ClInclude Include="chase_action.h">
+    <ClInclude Include="state_machine\state_machine.h">
       <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\transition.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\actions\change_sprite_action.h">
+      <Filter>state_machine\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\actions\chase_action.h">
+      <Filter>state_machine\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\actions\death_action.h">
+      <Filter>state_machine\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\actions\hit_action.h">
+      <Filter>state_machine\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\actions\idle_action.h">
+      <Filter>state_machine\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\conditions\dead_condition.h">
+      <Filter>state_machine\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\conditions\distance_condition.h">
+      <Filter>state_machine\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\conditions\hit_condition.h">
+      <Filter>state_machine\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine\conditions\not_condition.h">
+      <Filter>state_machine\conditions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -267,6 +267,12 @@
     </Filter>
     <Filter Include="steering_behaviors">
       <UniqueIdentifier>{7d1870e2-55e7-4251-aa74-e5733165f009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="state_machine\actions">
+      <UniqueIdentifier>{d402eeb7-f8d5-42ee-b0d7-4ab6cd5c80cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="state_machine\conditions">
+      <UniqueIdentifier>{853ee500-a0f4-4d52-88c8-84fc820ed0a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

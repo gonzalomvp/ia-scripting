@@ -10,7 +10,7 @@
 #include "pursueSteering.h"
 #include "pathFollowingSteering.h"
 #include "obstacleAvoidanceSteering.h"
-#include "stateMachine.h"
+#include "state_machine/state_machine.h"
 #include "behavior_tree.h"
 
 Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f), mIsHit(false), mLife(5.0f), mStateMachine(nullptr), mBehaviorTree(nullptr)

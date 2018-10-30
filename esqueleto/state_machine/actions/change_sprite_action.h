@@ -1,5 +1,5 @@
 #pragma once
-#include "action.h"
+#include "state_machine/action.h"
 
 class ChangeSpriteAction : public Action {
 public:

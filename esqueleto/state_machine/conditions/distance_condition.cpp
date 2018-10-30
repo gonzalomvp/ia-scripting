@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include "distance_condition.h"
 #include "character.h"
-#include "stateMachine.h"
+#include "state_machine/state_machine.h"
 
 bool DistanceCondition::check() const{
 	Character* character = mOwner->getCharacter();
