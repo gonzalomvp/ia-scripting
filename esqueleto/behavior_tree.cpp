@@ -12,55 +12,95 @@
 #include "is_dead.h"
 #include "death.h"
 
-void BehaviorTree::load() {
-	m_rootBehavior = new Selector(this);
+#include <tinyxml.h>
 
-	Sequence* isDeadBranch = new Sequence(this);
-	isDeadBranch->AddBehavior(new IsDead(this));
-	isDeadBranch->AddBehavior(new Death(this));
-	
-	Sequence* receiveHitBranch = new Sequence(this);
-	receiveHitBranch->AddBehavior(new CheckHit(this));
-	receiveHitBranch->AddBehavior(new Hit(this));
+bool BehaviorTree::load(const char* filename) {
+	TiXmlDocument doc(filename);
+	if (!doc.LoadFile())
+	{
+		fprintf(stderr, "Couldn't read behavior tree configuration from %s", filename);
+		return false;
+	}
 
-	Selector* closeBranch = new Selector(this);
-	Sequence* attackBranch = new Sequence(this);
-	Sequence* chaseBranch = new Sequence(this);
-	closeBranch->AddBehavior(attackBranch);
-	closeBranch->AddBehavior(chaseBranch);
+	TiXmlHandle hDoc(&doc);
 
-	attackBranch->AddBehavior(new IsClose(this, 50.0f));
-	attackBranch->AddBehavior(new Attack(this));
+	TiXmlElement* pElem;
+	pElem = hDoc.FirstChildElement().Element();
+	if (!pElem)
+	{
+		fprintf(stderr, "Invalid format for %s", filename);
+		return false;
+	}
 
-	chaseBranch->AddBehavior(new IsClose(this, 200.0f));
-	chaseBranch->AddBehavior(new Pursue(this));
+	TiXmlHandle hRoot(pElem);
 
-	m_rootBehavior->AddBehavior(isDeadBranch);
-	m_rootBehavior->AddBehavior(receiveHitBranch);
-	m_rootBehavior->AddBehavior(closeBranch);
-	m_rootBehavior->AddBehavior(new Idle(this));
-
-
-	//State* idle = new State();
-	//Action* idleAction = new ChangeSpriteAction(this, 0);
-	//idle->setEnterAction(idleAction);
-	//m_States.push_back(idle);
-
-	//State* alarm = new State();
-	//Action* alarmAction = new ChangeSpriteAction(this, 3);
-	//alarm->setEnterAction(alarmAction);
-	//Action* pursueAction = new PursueAction(this);
-	//alarm->setStateAction(pursueAction);
-	//m_States.push_back(alarm);
-
-	//Transition* closeTransition = new Transition(new DistanceCondition(this), alarm);
-	//idle->addTransition(closeTransition);
-
-	//Transition* farTransition = new Transition(new NotCondition(this, new DistanceCondition(this)), idle);
-	//alarm->addTransition(farTransition);
+	TiXmlHandle hParams = hRoot.FirstChildElement("behavior");
+	TiXmlElement* rootElem = hParams.Element();
+	m_rootBehavior = createBehavior(rootElem);
 }
 
 void BehaviorTree::update(float step)
 {
 	m_rootBehavior->tick(step);
+}
+
+Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
+	Behavior* behavior = nullptr;
+	if (behaviorElem) {
+		std::string type = behaviorElem->Attribute("type");
+		std::vector<std::string> params;
+		TiXmlElement* paramElem = behaviorElem->FirstChildElement("param");
+		for (paramElem; paramElem; paramElem = paramElem->NextSiblingElement()) {
+			params.push_back(paramElem->Attribute("value"));
+		}
+
+		std::vector<Behavior*> childBehaviors;
+		TiXmlElement* childElem = behaviorElem->FirstChildElement("behavior");
+		for (childElem; childElem; childElem = childElem->NextSiblingElement()) {
+			Behavior* childBehavior = createBehavior(childElem);
+			if (childBehavior) {
+				childBehaviors.push_back(childBehavior);
+			}
+		}
+
+		if (type == "selector") {
+			Selector* selector = new Selector(this);
+			for (size_t i = 0; i < childBehaviors.size(); ++i) {
+				selector->AddBehavior(childBehaviors[i]);
+			}
+			behavior = selector;
+		}
+		else if (type == "sequence") {
+			Sequence* sequence = new Sequence(this);
+			for (size_t i = 0; i < childBehaviors.size(); ++i) {
+				sequence->AddBehavior(childBehaviors[i]);
+			}
+			behavior = sequence;
+		}
+		else if (type == "isDead") {
+			behavior = new IsDead(this);
+		}
+		else if (type == "death") {
+			behavior = new Death(this);
+		}
+		else if (type == "isHit") {
+			behavior = new CheckHit(this);
+		}
+		else if (type == "hit") {
+			behavior = new Hit(this);
+		}
+		else if (type == "distanceLessThan") {
+			behavior = new IsClose(this, std::stoi(params[0]));
+		}
+		else if (type == "attack") {
+			behavior = new Attack(this);
+		}
+		else if (type == "chase") {
+			behavior = new Pursue(this);
+		}
+		else if (type == "idle") {
+			behavior = new Idle(this);
+		}
+	}
+	return behavior;
 }

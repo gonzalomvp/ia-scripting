@@ -1,0 +1,27 @@
+<root>
+<behavior type="selector">
+	<behavior type="sequence">
+		<behavior type="isDead"></behavior>
+		<behavior type="death"></behavior>
+	</behavior>
+	<behavior type="sequence">
+		<behavior type="isHit"></behavior>
+		<behavior type="hit"></behavior>
+	</behavior>
+	<behavior type="selector">
+		<behavior type="sequence">
+			<behavior type="distanceLessThan">
+				<param value="50"></param>
+			</behavior>
+			<behavior type="attack"></behavior>
+		</behavior>
+		<behavior type="sequence">
+			<behavior type="distanceLessThan">
+				<param value="200"></param>
+			</behavior>
+			<behavior type="chase"></behavior>
+		</behavior>
+	</behavior>
+	<behavior type="idle"></behavior>
+</behavior>
+</root>
