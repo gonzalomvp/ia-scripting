@@ -3,13 +3,13 @@
 #include <tinyxml.h>
 
 #include <params.h>
-#include "seekSteering.h"
-#include "arriveSteering.h"
-#include "alignSteering.h"
-#include "alignToMovementSteering.h"
-#include "pursueSteering.h"
-#include "pathFollowingSteering.h"
-#include "obstacleAvoidanceSteering.h"
+#include "steering_behaviors/alignSteering.h"
+#include "steering_behaviors/alignToMovementSteering.h"
+#include "steering_behaviors/arriveSteering.h"
+#include "steering_behaviors/obstacleAvoidanceSteering.h"
+#include "steering_behaviors/pathFollowingSteering.h"
+#include "steering_behaviors/pursueSteering.h"
+#include "steering_behaviors/seekSteering.h"
 #include "state_machine/state_machine.h"
 #include "behavior_tree.h"
 

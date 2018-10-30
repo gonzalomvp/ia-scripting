@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include "chase_action.h"
-#include "pursueSteering.h"
-#include "alignToMovementSteering.h"
+#include "steering_behaviors/pursueSteering.h"
+#include "steering_behaviors/alignToMovementSteering.h"
 #include "character.h"
 #include "state_machine/state_machine.h"
 

@@ -124,9 +124,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="alignSteering.cpp" />
-    <ClCompile Include="alignToMovementSteering.cpp" />
-    <ClCompile Include="arriveSteering.cpp" />
     <ClCompile Include="attack.cpp" />
     <ClCompile Include="behavior.cpp" />
     <ClCompile Include="behavior_tree.cpp" />
@@ -145,13 +142,9 @@
     <ClCompile Include="is_close.cpp" />
     <ClCompile Include="is_dead.cpp" />
     <ClCompile Include="map_node.cpp" />
-    <ClCompile Include="obstacleAvoidanceSteering.cpp" />
     <ClCompile Include="params.cpp" />
     <ClCompile Include="pathfinding\pathfinder.cpp" />
-    <ClCompile Include="pathFollowingSteering.cpp" />
     <ClCompile Include="pursue.cpp" />
-    <ClCompile Include="pursueSteering.cpp" />
-    <ClCompile Include="seekSteering.cpp" />
     <ClCompile Include="selector.cpp" />
     <ClCompile Include="sequence.cpp" />
     <ClCompile Include="state_machine\actions\change_sprite_action.cpp" />
@@ -168,13 +161,16 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="steering_behaviors\alignSteering.cpp" />
+    <ClCompile Include="steering_behaviors\alignToMovementSteering.cpp" />
+    <ClCompile Include="steering_behaviors\arriveSteering.cpp" />
+    <ClCompile Include="steering_behaviors\obstacleAvoidanceSteering.cpp" />
+    <ClCompile Include="steering_behaviors\pathFollowingSteering.cpp" />
+    <ClCompile Include="steering_behaviors\pursueSteering.cpp" />
+    <ClCompile Include="steering_behaviors\seekSteering.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="alignSteering.h" />
-    <ClInclude Include="alignToMovementSteering.h" />
-    <ClInclude Include="arriveSteering.h" />
     <ClInclude Include="attack.h" />
-    <ClInclude Include="baseSteering.h" />
     <ClInclude Include="behavior.h" />
     <ClInclude Include="behavior_tree.h" />
     <ClInclude Include="change_sprite.h" />
@@ -191,13 +187,9 @@
     <ClInclude Include="is_close.h" />
     <ClInclude Include="is_dead.h" />
     <ClInclude Include="map_node.h" />
-    <ClInclude Include="obstacleAvoidanceSteering.h" />
     <ClInclude Include="params.h" />
     <ClInclude Include="pathfinding\pathfinder.h" />
-    <ClInclude Include="pathFollowingSteering.h" />
     <ClInclude Include="pursue.h" />
-    <ClInclude Include="pursueSteering.h" />
-    <ClInclude Include="seekSteering.h" />
     <ClInclude Include="selector.h" />
     <ClInclude Include="sequence.h" />
     <ClInclude Include="state_machine\action.h" />
@@ -215,6 +207,14 @@
     <ClInclude Include="state_machine\state_machine.h" />
     <ClInclude Include="state_machine\transition.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="steering_behaviors\alignSteering.h" />
+    <ClInclude Include="steering_behaviors\alignToMovementSteering.h" />
+    <ClInclude Include="steering_behaviors\arriveSteering.h" />
+    <ClInclude Include="steering_behaviors\baseSteering.h" />
+    <ClInclude Include="steering_behaviors\obstacleAvoidanceSteering.h" />
+    <ClInclude Include="steering_behaviors\pathFollowingSteering.h" />
+    <ClInclude Include="steering_behaviors\pursueSteering.h" />
+    <ClInclude Include="steering_behaviors\seekSteering.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sample\test.lua" />

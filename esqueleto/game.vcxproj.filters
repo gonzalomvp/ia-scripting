@@ -56,27 +56,6 @@
     <ClCompile Include="death.cpp">
       <Filter>behavior_tree</Filter>
     </ClCompile>
-    <ClCompile Include="pathFollowingSteering.cpp">
-      <Filter>steering_behaviors</Filter>
-    </ClCompile>
-    <ClCompile Include="pursueSteering.cpp">
-      <Filter>steering_behaviors</Filter>
-    </ClCompile>
-    <ClCompile Include="seekSteering.cpp">
-      <Filter>steering_behaviors</Filter>
-    </ClCompile>
-    <ClCompile Include="alignSteering.cpp">
-      <Filter>steering_behaviors</Filter>
-    </ClCompile>
-    <ClCompile Include="alignToMovementSteering.cpp">
-      <Filter>steering_behaviors</Filter>
-    </ClCompile>
-    <ClCompile Include="arriveSteering.cpp">
-      <Filter>steering_behaviors</Filter>
-    </ClCompile>
-    <ClCompile Include="obstacleAvoidanceSteering.cpp">
-      <Filter>steering_behaviors</Filter>
-    </ClCompile>
     <ClCompile Include="map_node.cpp">
       <Filter>pathfinder</Filter>
     </ClCompile>
@@ -118,6 +97,27 @@
     </ClCompile>
     <ClCompile Include="state_machine\conditions\hit_condition.cpp">
       <Filter>state_machine\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="steering_behaviors\alignSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="steering_behaviors\alignToMovementSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="steering_behaviors\arriveSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="steering_behaviors\obstacleAvoidanceSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="steering_behaviors\pathFollowingSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="steering_behaviors\pursueSteering.cpp">
+      <Filter>steering_behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="steering_behaviors\seekSteering.cpp">
+      <Filter>steering_behaviors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,30 +176,6 @@
     <ClInclude Include="death.h">
       <Filter>behavior_tree</Filter>
     </ClInclude>
-    <ClInclude Include="baseSteering.h">
-      <Filter>steering_behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="pathFollowingSteering.h">
-      <Filter>steering_behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="pursueSteering.h">
-      <Filter>steering_behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="seekSteering.h">
-      <Filter>steering_behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="alignSteering.h">
-      <Filter>steering_behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="alignToMovementSteering.h">
-      <Filter>steering_behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="arriveSteering.h">
-      <Filter>steering_behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="obstacleAvoidanceSteering.h">
-      <Filter>steering_behaviors</Filter>
-    </ClInclude>
     <ClInclude Include="map_node.h">
       <Filter>pathfinder</Filter>
     </ClInclude>
@@ -247,6 +223,30 @@
     </ClInclude>
     <ClInclude Include="state_machine\conditions\not_condition.h">
       <Filter>state_machine\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="steering_behaviors\alignSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="steering_behaviors\alignToMovementSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="steering_behaviors\arriveSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="steering_behaviors\baseSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="steering_behaviors\obstacleAvoidanceSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="steering_behaviors\pathFollowingSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="steering_behaviors\pursueSteering.h">
+      <Filter>steering_behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="steering_behaviors\seekSteering.h">
+      <Filter>steering_behaviors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
