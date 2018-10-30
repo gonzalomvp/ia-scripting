@@ -7,14 +7,16 @@ class TiXmlElement;
 
 class BehaviorTree {
 public:
-	BehaviorTree(Character* owner) : m_owner(owner) {}
-	Character* getCharacter() const { return m_owner; }
+	BehaviorTree(Character* owner) : mOwner(owner) {}
+	~BehaviorTree();
+	
+	Character* getCharacter() const { return mOwner; }
 	
 	bool load(const char* filename);
 	Behavior* createBehavior(TiXmlElement* behaviorElem);
 	void update(float step);
 
 private:
-	Character* m_owner;
-	Behavior* m_rootBehavior;
+	Character* mOwner;
+	Behavior*  mRootBehavior;
 };

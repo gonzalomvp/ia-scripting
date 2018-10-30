@@ -5,14 +5,14 @@ Status Sequence::update(float step)
 {
 	while (true)
 	{
-		Status s = m_Children[m_CurrentChild]->tick(step);
+		Status s = mChildren[mCurrentChild]->tick(step);
 		if (s != eSuccess)
 		{
 			return s;
 		}
-		++m_CurrentChild;
+		++mCurrentChild;
 
-		if (m_CurrentChild == m_Children.size())
+		if (mCurrentChild == mChildren.size())
 		{
 			return eSuccess;
 		}
@@ -22,5 +22,5 @@ Status Sequence::update(float step)
 
 void Sequence::onEnter()
 {
-	m_CurrentChild = 0;
+	mCurrentChild = 0;
 }

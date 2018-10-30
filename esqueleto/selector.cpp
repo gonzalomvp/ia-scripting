@@ -5,13 +5,13 @@ Status Selector::update(float step)
 {
 	while (true)
 	{
-		Status s = m_Children[m_CurrentChild]->tick(step);
+		Status s = mChildren[mCurrentChild]->tick(step);
 		if (s != eFail)
 		{
 			return s;
 		}
-		++m_CurrentChild;
-		if (m_CurrentChild == m_Children.size())
+		++mCurrentChild;
+		if (mCurrentChild == mChildren.size())
 		{
 			return eFail;
 		}
@@ -21,5 +21,5 @@ Status Selector::update(float step)
 
 void Selector::onEnter()
 {
-	m_CurrentChild = 0;
+	mCurrentChild = 0;
 }

@@ -6,12 +6,14 @@ class State;
 
 class Transition {
 public:
-	Transition(Condition* condition, State* targetState, Action* triggerAction = nullptr) : m_condition(condition), m_targetState(targetState), m_triggerAction(triggerAction) {}
+	Transition(Condition* condition, State* targetState, Action* triggerAction = nullptr) : mCondition(condition), mTargetState(targetState), mTriggerAction(triggerAction) {}
+	~Transition();
+
 	bool canTrigger() const;
 	State* trigger(float step);
 
 private:
-	Condition* m_condition;
-	State*     m_targetState;
-	Action*    m_triggerAction;
+	Condition* mCondition;
+	State*     mTargetState;
+	Action*    mTriggerAction;
 };

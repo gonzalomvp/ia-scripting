@@ -7,6 +7,7 @@ class Transition;
 class State {
 public:
 	State() : m_enterAction(nullptr), m_exitAction(nullptr), m_stateAction(nullptr) {}
+	~State();
 
 	virtual void onEnter(float step);
 	virtual void update(float step);

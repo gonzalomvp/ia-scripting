@@ -4,6 +4,16 @@
 #include "action.h"
 #include "transition.h"
 
+State::~State() {
+	delete m_enterAction;
+	delete m_exitAction;
+	delete m_stateAction;
+
+	for (size_t i = 0; i < m_transitions.size(); ++i) {
+		delete m_transitions[i];
+	}
+}
+
 void State::onEnter(float step)
 {
 	if (m_enterAction)

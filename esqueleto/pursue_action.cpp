@@ -10,6 +10,11 @@ PursueAction::PursueAction(StateMachine* owner) : Action(owner) {
 	mAlignToMovementSteering = new AlignToMovementSteering();
 }
 
+PursueAction::~PursueAction() {
+	delete mPursueSteering;
+	delete mAlignToMovementSteering;
+}
+
 void PursueAction::start() {
 	mOwner->getCharacter()->AddSteering(mPursueSteering);
 	mOwner->getCharacter()->AddSteering(mAlignToMovementSteering);

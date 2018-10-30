@@ -139,6 +139,7 @@
     <ClCompile Include="death_timer.cpp" />
     <ClCompile Include="distance_condition.cpp" />
     <ClCompile Include="gameConfig.cpp" />
+    <ClCompile Include="group.cpp" />
     <ClCompile Include="hit.cpp" />
     <ClCompile Include="hit_action.cpp" />
     <ClCompile Include="hit_condition.cpp" />

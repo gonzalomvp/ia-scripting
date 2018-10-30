@@ -5,10 +5,14 @@
 #include "character.h"
 #include "behavior_tree.h"
 
-Pursue::Pursue(BehaviorTree* owner, float arriveDistance) : Behavior(owner), mArriveDistance(arriveDistance)
-{
+Pursue::Pursue(BehaviorTree* owner, float arriveDistance) : Behavior(owner), mArriveDistance(arriveDistance) {
 	mPursueSteering = new PursueSteering();
 	mAlignToMovementSteering = new AlignToMovementSteering();
+}
+
+Pursue::~Pursue() {
+	delete mPursueSteering;
+	delete mAlignToMovementSteering;
 }
 
 void Pursue::onEnter() {	

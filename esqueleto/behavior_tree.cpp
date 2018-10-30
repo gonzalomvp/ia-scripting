@@ -15,6 +15,10 @@
 
 #include <tinyxml.h>
 
+BehaviorTree::~BehaviorTree() {
+	delete mRootBehavior;
+}
+
 bool BehaviorTree::load(const char* filename) {
 	TiXmlDocument doc(filename);
 	if (!doc.LoadFile())
@@ -37,12 +41,13 @@ bool BehaviorTree::load(const char* filename) {
 
 	TiXmlHandle hParams = hRoot.FirstChildElement("behavior");
 	TiXmlElement* rootElem = hParams.Element();
-	m_rootBehavior = createBehavior(rootElem);
+	mRootBehavior = createBehavior(rootElem);
+	return true;
 }
 
 void BehaviorTree::update(float step)
 {
-	m_rootBehavior->tick(step);
+	mRootBehavior->tick(step);
 }
 
 Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
@@ -79,7 +84,7 @@ Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
 			behavior = sequence;
 		}
 		else if (type == "changeSprite") {
-			behavior = new ChangeSprite(this, std::stof(params[0]));
+			behavior = new ChangeSprite(this, std::stoi(params[0]));
 		}
 		else if (type == "isDead") {
 			behavior = new IsDead(this);

@@ -13,6 +13,7 @@ enum Status
 class Behavior {
 public:
 	Behavior(BehaviorTree* owner) : mOwner(owner), m_Status(eInvalid) {}
+	virtual ~Behavior() {}
 	virtual Status tick(float step);
 
 protected:

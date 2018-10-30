@@ -119,6 +119,9 @@
     <ClCompile Include="change_sprite.cpp">
       <Filter>behavior_tree</Filter>
     </ClCompile>
+    <ClCompile Include="group.cpp">
+      <Filter>behavior_tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />

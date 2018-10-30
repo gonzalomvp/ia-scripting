@@ -13,7 +13,7 @@
 #include "stateMachine.h"
 #include "behavior_tree.h"
 
-Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f), mIsHit(false), mLife(5.0f)
+Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f), mIsHit(false), mLife(5.0f), mStateMachine(nullptr), mBehaviorTree(nullptr)
 {
 	RTTI_BEGIN
 		RTTI_EXTEND (MOAIEntity2D)
@@ -22,8 +22,13 @@ Character::Character() : mLinearVelocity(0.0f, 0.0f), mAngularVelocity(0.0f), mI
 
 Character::~Character()
 {
-	//TO-DO deletes
+	for (size_t i = 0; i < mSteerings.size(); ++i) {
+		delete mSteerings[i];
+	}
+	delete mStateMachine;
+	delete mBehaviorTree;
 }
+
 
 void Character::OnStart()
 {

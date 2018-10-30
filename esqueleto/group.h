@@ -8,9 +8,10 @@ class Group : public Behavior
 {
 public:
 	Group(BehaviorTree* owner) : Behavior(owner) {}
-	void AddBehavior(Behavior* behavior) { m_Children.push_back(behavior); }
+	~Group();
+	void AddBehavior(Behavior* behavior) { mChildren.push_back(behavior); }
 
 protected:
 	typedef std::vector<Behavior*> Behaviors;
-	Behaviors m_Children;
+	Behaviors mChildren;
 };

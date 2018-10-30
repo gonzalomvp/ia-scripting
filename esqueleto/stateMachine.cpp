@@ -15,6 +15,12 @@
 
 #include <tinyxml.h>
 
+StateMachine::~StateMachine() {
+	for (size_t i = 0; i < mStates.size(); ++i) {
+		delete mStates[i];
+	}
+}
+
 bool StateMachine::load(const char* filename) {
 	TiXmlDocument doc(filename);
 	if (!doc.LoadFile())
@@ -58,7 +64,7 @@ bool StateMachine::load(const char* filename) {
 			state->setExitAction(action);
 		}
 
-		m_States.push_back(state);
+		mStates.push_back(state);
 	}
 
 	hParams = hRoot.FirstChildElement("transitions").FirstChildElement("transition");
@@ -71,8 +77,8 @@ bool StateMachine::load(const char* filename) {
 		TiXmlElement* conditionElem = transitionElem->FirstChildElement("condition");
 		Condition* condition = createCondition(conditionElem);
 		if (condition) {
-			Transition* transition = new Transition(condition, m_States[endState]);
-			m_States[initialState]->addTransition(transition);
+			Transition* transition = new Transition(condition, mStates[endState]);
+			mStates[initialState]->addTransition(transition);
 		}
 	}
 
@@ -81,20 +87,20 @@ bool StateMachine::load(const char* filename) {
 
 void StateMachine::start()
 {
-	m_currentState = m_States[0];
-	m_currentState->onEnter(0);
+	mCurrentState = mStates[0];
+	mCurrentState->onEnter(0);
 }
 
 void StateMachine::update(float step) {
-	m_currentState->update(step);
-	const std::vector<Transition*>& transitions = m_currentState->getTransitions();
+	mCurrentState->update(step);
+	const std::vector<Transition*>& transitions = mCurrentState->getTransitions();
 	for (size_t i = 0; i < transitions.size(); i++) {
 		Transition* transition = transitions[i];
 		if (transition->canTrigger()) {
-			m_currentState->onExit(step);
+			mCurrentState->onExit(step);
 			State* nextState = transition->trigger(step);
 			nextState->onEnter(step);
-			m_currentState = nextState;
+			mCurrentState = nextState;
 			return;
 		}
 	}
@@ -111,7 +117,7 @@ Action* StateMachine::createAction(TiXmlElement* actionElem) {
 		}
 
 		if (type == "changeSprite") {
-			action = new ChangeSpriteAction(this, std::stof(params[0]));
+			action = new ChangeSpriteAction(this, std::stoi(params[0]));
 		}
 		else if (type == "stop") {
 			action = new StopAction(this);

@@ -11,5 +11,5 @@ public:
 protected:
 	void onEnter();
 	Status update(float step);
-	int m_CurrentChild;
+	int mCurrentChild;
 };

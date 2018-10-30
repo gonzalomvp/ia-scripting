@@ -4,15 +4,20 @@
 #include "action.h"
 #include "condition.h"
 
+Transition::~Transition() {
+	delete mCondition;
+	delete mTriggerAction;
+}
+
 bool Transition::canTrigger() const {
-	return m_condition->check();
+	return mCondition->check();
 }
 
 State* Transition::trigger(float step) { 
-	if (m_triggerAction){
-		m_triggerAction->start();
-		m_triggerAction->update(step);
-		m_triggerAction->end();
+	if (mTriggerAction){
+		mTriggerAction->start();
+		mTriggerAction->update(step);
+		mTriggerAction->end();
 	}
-	return m_targetState;
+	return mTargetState;
 }

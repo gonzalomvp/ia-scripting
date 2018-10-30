@@ -9,6 +9,7 @@ class Pursue : public Behavior
 {
 public:
 	Pursue(BehaviorTree* owner, float arriveDistance);
+	~Pursue();
 
 protected:
 	virtual void onEnter() override;
