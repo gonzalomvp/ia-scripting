@@ -10,8 +10,8 @@ Pathfinder::Pathfinder() : MOAIEntity2D(), mStartPosition(0.0f, 0.0f), mEndPosit
 		RTTI_EXTEND(MOAIEntity2D)
 	RTTI_END
 
-	//ReadGrid("grid_map.txt", mMap);
-	ReadNavmesh("navmesh.xml", mMap);
+	ReadGrid("grid_map.txt", mMap);
+	//ReadNavmesh("navmesh.xml", mMap);
 }
 
 Pathfinder::~Pathfinder() {
@@ -59,6 +59,12 @@ void Pathfinder::DrawDebug() {
 	for (int i = 0; i < mMap.size(); i++) {
 		mMap[i]->DrawDebug();
 	}
+
+	//Draw start and end positions in green
+	gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
+	gfxDevice.SetPointSize(5.0f);
+	MOAIDraw::DrawPoint(mStartPosition);
+	MOAIDraw::DrawPoint(mEndPosition);
 
 	//Draw Open list in light blue
 	for (auto it = mOpenList.begin(); it != mOpenList.end(); ++it) {
