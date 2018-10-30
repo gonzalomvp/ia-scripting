@@ -3,8 +3,6 @@
 #include "behavior.h"
 #include "selector.h"
 #include "sequence.h"
-
-#include "behavior_tree/actions/attack.h"
 #include "behavior_tree/actions/change_sprite.h"
 #include "behavior_tree/actions/hit.h"
 #include "behavior_tree/actions/idle.h"
@@ -101,9 +99,6 @@ Behavior* BehaviorTree::createBehavior(TiXmlElement* behaviorElem) {
 		}
 		else if (type == "distanceLessThan") {
 			behavior = new IsClose(this, std::stof(params[0]));
-		}
-		else if (type == "attack") {
-			behavior = new Attack(this);
 		}
 		else if (type == "chase") {
 			behavior = new Pursue(this, std::stof(params[0]), std::stof(params[1]));

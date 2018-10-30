@@ -124,7 +124,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="behavior_tree\actions\attack.cpp" />
     <ClCompile Include="behavior_tree\actions\change_sprite.cpp" />
     <ClCompile Include="behavior_tree\actions\death.cpp" />
     <ClCompile Include="behavior_tree\actions\hit.cpp" />
@@ -170,7 +169,6 @@
     <ClCompile Include="steering_behaviors\seekSteering.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="behavior_tree\actions\attack.h" />
     <ClInclude Include="behavior_tree\actions\change_sprite.h" />
     <ClInclude Include="behavior_tree\actions\death.h" />
     <ClInclude Include="behavior_tree\actions\hit.h" />

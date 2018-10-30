@@ -89,9 +89,6 @@
     <ClCompile Include="behavior_tree\sequence.cpp">
       <Filter>behavior_tree</Filter>
     </ClCompile>
-    <ClCompile Include="behavior_tree\actions\attack.cpp">
-      <Filter>behavior_tree\actions</Filter>
-    </ClCompile>
     <ClCompile Include="behavior_tree\actions\change_sprite.cpp">
       <Filter>behavior_tree\actions</Filter>
     </ClCompile>
@@ -217,9 +214,6 @@
     </ClInclude>
     <ClInclude Include="behavior_tree\sequence.h">
       <Filter>behavior_tree</Filter>
-    </ClInclude>
-    <ClInclude Include="behavior_tree\actions\attack.h">
-      <Filter>behavior_tree\actions</Filter>
     </ClInclude>
     <ClInclude Include="behavior_tree\actions\change_sprite.h">
       <Filter>behavior_tree\actions</Filter>
