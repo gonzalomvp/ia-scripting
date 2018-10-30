@@ -24,13 +24,13 @@ void Character::OnStart()
 {
     ReadParams("params.xml", mParams);
 	ReadPath("path.xml", mPath);
-	//ReadObstacles("obstacles.xml", mObstacles);
+	ReadObstacles("obstacles.xml", mObstacles);
 	//mSteerings.push_back(new AlignSteering());
-	//mSteerings.push_back(new AlignToMovementSteering());
-	//mSteerings.push_back(new ObstacleAvoidanceSteering());
+	mSteerings.push_back(new AlignToMovementSteering());
+	mSteerings.push_back(new ObstacleAvoidanceSteering());
 	//mSteerings.push_back(new SeekSteering());
 	//mSteerings.push_back(new ArriveSteering());
-	//mSteerings.push_back(new PursueSteering());
+	mSteerings.push_back(new PursueSteering());
 	//mSteerings.push_back(new PathFollowingSteering());
 	
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
@@ -74,42 +74,49 @@ void Character::OnUpdate(float step)
 	}
 	
 	//Apply Steering Behaviors
-	USVec2D linearAcceleration(0.0f, 0.0f);
-	USVec2D linearAccelerationAcc(0.0f, 0.0f);
-	float angularAcceleration = 0.0f;
+	USVec2D linearAccelerationTotal(0.0f, 0.0f);
+	float angularAccelerationTotal = 0.0f;
 
 	for (size_t i = 0; i < mSteerings.size(); i++) {
+		USVec2D linearAcceleration(0.0f, 0.0f);
+		float angularAcceleration = 0.0f;
 		mSteerings[i]->GetSteering(*this, linearAcceleration, angularAcceleration);
-		linearAccelerationAcc += linearAcceleration;
-		if (linearAcceleration.LengthSquared() > 0.5f) {
-			//break;
-		}
-	}
-	if (linearAccelerationAcc.Length() > mParams.max_acceleration) {
-		linearAccelerationAcc.NormSafe();
-		linearAccelerationAcc = linearAccelerationAcc * mParams.max_acceleration;
+		linearAccelerationTotal += linearAcceleration;
+		angularAccelerationTotal += angularAcceleration;
 	}
 
-	mAngularVelocity += angularAcceleration * step;
-	mLinearVelocity += linearAccelerationAcc * step;
+	//Clamp accelerations
+	if (linearAccelerationTotal.Length() > mParams.max_acceleration) {
+		linearAccelerationTotal.NormSafe();
+		linearAccelerationTotal = linearAccelerationTotal * mParams.max_acceleration;
+	}
+	if (angularAccelerationTotal != 0.0f && abs(angularAccelerationTotal) > mParams.max_angular_acceleration) {
+		angularAccelerationTotal = (angularAccelerationTotal / abs(angularAccelerationTotal)) * mParams.max_angular_acceleration;
+	}
 
+	mLinearVelocity  += linearAccelerationTotal  * step;
+	mAngularVelocity += angularAccelerationTotal * step;
+
+	//Clamp velocities
 	if (mLinearVelocity.Length() > mParams.max_velocity) {
 		mLinearVelocity.NormSafe();
 		mLinearVelocity = mLinearVelocity * mParams.max_velocity;
+	}
+	if (mAngularVelocity != 0.0f && abs(mAngularVelocity) > mParams.max_angular_velocity) {
+		mAngularVelocity = (mAngularVelocity / abs(mAngularVelocity)) * mParams.max_angular_velocity;
 	}
 
 	//Move using linear velocity
 	SetLoc(GetLoc() + mLinearVelocity * step);
 
 	//Orientate sprite with velocity
-	//SetRot(atan2(mLinearVelocity.mY , mLinearVelocity.mX) * 57.2958f);
 	SetRot(GetRot() + mAngularVelocity * step);
 
 	//StateMachine
 	//mStateMachine->update(step);
 
 	//BehaviorTree
-	mBehaviorTree->update(step);
+	//mBehaviorTree->update(step);
 }
 
 void Character::DrawDebug()
