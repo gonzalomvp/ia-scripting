@@ -55,5 +55,8 @@ private:
 	static int _setCharacter(lua_State* L);
 };
 
+std::vector<USVec2D> generatePathFromGridNodes(std::vector<const MapNode*> nodes);
+std::vector<USVec2D> generatePathFromPolygonNodes(std::vector<const MapNode*> nodes, const USVec2D& start, const USVec2D& end);
+std::vector<USVec2D> generatePathFromPolygonNodesOptimizated(std::vector<const MapNode*> nodes, const USVec2D& start, const USVec2D& end);
 
 #endif

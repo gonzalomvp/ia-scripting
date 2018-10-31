@@ -3,6 +3,7 @@
 #include "pathfinder.h"
 #include "character.h"
 #include "map_node.h"
+#include "utils.h"
 #include <fstream>
 
 Pathfinder::Pathfinder() : MOAIEntity2D(), mStartPosition(0.0f, 0.0f), mEndPosition(0.0f, 0.0f), mCharacter(nullptr) {
@@ -10,8 +11,8 @@ Pathfinder::Pathfinder() : MOAIEntity2D(), mStartPosition(0.0f, 0.0f), mEndPosit
 		RTTI_EXTEND(MOAIEntity2D)
 	RTTI_END
 
-	ReadGrid("grid_map.txt", mMap);
-	//ReadNavmesh("navmesh.xml", mMap);
+	//ReadGrid("grid_map.txt", mMap);
+	ReadNavmesh("navmesh.xml", mMap);
 }
 
 Pathfinder::~Pathfinder() {
@@ -38,17 +39,29 @@ void Pathfinder::UpdatePath() {
 
 	while (!PathfindStep());
 
-	if (mCharacter) {
-		std::vector<USVec2D> reverse;
-		reverse.push_back(mStartPosition);
-		for (size_t i = 0; i + 1 < mPath.size(); i++) {
-			const MapNode* node1 = mPath[mPath.size() - i - 1];
-			const MapNode* node2 = mPath[mPath.size() - i - 2];
+	//if (mCharacter) {
+	//	std::vector<USVec2D> reverse;
+	//	reverse.push_back(mStartPosition);
+	//	for (size_t i = 0; i + 1 < mPath.size(); i++) {
+	//		const MapNode* node1 = mPath[mPath.size() - i - 1];
+	//		const MapNode* node2 = mPath[mPath.size() - i - 2];
 
-			reverse.push_back(node1->getPathPoint(node2));
+	//		reverse.push_back(node1->getPathPoint(node2));
+	//	}
+	//	reverse.push_back(mEndPosition);
+	//	mCharacter->SetPath(reverse);
+	//}
+
+	if (mCharacter) {
+		std::vector<const MapNode*> nodes;
+		for (size_t i = 0; i < mPath.size(); i++) {
+			nodes.push_back(mPath[mPath.size() - i - 1]);
 		}
-		reverse.push_back(mEndPosition);
-		mCharacter->SetPath(reverse);
+		//std::vector<USVec2D> path = generatePathFromGridNodes(nodes);
+		std::vector<USVec2D> path = generatePathFromPolygonNodes(nodes, mStartPosition, mEndPosition);
+		//std::vector<USVec2D> path = generatePathFromPolygonNodesOptimizated(nodes, mStartPosition, mEndPosition);
+		
+		mCharacter->SetPath(path);
 	}
 }
 
@@ -171,6 +184,67 @@ PathNode Pathfinder::popNodeWithMinCost() {
 	}
 	
 	return minCostNode;
+}
+
+std::vector<USVec2D> generatePathFromGridNodes(std::vector<const MapNode*> nodes) {
+	std::vector<USVec2D> path;
+	for (size_t i = 0; i < nodes.size(); i++) {
+		path.push_back(nodes[i]->getPathPoint(nodes[i]));
+	}
+	return path;
+}
+
+std::vector<USVec2D> generatePathFromPolygonNodes(std::vector<const MapNode*> nodes, const USVec2D& start, const USVec2D& end) {
+	std::vector<USVec2D> path;
+	path.push_back(start);
+	for (size_t i = 0; i + 1 < nodes.size(); i++) {
+		const MapNode* node1 = nodes[i];
+		const MapNode* node2 = nodes[i + 1];
+		path.push_back(node1->getPathPoint(node2));
+	}
+	path.push_back(end);
+	return path;
+}
+
+std::vector<USVec2D> generatePathFromPolygonNodesOptimizated(std::vector<const MapNode*> nodes, const USVec2D& start, const USVec2D& end) {
+
+	std::vector<USVec2D> path;
+	std::vector<std::array<USVec2D, 2>> edges;
+	for (size_t i = 0; i + 1 < nodes.size(); ++i) {
+		const NavPolygon* node1 = reinterpret_cast<const NavPolygon*>(nodes[i]);
+		const NavPolygon* node2 = reinterpret_cast<const NavPolygon*>(nodes[i + 1]);
+		std::map<const MapNode*, std::array<USVec2D, 2>> tempEdges = node1->mEdges;
+		edges.push_back(tempEdges[node2]);
+	}
+
+	USVec2D currentPosition = start;
+	path.push_back(currentPosition);
+	for (size_t i = 0; i < edges.size(); ++i) {
+		if (!getLineIntersection(currentPosition.mX, currentPosition.mY, end.mX, end.mY, edges[i][0].mX, edges[i][0].mY, edges[i][1].mX, edges[i][1].mY, &currentPosition.mX, &currentPosition.mY)) {
+			USVec2D right = edges[i][0];
+			USVec2D left = edges[i][1];
+			USVec2D v1 = right - currentPosition;
+			USVec2D v2 = left - currentPosition;
+
+			float dir = v1.Cross(v2);
+			if (dir < 0.0f) {
+				v1 = v2;
+				right = edges[i][1];
+				left = edges[i][0];
+			}
+			v2 = end - currentPosition;
+			dir = v1.Cross(v2);
+			if (dir < 0.0f) {
+				currentPosition = right;
+			}
+			else {
+				currentPosition = left;
+			}
+			path.push_back(currentPosition);
+		}
+	}
+	path.push_back(end);
+	return path;
 }
 
 //lua configuration ----------------------------------------------------------------//
