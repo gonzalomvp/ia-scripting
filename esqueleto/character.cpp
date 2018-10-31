@@ -26,12 +26,12 @@ void Character::OnStart()
 	ReadPath("path.xml", mPath);
 	ReadObstacles("obstacles.xml", mObstacles);
 	//mSteerings.push_back(new AlignSteering());
-	mSteerings.push_back(new AlignToMovementSteering());
+	//mSteerings.push_back(new AlignToMovementSteering());
 	//mSteerings.push_back(new ObstacleAvoidanceSteering());
 	//mSteerings.push_back(new SeekSteering());
 	//mSteerings.push_back(new ArriveSteering());
 	//mSteerings.push_back(new PursueSteering());
-	mSteerings.push_back(new PathFollowingSteering());
+	//mSteerings.push_back(new PathFollowingSteering());
 	
 	mEnemyPosition = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
 	mEnemyTarget   = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
@@ -60,16 +60,16 @@ void Character::OnStop() {
 
 void Character::OnUpdate(float step)
 {
-	////Move enemy
-	//if (mEnemyPosition.DistSqrd(mEnemyTarget) <= 25.0f) {
-	//	mEnemyTarget = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
-	//}
-	//else {
-	//	USVec2D movementDir = mEnemyTarget - mEnemyPosition;
-	//	movementDir.NormSafe();
-	//	mEnemyVelocity = movementDir * mParams.enemy_speed;
-	//	mEnemyPosition += mEnemyVelocity * step;
-	//}
+	//Move enemy
+	if (mEnemyPosition.DistSqrd(mEnemyTarget) <= 25.0f) {
+		mEnemyTarget = USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384));
+	}
+	else {
+		USVec2D movementDir = mEnemyTarget - mEnemyPosition;
+		movementDir.NormSafe();
+		mEnemyVelocity = movementDir * mParams.enemy_speed;
+		mEnemyPosition += mEnemyVelocity * step;
+	}
 	//if (mEnemyPosition.DistSqrd(GetLoc()) < 400.0f)
 	//{
 	//	SetLoc(USVec2D(USFloat::Rand(-512, 512), USFloat::Rand(-384, 384)));
@@ -117,7 +117,7 @@ void Character::OnUpdate(float step)
 	SetRot(GetRot() + mAngularVelocity * step);
 
 	//StateMachine
-	//mStateMachine->update(step);
+	mStateMachine->update(step);
 
 	//BehaviorTree
 	//mBehaviorTree->update(step);
@@ -137,10 +137,10 @@ void Character::DrawDebug()
 	//Draw current lineal acceleration
 	//MOAIDraw::DrawLine(GetLoc(), GetLoc() + mLinearVelocity);
 
-	//// Draw enemy
-	//gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 1.0f);
-	//gfxDevice.SetPointSize(20.0f);
-	//MOAIDraw::DrawPoint(mEnemyPosition);
+	// Draw enemy
+	gfxDevice.SetPenColor(1.0f, 0.0f, 0.0f, 1.0f);
+	gfxDevice.SetPointSize(20.0f);
+	MOAIDraw::DrawPoint(mEnemyPosition);
 }
 
 void Character::CheckHit(const USVec2D& clickPos) {
