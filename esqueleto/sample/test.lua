@@ -58,10 +58,9 @@ layer:setDrawDebug(debug)
 -- Add this character to draw debug
 MOAIDrawDebug.insertEntity(entity)
 
-
-pathfinder = Pathfinder.new()
-pathfinder:setCharacter(entity)
-MOAIDrawDebug.insertEntity(pathfinder)
+--pathfinder = Pathfinder.new()
+--pathfinder:setCharacter(entity)
+--MOAIDrawDebug.insertEntity(pathfinder)
 
 mouseX = 0
 mouseY = 0
