@@ -69,7 +69,7 @@ void Pathfinder::DrawDebug() {
 	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get();
 
 	//Draw Map Nodes
-	for (int i = 0; i < mMap.size(); i++) {
+	for (size_t i = 0; i < mMap.size(); ++i) {
 		mMap[i]->DrawDebug();
 	}
 
@@ -93,7 +93,7 @@ void Pathfinder::DrawDebug() {
 
 	//Draw Path in green only if open list is not empty
 	if (mOpenList.size() > 0) {
-		for (int i = 0; i < mPath.size(); i++) {
+		for (size_t i = 0; i < mPath.size(); ++i) {
 			gfxDevice.SetPenColor(0.0f, 1.0f, 0.0f, 0.5f);
 			mPath[i]->DrawFill();
 		}

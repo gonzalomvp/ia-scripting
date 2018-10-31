@@ -1,7 +1,7 @@
 #include <stdafx.h>
 
 #include "map_node.h"
-#include "params.h"
+#include "utils.h"
 
 const MapNode* MapNode::getNodeOfPoint(const USVec2D& point, const std::vector<MapNode*>& map) {
 	const MapNode* node = nullptr;
@@ -93,7 +93,7 @@ void GridNode::DrawFill() const {
 }
 
 bool NavPolygon::isPointInNode(const USVec2D& point) const  {
-	return PointInPolygon(point, *this);
+	return isPointInPolygon(point, *this);
 }
 
 USVec2D NavPolygon::getPathPoint(const MapNode* neighbor) const {

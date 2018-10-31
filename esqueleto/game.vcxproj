@@ -218,13 +218,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="sample\test.lua" />
-    <None Include="sample\test_multiple_images.lua" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="sample\grid_map.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="sample\behavior_tree.xml" />
     <Xml Include="sample\navmesh.xml" />
     <Xml Include="sample\obstacles.xml" />
     <Xml Include="sample\params.xml" />
     <Xml Include="sample\path.xml" />
+    <Xml Include="sample\state_machine.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,9 +1,10 @@
 #include <stdafx.h>
 #include "utils.h"
+#include "pathfinding/map_node.h"
 
 void closestPointToSegments(const USVec2D& currentPosition, const std::vector<USVec2D>& path, USVec2D& closestPoint, int& closestSegment) {
 	closestSegment = -1;
-	float minDistance = 99999999999;
+	float minDistance = 99999999999.0f;
 	for (size_t i = 0; i + 1 < path.size(); ++i) {
 		USVec2D point = closestPointToSegment(currentPosition, path[i], path[i + 1]);
 		float distance = (point - currentPosition).Length();
@@ -50,7 +51,7 @@ USVec2D lookAheadInPath(const USVec2D& point, const std::vector<USVec2D>& path, 
 
 	while (totalAhead + segmentLength < lookAhead) {
 		++segmentIndex;
-		if (segmentIndex + 1 < path.size()) {
+		if (segmentIndex + 1 < static_cast<int>(path.size())) {
 			totalAhead += segmentLength;
 			segmentStart = path[segmentIndex];
 			segmentEnd = path[segmentIndex + 1];
@@ -89,4 +90,19 @@ bool getLineIntersection(float p0_x, float p0_y, float p1_x, float p1_y,
 		return true;
 	}
 	return false; // No collision
+}
+
+bool isPointInPolygon(const USVec2D& point, const NavPolygon& polygon) {
+	vector<USVec2D> points = polygon.mVerts;
+	int i, j, nvert = points.size();
+	bool c = false;
+
+	for (i = 0, j = nvert - 1; i < nvert; j = i++) {
+		if (((points[i].mY >= point.mY) != (points[j].mY >= point.mY)) &&
+			(point.mX <= (points[j].mX - points[i].mX) * (point.mY - points[i].mY) / (points[j].mY - points[i].mY) + points[i].mX)
+			)
+			c = !c;
+	}
+
+	return c;
 }

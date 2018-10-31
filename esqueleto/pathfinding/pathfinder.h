@@ -5,7 +5,7 @@
 #include "params.h"
 #include "character.h"
 
-class MapNode;
+struct MapNode;
 
 struct PathNode {
 	const MapNode* mNode;

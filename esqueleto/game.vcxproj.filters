@@ -281,21 +281,29 @@
     <None Include="sample\test.lua">
       <Filter>sample</Filter>
     </None>
-    <None Include="sample\test_multiple_images.lua">
-      <Filter>sample</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="sample\grid_map.txt">
+      <Filter>sample</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="sample\behavior_tree.xml">
+      <Filter>sample</Filter>
+    </Xml>
+    <Xml Include="sample\navmesh.xml">
+      <Filter>sample</Filter>
+    </Xml>
+    <Xml Include="sample\obstacles.xml">
+      <Filter>sample</Filter>
+    </Xml>
     <Xml Include="sample\params.xml">
       <Filter>sample</Filter>
     </Xml>
     <Xml Include="sample\path.xml">
       <Filter>sample</Filter>
     </Xml>
-    <Xml Include="sample\obstacles.xml">
-      <Filter>sample</Filter>
-    </Xml>
-    <Xml Include="sample\navmesh.xml">
+    <Xml Include="sample\state_machine.xml">
       <Filter>sample</Filter>
     </Xml>
   </ItemGroup>
