@@ -11,8 +11,8 @@ Pathfinder::Pathfinder() : MOAIEntity2D(), mStartPosition(0.0f, 0.0f), mEndPosit
 		RTTI_EXTEND(MOAIEntity2D)
 	RTTI_END
 
-	ReadGrid("grid_map.txt", mMap);
-	//ReadNavmesh("navmesh.xml", mMap);
+	//ReadGrid("grid_map.txt", mMap);
+	ReadNavmesh("navmesh.xml", mMap);
 }
 
 Pathfinder::~Pathfinder() {
@@ -44,8 +44,8 @@ void Pathfinder::UpdatePath() {
 		for (size_t i = 0; i < mPath.size(); i++) {
 			nodes.push_back(mPath[mPath.size() - i - 1]);
 		}
-		std::vector<USVec2D> path = generatePathFromGridNodes(nodes);
-		//std::vector<USVec2D> path = generatePathFromPolygonNodes(nodes, mStartPosition, mEndPosition);
+		//std::vector<USVec2D> path = generatePathFromGridNodes(nodes);
+		std::vector<USVec2D> path = generatePathFromPolygonNodes(nodes, mStartPosition, mEndPosition);
 		//std::vector<USVec2D> path = generatePathFromPolygonNodesOptimizated(nodes, mStartPosition, mEndPosition);
 		
 		mCharacter->SetPath(path);
