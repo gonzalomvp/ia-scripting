@@ -32,7 +32,6 @@ struct GridNode : public MapNode {
 	int mIndex;
 	int mCost;
 	std::vector<GridNode*> mNeighbors;
-	//costToNeig??
 };
 
 struct NavPolygon : public MapNode {

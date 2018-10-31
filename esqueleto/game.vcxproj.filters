@@ -116,6 +116,7 @@
     <ClCompile Include="behavior_tree\actions\chase.cpp">
       <Filter>behavior_tree\actions</Filter>
     </ClCompile>
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character.h" />
@@ -242,6 +243,7 @@
     <ClInclude Include="behavior_tree\actions\chase.h">
       <Filter>behavior_tree\actions</Filter>
     </ClInclude>
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="host">

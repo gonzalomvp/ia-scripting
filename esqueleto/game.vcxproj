@@ -167,6 +167,7 @@
     <ClCompile Include="steering_behaviors\pathFollowingSteering.cpp" />
     <ClCompile Include="steering_behaviors\pursueSteering.cpp" />
     <ClCompile Include="steering_behaviors\seekSteering.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="behavior_tree\actions\change_sprite.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="steering_behaviors\pathFollowingSteering.h" />
     <ClInclude Include="steering_behaviors\pursueSteering.h" />
     <ClInclude Include="steering_behaviors\seekSteering.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sample\test.lua" />

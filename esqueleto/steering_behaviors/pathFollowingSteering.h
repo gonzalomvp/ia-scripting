@@ -14,9 +14,4 @@ private:
 	USVec2D              mClosestPoint; 
 	int                  mClosestSegment;
 	USVec2D              mFutureLoc;
-
-	//Helper functions
-	void closestPointInPath(const USVec2D& currentPosition, USVec2D& closestPoint, int& closestSegment);
-	USVec2D closestPointInSegment(const USVec2D& currentPosition, const USVec2D& segmentStart, const USVec2D& segmentEnd);
-	USVec2D lookAheadFromPoint(const USVec2D& point, float lookAhead);
 };
