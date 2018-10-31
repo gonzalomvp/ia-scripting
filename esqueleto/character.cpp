@@ -117,10 +117,10 @@ void Character::OnUpdate(float step)
 	SetRot(GetRot() + mAngularVelocity * step);
 
 	//StateMachine
-	mStateMachine->update(step);
+	//mStateMachine->update(step);
 
 	//BehaviorTree
-	//mBehaviorTree->update(step);
+	mBehaviorTree->update(step);
 }
 
 void Character::DrawDebug()
