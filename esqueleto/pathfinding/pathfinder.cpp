@@ -45,8 +45,8 @@ void Pathfinder::UpdatePath() {
 			nodes.push_back(mPath[mPath.size() - i - 1]);
 		}
 		//std::vector<USVec2D> path = generatePathFromGridNodes(nodes);
-		std::vector<USVec2D> path = generatePathFromPolygonNodes(nodes, mStartPosition, mEndPosition);
-		//std::vector<USVec2D> path = generatePathFromPolygonNodesOptimizated(nodes, mStartPosition, mEndPosition);
+		//std::vector<USVec2D> path = generatePathFromPolygonNodes(nodes, mStartPosition, mEndPosition);
+		std::vector<USVec2D> path = generatePathFromPolygonNodesOptimizated(nodes, mStartPosition, mEndPosition);
 		
 		mCharacter->SetPath(path);
 	}
